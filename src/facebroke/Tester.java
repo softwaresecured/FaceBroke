@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import facebroke.util.HibernateUtility;
 
+import facebroke.model.User;
+
 public class Tester {
 	
 	private final static Logger log = LoggerFactory.getLogger(Tester.class);
@@ -18,6 +20,15 @@ public class Tester {
 		log.info("Attempting to load hibernate config");
 		SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
 		log.info("Finished loading hibernate config");
+		
+		
+		Session s = sessionFactory.openSession();
+		s.beginTransaction();
+		List result = s.createQuery("from User").list();
+		
+		for (User u : (List<User>)result) {
+			System.out.println("User: "+u.getId()+" - "+u.getFname()+" - "+u.getLname());
+		}
 		
 		System.exit(0);
 	}
