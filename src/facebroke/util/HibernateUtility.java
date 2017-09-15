@@ -1,4 +1,4 @@
-package FaceBroke;
+package facebroke.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
