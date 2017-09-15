@@ -12,7 +12,7 @@
   
   <servlet>
   	<servlet-name>DummyServlet</servlet-name>
-  	<servlet-class>Dummy</servlet-class>
+  	<servlet-class>FaceBroke.Dummy</servlet-class>
   </servlet>
   
   <servlet-mapping>
