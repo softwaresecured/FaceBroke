@@ -2,23 +2,27 @@ package FaceBroke;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Tester {
+	
+	private final static Logger log = LoggerFactory.getLogger(Tester.class);
 
 	public static void main(String[] args) {
-		System.out.println("Attempting to load hibernate config");
+		log.info("Attempting to load hibernate config");
 		SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
-		System.out.println("Finished loading hiberante config");
+		log.info("Finished loading hibernate config");
 		
-		System.out.println("here");
+		log.info("here");
 		Session s = sessionFactory.openSession();
-		System.out.println("here2");
+		log.info("here2");
 		s.beginTransaction();
-		System.out.println("here3");
+		log.info("here3");
 		s.getTransaction().commit();
-		System.out.println("here4");
+		log.info("here4");
 		s.close();
-		System.out.println("here5");
+		log.info("here5");
 		
 		System.exit(0);
 	}
