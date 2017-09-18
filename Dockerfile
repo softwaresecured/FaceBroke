@@ -5,14 +5,19 @@ FROM tomcat:8.5.20-jre8
 # Currently, it's easier to just map the tomcat running directory
 # to the development machine
 
-COPY . /code
-WORKDIR /code
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		maven \
 		openjdk-8-jdk
 
-RUN mvn clean
+RUN mkdir /code
+WORKDIR /code
+
+ADD pom.xml /code/
+
+RUN mvn verify clean --fail-never
+
+ADD . /code/
+
 RUN mvn package
 
 RUN cp target/FaceBroke.war /usr/local/tomcat/webapps/
