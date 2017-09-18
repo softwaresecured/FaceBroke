@@ -18,7 +18,7 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	private String fname, lname;
+	private String fname, lname, username;
 	
 	@OneToOne
 	@JoinColumn(name = "wall_id")
