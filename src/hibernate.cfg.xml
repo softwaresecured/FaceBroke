@@ -33,6 +33,8 @@
         
         <!-- Mappings -->
         <mapping class="facebroke.model.User"/>
+        <mapping class="facebroke.model.Wall"/>
+        <mapping class="facebroke.model.Post"/>
 
     </session-factory>
 

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import facebroke.util.HibernateUtility;
 
 import facebroke.model.User;
+import facebroke.model.Wall;
 
 public class Tester {
 	
@@ -24,6 +25,26 @@ public class Tester {
 		
 		Session s = sessionFactory.openSession();
 		s.beginTransaction();
+		
+		User a = new User("Bob", "Mckenzie");
+		User b = new User("Doug", "Mckenzie");
+		
+		Wall wa = new Wall();
+		Wall wb = new Wall();
+		
+		a.addWall(wa);
+		wa.setUser(a);
+		b.addWall(wb);
+		wb.setUser(b);
+		
+		s.save(a);
+		s.save(wa);
+		s.save(b);
+		s.save(wb);
+		
+		s.getTransaction().commit();
+		
+		
 		List result = s.createQuery("from User").list();
 		
 		for (User u : (List<User>)result) {
