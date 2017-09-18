@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +18,7 @@ import facebroke.util.HibernateUtility;
 
 public class Dummy extends HttpServlet {
 	
+	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(Dummy.class);
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
@@ -32,12 +32,13 @@ public class Dummy extends HttpServlet {
 		
 	}
 	
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
 		
 		Session s = HibernateUtility.getSessionFactory().openSession();
 		String userid = req.getParameter("userid");
 		
-		List results = new ArrayList<String>();
+		List<String> results = new ArrayList<String>();
 		results.add("No results");
 		
 		if(userid != null && userid.length() > 0) {

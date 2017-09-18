@@ -16,7 +16,7 @@ public class Tester {
 	
 	private final static Logger log = LoggerFactory.getLogger(Tester.class);
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({"unchecked" })
 	public static void main(String[] args) {
 		log.info("Attempting to load hibernate config");
 		SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
@@ -45,7 +45,7 @@ public class Tester {
 		s.getTransaction().commit();
 		
 		
-		List result = s.createQuery("from User").list();
+		List<User> result = s.createQuery("from User").list();
 		
 		for (User u : (List<User>)result) {
 			System.out.println("User: "+u.getId()+" - "+u.getFname()+" - "+u.getLname());
