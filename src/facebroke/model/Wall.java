@@ -22,6 +22,10 @@ public class Wall {
 	
 	public Wall() {}
 	
+	public Wall(User u) {
+		this.user = u;
+	}
+	
 	public void setUser(User u) {
 		this.user = u;
 	}
