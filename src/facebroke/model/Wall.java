@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Table(name="Walls")
 public class Wall {
 	
+	// Instance variables to be serialized
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
@@ -20,18 +21,29 @@ public class Wall {
     @JoinColumn(name = "user_id")
 	private User user;
 	
+	
+	// Hibernate constructor
 	public Wall() {}
 	
-	public Wall(User u) {
-		this.user = u;
+	/**
+	 * Build a wall, not the "Mexico will pay for it" kind, thankfully
+	 * @param user - the owner fo the wall
+	 */
+	public Wall(User user) {
+		this.user = user;
 	}
+
 	
-	public void setUser(User u) {
-		this.user = u;
-	}
-	
+	// Getters and setters
 	public User getUser() {
-		return this.user;
+		return user;
 	}
-	
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public long getId() {
+		return id;
+	}
 }

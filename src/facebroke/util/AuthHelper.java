@@ -8,10 +8,10 @@ import java.util.Base64;
 
 public class AuthHelper {
 	
-	private final static int SALTLENGTH = 32;
+	public final static int SALTLENGTH = 32;
 	
 	public static void main(String[] args) {
-		byte[] salt = generateSalt();
+		byte[] salt = generateSalt(SALTLENGTH);
 		
 		String hp = hashPassword("MyPassword", salt);
 		String hp2 = hashPassword("helloworld", salt);
@@ -28,8 +28,13 @@ public class AuthHelper {
 		
 	}
 	
-	public static byte[] generateSalt() {
-		byte[] salt = new byte[SALTLENGTH];
+	/**
+	 * Generate a byte array to be used as a salt
+	 * @param len - num of bytes
+	 * @return byte[] of salt
+	 */
+	public static byte[] generateSalt(int len) {
+		byte[] salt = new byte[len];
 		
 		try {
 			SecureRandom r = SecureRandom.getInstance("SHA1PRNG");
@@ -40,7 +45,12 @@ public class AuthHelper {
 		return salt;
 	}
 	
-	// Returns a Base64 encoded version of the hash of the salt and password
+	/**
+	 * Returns a Base64 encoded version of the hash of the salt and password
+	 * @param pass UTF-8 plaintext password
+	 * @param salt byte[] to use as salt
+	 * @return Base64-encoded hash of salt+password
+	 */
 	public static String hashPassword(String pass, byte[] salt){
 		String result = null;
 		
