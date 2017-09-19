@@ -26,8 +26,10 @@ public class Tester {
 		Session s = sessionFactory.openSession();
 		s.beginTransaction();
 		
-		User a = new User("Bob", "Mckenzie");
-		User b = new User("Doug", "Mckenzie");
+		User a = new User("Bob", "Mckenzie", "bob01", "bob@fake.ca");
+		User b = new User("Doug", "Mckenzie", "DougDoug", "doug@fake.ca");
+		a.updatePassword("badPass");
+		b.updatePassword("password");
 		
 		Wall wa = new Wall();
 		Wall wb = new Wall();
