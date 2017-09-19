@@ -1,5 +1,7 @@
 package facebroke.model;
 
+import java.util.Base64;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +26,8 @@ public class User {
 	@JoinColumn(name = "wall_id")
 	private Wall wall;
 	
+	private Base64 salt, pass;
+
 	public User() {}
 	
 	public User(String fname, String lname) {
@@ -33,9 +37,32 @@ public class User {
 	
 	public long getId() { return this.id;}
 	
-	public void addWall(Wall w) {
-		w.setUser(this);
-		this.wall = w;
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Base64 getSalt() {
+		return salt;
+	}
+
+	public void setSalt(Base64 salt) {
+		this.salt = salt;
+	}
+
+	public Base64 getPass() {
+		return pass;
+	}
+
+	public void setPass(Base64 pass) {
+		this.pass = pass;
+	}
+
+	public void setWall(Wall wall) {
+		this.wall = wall;
 	}
 	
 	public Wall getWall() {

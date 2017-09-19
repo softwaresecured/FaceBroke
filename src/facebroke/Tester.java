@@ -32,9 +32,9 @@ public class Tester {
 		Wall wa = new Wall();
 		Wall wb = new Wall();
 		
-		a.addWall(wa);
+		a.setWall(wa);
 		wa.setUser(a);
-		b.addWall(wb);
+		b.setWall(wb);
 		wb.setUser(b);
 		
 		s.save(a);

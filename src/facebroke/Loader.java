@@ -40,7 +40,7 @@ public class Loader {
 			User u = new User(firstNames[r.nextInt(NUMNAMES)],lastNames[r.nextInt(NUMNAMES)]);
 			
 			Wall w = new Wall(u);
-			u.addWall(w);
+			u.setWall(w);
 			
 			s.save(u);
 			s.save(w);
