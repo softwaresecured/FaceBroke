@@ -1,6 +1,6 @@
 <%@ include file="header.jsp" %>
 
-<h1>FaceBroke</h1>
+<h1>Hello World</h1>
 
 <form action="Dummy" method="post">
 	User ID:
