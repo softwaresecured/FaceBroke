@@ -8,11 +8,9 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import facebroke.util.AuthHelper;
-import facebroke.util.HibernateUtility;
-
 import facebroke.model.User;
 import facebroke.model.Wall;
+import facebroke.util.HibernateUtility;
 
 public class Loader {
 	
@@ -62,7 +60,7 @@ public class Loader {
 
 		List<User> result = s.createQuery("from User").list();
 
-		for (User u : (List<User>)result) {
+		for (User u : result) {
 			System.out.println("User: "+u.getId()+" - "+u.getFname()+" - "+u.getLname());
 		}
 

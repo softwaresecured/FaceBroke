@@ -27,7 +27,7 @@ public class Wall {
 	
 	/**
 	 * Build a wall, not the "Mexico will pay for it" kind, thankfully
-	 * @param user - the owner fo the wall
+	 * @param user - the owner of the wall
 	 */
 	public Wall(User user) {
 		this.user = user;

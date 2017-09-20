@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import facebroke.model.User;
 import facebroke.util.HibernateUtility;
 
 public class Dummy extends HttpServlet {
@@ -21,6 +22,7 @@ public class Dummy extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(Dummy.class);
 	
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
 		
 		RequestDispatcher reqDis;
@@ -32,17 +34,26 @@ public class Dummy extends HttpServlet {
 		
 	}
 	
+	@Override
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
 		
-		Session s = HibernateUtility.getSessionFactory().openSession();
+		Session sess = HibernateUtility.getSessionFactory().openSession();
+		
 		String userid = req.getParameter("userid");
 		
-		List<String> results = new ArrayList<String>();
+		List results = new ArrayList<>();
 		results.add("No results");
 		
 		if(userid != null && userid.length() > 0) {
-			results = s.createSQLQuery("select * from Users WHERE ID = "+userid).list();
+			
+			if(req.getParameter("injection").equals("allow")) {
+				results = sess.createSQLQuery("select * from Users WHERE ID = "+userid).addEntity(User.class).list();
+			}else {
+				results = sess.createQuery("FROM User U WHERE U.id = :user_id")
+								.setParameter("user_id", Long.parseLong(userid))
+								.list();
+			}
 		}
 
 		req.setAttribute("rows", results);
