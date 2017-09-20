@@ -1,13 +1,21 @@
 <%@ include file="header.jsp" %>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List, facebroke.model.User" %>
 
-<% List rows = (List)request.getAttribute("rows");
+<div class="table-responsive">
+<table class="table">
+
+<% List<User> rows = (List<User>)request.getAttribute("rows");
 	for (int i=0; i<rows.size(); i++){
-		Object[] arr = (Object[])rows.get(i);
-		for(int j=0; j<arr.length; j++){
-			out.print(arr[j] + "    ");
-		}
-		out.print("<br>");
+		out.print("<tr>");
+		out.print("<td>" + rows.get(i).getFname() + "</td>");
+		out.print("<td>" + rows.get(i).getLname() + "</td>");
+		out.print("<td>" + rows.get(i).getEmail() + "</td>");
+		out.print("<td>" + rows.get(i).getUsername() + "</td>");
+		out.print("<td>" + rows.get(i).getB64Pass() + "</td>");
+		out.print("</tr>\n");
 	}%>
 	
+</table>
+</div>
+
 <%@ include file="footer.jsp" %>
