@@ -4,7 +4,12 @@
 <div class="table-responsive">
 <table class="table">
 
-<% List<User> rows = (List<User>)request.getAttribute("rows");
+<% 
+
+  List<User> rows = (List<User>)request.getAttribute("rows");
+  if(rows.isEmpty()){
+	out.print("No Results");
+  }else {
 	for (int i=0; i<rows.size(); i++){
 		out.print("<tr>");
 		out.print("<td>" + rows.get(i).getFname() + "</td>");
@@ -13,7 +18,9 @@
 		out.print("<td>" + rows.get(i).getUsername() + "</td>");
 		out.print("<td>" + rows.get(i).getB64Pass() + "</td>");
 		out.print("</tr>\n");
-	}%>
+	}
+  }
+	%>
 	
 </table>
 </div>

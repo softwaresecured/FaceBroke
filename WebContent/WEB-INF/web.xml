@@ -11,12 +11,17 @@
   </welcome-file-list>
   
   <servlet>
+  	<servlet-name>HomepageServlet</servlet-name>
+  	<servlet-class>facebroke.Homepage</servlet-class>
+  </servlet>
+  
+  <servlet>
   	<servlet-name>DummyServlet</servlet-name>
   	<servlet-class>facebroke.Dummy</servlet-class>
   </servlet>
   
   <servlet-mapping>
   	<servlet-name>DummyServlet</servlet-name>
-  	<url-pattern>/Dummy</url-pattern>
+  	<url-pattern>/dummy</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -35,19 +35,7 @@ public class Dummy extends HttpServlet {
 		}
 		return result;
 	}
-	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
-		
-		RequestDispatcher reqDis;
-		reqDis = req.getRequestDispatcher("/colour.jsp");
-		
-		
-		log.info("Forwarding request {} to {}",req.toString(),res.toString());
-		reqDis.forward(req, res);
-		
-	}
-	
+
 	@Override
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
@@ -56,8 +44,7 @@ public class Dummy extends HttpServlet {
 		
 		String userid = req.getParameter("userid");
 		
-		List results = new ArrayList<>();
-		results.add("No results");
+		List<User> results = null;
 		
 		if(userid != null && userid.length() > 0) {
 			
