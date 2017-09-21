@@ -20,28 +20,28 @@ public class Post {
 	
 	public enum PostType{
 		IMAGE,
-		TEXT,
-		LINK
+		LINK,
+		TEXT
 	}
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
-	
-	@OneToOne
-	@JoinColumn(name = "wall_id")
-	private Wall wall;
+	private ZonedDateTime created, updated;
 	
 	@OneToOne
 	@JoinColumn(name = "creator_id")
 	private User creator;
 	
-	@Enumerated(EnumType.STRING)
-	private PostType type;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
 	
 	private String title, content;
 	
-	private ZonedDateTime created, updated;
+	@Enumerated(EnumType.STRING)
+	private PostType type;
+	
+	@OneToOne
+	@JoinColumn(name = "wall_id")
+	private Wall wall;
 	
 	
 	//Special constructor for Hibernate
@@ -65,60 +65,59 @@ public class Post {
 	}
 
 	
-	// Getters and Setters
-	public Wall getWall() {
-		return wall;
+	public String getContent() {
+		return content;
 	}
 
-	public void setWall(Wall wall) {
-		this.wall = wall;
+	public ZonedDateTime getCreated() {
+		return created;
 	}
 
 	public User getCreator() {
 		return creator;
 	}
 
-	public void setCreator(User creator) {
-		this.creator = creator;
-	}
-
-	public PostType getType() {
-		return type;
-	}
-
-	public void setType(PostType type) {
-		this.type = type;
+	public long getId() {
+		return id;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
+	public PostType getType() {
+		return type;
 	}
 
 	public ZonedDateTime getUpdated() {
 		return updated;
 	}
 
+	public Wall getWall() {
+		return wall;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setType(PostType type) {
+		this.type = type;
+	}
+
 	public void setUpdated(ZonedDateTime updated) {
 		this.updated = updated;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public ZonedDateTime getCreated() {
-		return created;
+	public void setWall(Wall wall) {
+		this.wall = wall;
 	}
 }

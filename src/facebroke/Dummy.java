@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.internet.InternetAddress;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,10 +18,23 @@ import org.slf4j.LoggerFactory;
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
 
+
 public class Dummy extends HttpServlet {
 	
-	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(Dummy.class);
+	private static final long serialVersionUID = 1L;
+	
+	private static boolean validEmail(String email) {
+		boolean result = false;
+		try {
+			InternetAddress addr = new InternetAddress(email);
+			addr.validate();
+			result = true;
+		}catch (Exception e) {
+			// Don't need to do anything, the simple 'false' return will tell enough
+		}
+		return result;
+	}
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{

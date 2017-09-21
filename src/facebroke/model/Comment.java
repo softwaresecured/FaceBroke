@@ -16,22 +16,21 @@ import javax.persistence.Table;
 @Table(name = "Comments")
 public class Comment {
 	
-	// Instance variables to be serialized
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private String content;
+	
+	private ZonedDateTime created, updated;
 	
 	@OneToOne
 	@JoinColumn(name = "creator_id")
 	private User creator;
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+	
 	@OneToOne
 	@JoinColumn(name = "parent_post_id")
 	private Post parent;
-	
-	private String content;
-	
-	private ZonedDateTime created, updated;
 	
 	
 	// Constructor for Hibernate
@@ -51,41 +50,40 @@ public class Comment {
 	}
 	
 	
-	// Getters and Setters
-	public User getCreator() {
-		return creator;
+	public String getContent() {
+		return content;
 	}
 
-	public void setCreator(User creator) {
-		this.creator = creator;
+	public ZonedDateTime getCreated() {
+		return created;
+	}
+	
+	public User getCreator() {
+		return creator;
 	}
 	
 	public Post getParent() {
 		return this.parent;
 	}
-	
-	public void setParent(Post parent) {
-		this.parent = parent;
-	}
 
-	public String getContent() {
-		return content;
+	public ZonedDateTime getUpdated() {
+		return updated;
 	}
 
 	public void setContent(String content) {
 		this.content = content;
 	}
 
-	public ZonedDateTime getCreated() {
-		return created;
-	}
-
 	public void setCreated(ZonedDateTime created) {
 		this.created = created;
 	}
 
-	public ZonedDateTime getUpdated() {
-		return updated;
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+
+	public void setParent(Post parent) {
+		this.parent = parent;
 	}
 
 	public void setUpdated(ZonedDateTime updated) {
