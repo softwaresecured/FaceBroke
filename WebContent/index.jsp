@@ -1,9 +1,4 @@
 <%@ include file="header.jsp" %>
-
-<!--  
-
-</div>-->
-
     
       <!-- Example row of columns -->
       <div class="row">
@@ -29,7 +24,8 @@
         	<h1>FaceBroke</h1>
 			<form action="Dummy" method="post">
 				User ID:
-				<input type="text" name="userid"></br></br>
+				<input type="text" name="userid">
+				</br></br>
 				<input type="radio" name="injection" value="allow">Allow SQL Injection
 				<input type="radio" name="injection" value="prevent" checked="checked">Prevent SQL Injection</br></br>
 				<input class="btn btn-default" type="submit" value="submit">

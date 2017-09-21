@@ -1,3 +1,18 @@
 body {
 	padding-top: 50px;
 }
+
+.navbar {
+	background-color: #3b5998;
+}
+
+.navbar-header a {
+	color: #FFF;
+	font-size: 30px;
+}
+
+.navbar .navbar-toggle .icon-bar {
+    background-color: #FFF;
+    width: 30px;
+    height: 2px;
+}
