@@ -1,10 +1,10 @@
-<%@ include file="header.jsp" %>
-<%@ page import="java.util.List, facebroke.model.User" %>
+<%@ include file="header.jsp"%>
+<%@ page import="java.util.List, facebroke.model.User"%>
 
 <div class="table-responsive">
-  <table class="table">
+	<table class="table">
 
-  <%
+		<%
 
   List<User> rows = (List<User>)request.getAttribute("rows");
   if(rows.isEmpty()){
@@ -22,7 +22,7 @@
   }
 	%>
 
-  </table>
+	</table>
 </div>
 
-<%@ include file="footer.jsp" %>
+<%@ include file="footer.jsp"%>

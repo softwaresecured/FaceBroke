@@ -5,5 +5,5 @@
 </div>
 
 <footer class="footer">
-        <p class="text-muted">&copy; 2017 Fake Company, Inc.</p>
+	<p class="text-muted">&copy; 2017 Fake Company, Inc.</p>
 </footer>
