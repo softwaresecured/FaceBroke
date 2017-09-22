@@ -26,3 +26,9 @@ body {
 	bottom: 0;
 	height: 40px;
 }
+
+.user-dropdown-toggle {
+	color: #FFF;
+	font-size: 25px;
+	line-height: 50px;
+}

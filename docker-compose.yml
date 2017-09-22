@@ -1,9 +1,10 @@
 version: '3'
 
 volumes:
-  dbconfig:
-  dblog:
-  dbdata:
+  dbconfigfb:
+  dblogfb:
+  dbdatafb:
+  mvncachefb:
 
 services:
   db:
@@ -11,9 +12,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - "dbconfig:/etc/postgresql"
-      - "dblog:/var/log/postgresql"
-      - "dbdata:/var/lib/postgresql"
+      - "dbconfigfb:/etc/postgresql"
+      - "dblogfb:/var/log/postgresql"
+      - "dbdatafb:/var/lib/postgresql"
     environment:
       POSTGRES_USER: pguser
       POSTGRES_PASSWORD: pguser
@@ -22,5 +23,7 @@ services:
     build: .
     ports:
       - "8081:8080"
+    volumes:
+      - "mvncachefb:/root/.m2"
     depends_on:
       - db

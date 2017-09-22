@@ -40,8 +40,21 @@
 				<button type="submit" class="btn btn-success">Log in</button>
 			</form>
 		<% }else{%>
-			<div class="navbar-right">
-				<h4>USER</h4>
+			<div class="navbar-right dropdown">
+				<a href="#" class="dropdown-toggle user-dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+				<%  String name = (String)session.getAttribute("user_fname");
+					if(name!=null){
+						out.print(name);
+					}else{
+						out.print("INVALID NAME");
+					}
+				%>
+				<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                </ul>
 			</div>
 		<% } %>
 		</div>
