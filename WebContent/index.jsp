@@ -4,9 +4,9 @@
 	String isValidSession = (String)session.getAttribute("valid");
 
 	if(!JspSnippets.isValidSession(session) ){
-		session.setAttribute("valid", "true");
-		session.setAttribute("user_id", "1");
-		session.setAttribute("user_fname", "Raj");
+		//session.setAttribute("valid", "true");
+		//session.setAttribute("user_id", "1");
+		//session.setAttribute("user_fname", "Raj");
 %>
 <%@ include file="register.jsp"%>
 <%

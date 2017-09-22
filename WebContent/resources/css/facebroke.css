@@ -1,5 +1,5 @@
 body {
-  padding-top: 50px;
+  padding-top: 60px;
 }
 
 .navbar {
@@ -31,4 +31,10 @@ body {
 	color: #FFF;
 	font-size: 25px;
 	line-height: 50px;
+}
+
+.alert-message {
+	position: fixed;
+	top: 50px;
+	z-index: 7000;
 }

@@ -11,8 +11,8 @@
   </welcome-file-list>
 
   <servlet>
-    <servlet-name>HomepageServlet</servlet-name>
-    <servlet-class>facebroke.Homepage</servlet-class>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>facebroke.Login</servlet-class>
   </servlet>
 
   <servlet>
@@ -20,6 +20,11 @@
     <servlet-class>facebroke.Dummy</servlet-class>
   </servlet>
 
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>DummyServlet</servlet-name>
     <url-pattern>/dummy</url-pattern>

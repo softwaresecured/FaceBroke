@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import facebroke.model.User;
+import facebroke.model.User.UserRole;
 import facebroke.model.Wall;
 import facebroke.util.HibernateUtility;
 
@@ -49,11 +50,11 @@ public class Loader {
 		SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
 		log.info("Finished loading hibernate config");
 
-		Session s = sessionFactory.openSession();
+		Session sess = sessionFactory.openSession();
 
 		Random r = new Random(seed);
 
-		s.beginTransaction();
+		sess.beginTransaction();
 
 		for (int i = 0; i < NUMROUNDS; ++i) {
 
@@ -68,14 +69,28 @@ public class Loader {
 			Wall w = new Wall(u);
 			u.setWall(w);
 
-			s.save(u);
-			s.save(w);
+			sess.save(u);
+			sess.save(w);
 
 		}
 
-		s.getTransaction().commit();
+		sess.getTransaction().commit();
+		
+		
+		/* Adding a tester account that will always be created */
+		sess.beginTransaction();
+		
+		User matt = new User("Matt","Yaraskavitch","jarusk","myaraskavitch@dummy.ca");
+		matt.updatePassword("password");
+		matt.setRole(UserRole.ADMIN);
+		Wall w = new Wall(matt);
+		matt.setWall(w);
+		sess.save(matt);
+		sess.save(w);
+		sess.getTransaction().commit();
+		
 
-		List<User> result = s.createQuery("from User").list();
+		List<User> result = sess.createQuery("from User").list();
 
 		for (User u : result) {
 			System.out.println("User: " + u.getId() + " - " + u.getFname() + " - " + u.getLname());

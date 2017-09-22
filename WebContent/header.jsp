@@ -31,13 +31,12 @@
 		<div id="navbar" class="navbar-collapse collapse">
 		<% if(!JspSnippets.isValidSession(session)){
 		%>
-			<form class="navbar-form navbar-right">
+			<form class="navbar-form navbar-right" action="login" method="post">
 				<div class="form-group">
-					<input type="text" placeholder="Email or Username"
-						class="form-control">
+					<input type="text" name="user_cred" placeholder="Email or Username" class="form-control">
 				</div>
 				<div class="form-group">
-					<input type="password" placeholder="Password" class="form-control">
+					<input type="password" name="password" placeholder="Password" class="form-control">
 				</div>
 				<button type="submit" class="btn btn-success">Log in</button>
 			</form>
