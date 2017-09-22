@@ -14,44 +14,46 @@ import javax.persistence.Table;
 
 import facebroke.util.AuthHelper;
 
-
-
 @Entity
 @Table(name = "Users")
 public class User {
-	
+
 	public enum UserRole {
-		ADMIN,
-		USER
+		ADMIN, USER
 	}
-	
+
 	private String b64Salt, b64Pass;
-	
+
 	private ZonedDateTime created, updated;
-	
+
 	private String fname, lname, username, email;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
-	
+
 	@OneToOne
 	@JoinColumn(name = "wall_id")
 	private Wall wall;
 
-	
 	// Hibernate constructor
-	public User() {}
-	
+	public User() {
+	}
+
 	/**
 	 * Build a User object
-	 * @param fname - String
-	 * @param lname - String
-	 * @param username - String
-	 * @param email - String
+	 * 
+	 * @param fname
+	 *            - String
+	 * @param lname
+	 *            - String
+	 * @param username
+	 *            - String
+	 * @param email
+	 *            - String
 	 */
 	public User(String fname, String lname, String username, String email) {
 		this.fname = fname;
@@ -61,8 +63,7 @@ public class User {
 		this.created = this.updated = ZonedDateTime.now();
 		this.role = UserRole.USER;
 	}
-	
-	
+
 	public String getB64Pass() {
 		return b64Pass;
 	}
@@ -108,20 +109,21 @@ public class User {
 	}
 
 	/**
-	 * Validate an input, plaintext password against the stored 
-	 * salt and hash
-	 * @param pass - UTF-8 plaintext password
+	 * Validate an input, plaintext password against the stored salt and hash
+	 * 
+	 * @param pass
+	 *            - UTF-8 plaintext password
 	 * @return true if password match
 	 */
 	public boolean isPasswordValid(String pass) {
-		if(this.b64Pass == null || this.b64Salt == null) {
+		if (this.b64Pass == null || this.b64Salt == null) {
 			return false;
 		}
-		
+
 		byte[] salt = AuthHelper.decodeBase64(this.b64Salt);
-		
+
 		String hashPassword = AuthHelper.hashPassword(pass, salt);
-		
+
 		return this.b64Pass == hashPassword;
 	}
 
@@ -152,11 +154,11 @@ public class User {
 	public void setRole(UserRole role) {
 		this.role = role;
 	}
-	
+
 	public void setUpdated(ZonedDateTime updated) {
 		this.updated = updated;
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -164,9 +166,10 @@ public class User {
 	public void setWall(Wall wall) {
 		this.wall = wall;
 	}
-	
+
 	/**
 	 * Set a new password. Will also reset the salt
+	 * 
 	 * @param password
 	 */
 	public void updatePassword(String password) {

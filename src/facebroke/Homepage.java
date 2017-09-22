@@ -18,20 +18,19 @@ import org.slf4j.LoggerFactory;
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
 
-
 public class Homepage extends HttpServlet {
-	
+
 	private static Logger log = LoggerFactory.getLogger(Homepage.class);
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
-		
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
 		RequestDispatcher reqDis;
 		reqDis = req.getRequestDispatcher("/index.jsp");
-		
-		log.info("Forwarding request {} to {}",req.toString(),res.toString());
+
+		log.info("Forwarding request {} to {}", req.toString(), res.toString());
 		reqDis.forward(req, res);
-		
+
 	}
 }

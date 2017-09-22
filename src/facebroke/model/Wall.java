@@ -9,31 +9,32 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Walls")
+@Table(name = "Walls")
 public class Wall {
-	
+
 	// Instance variables to be serialized
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@OneToOne
-    @JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
-	
-	
+
 	// Hibernate constructor
-	public Wall() {}
-	
+	public Wall() {
+	}
+
 	/**
 	 * Build a wall, not the "Mexico will pay for it" kind, thankfully
-	 * @param user - the owner of the wall
+	 * 
+	 * @param user
+	 *            - the owner of the wall
 	 */
 	public Wall(User user) {
 		this.user = user;
 	}
 
-	
 	public long getId() {
 		return id;
 	}

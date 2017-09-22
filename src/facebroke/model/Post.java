@@ -12,48 +12,50 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
-
 @Entity
 @Table(name = "Posts")
 public class Post {
-	
-	public enum PostType{
-		IMAGE,
-		LINK,
-		TEXT
+
+	public enum PostType {
+		IMAGE, LINK, TEXT
 	}
-	
+
 	private ZonedDateTime created, updated;
-	
+
 	@OneToOne
 	@JoinColumn(name = "creator_id")
 	private User creator;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	private String title, content;
-	
+
 	@Enumerated(EnumType.STRING)
 	private PostType type;
-	
+
 	@OneToOne
 	@JoinColumn(name = "wall_id")
 	private Wall wall;
-	
-	
-	//Special constructor for Hibernate
-	public Post() {}
-	
+
+	// Special constructor for Hibernate
+	public Post() {
+	}
+
 	/**
 	 * Build a post
-	 * @param wall -  target wall to be posted to
-	 * @param creator - creating user
-	 * @param title - post title
-	 * @param type - post enum type
-	 * @param content - post content, either plaintext or Base64 encoded, based on type
+	 * 
+	 * @param wall
+	 *            - target wall to be posted to
+	 * @param creator
+	 *            - creating user
+	 * @param title
+	 *            - post title
+	 * @param type
+	 *            - post enum type
+	 * @param content
+	 *            - post content, either plaintext or Base64 encoded, based on type
 	 */
 	public Post(Wall wall, User creator, String title, PostType type, String content) {
 		this.wall = wall;
@@ -64,7 +66,6 @@ public class Post {
 		this.created = this.updated = ZonedDateTime.now();
 	}
 
-	
 	public String getContent() {
 		return content;
 	}

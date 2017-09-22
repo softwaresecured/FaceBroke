@@ -9,19 +9,19 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
+
   <servlet>
-  	<servlet-name>HomepageServlet</servlet-name>
-  	<servlet-class>facebroke.Homepage</servlet-class>
+    <servlet-name>HomepageServlet</servlet-name>
+    <servlet-class>facebroke.Homepage</servlet-class>
   </servlet>
-  
+
   <servlet>
-  	<servlet-name>DummyServlet</servlet-name>
-  	<servlet-class>facebroke.Dummy</servlet-class>
+    <servlet-name>DummyServlet</servlet-name>
+    <servlet-class>facebroke.Dummy</servlet-class>
   </servlet>
-  
+
   <servlet-mapping>
-  	<servlet-name>DummyServlet</servlet-name>
-  	<url-pattern>/dummy</url-pattern>
+    <servlet-name>DummyServlet</servlet-name>
+    <url-pattern>/dummy</url-pattern>
   </servlet-mapping>
 </web-app>

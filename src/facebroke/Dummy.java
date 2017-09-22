@@ -18,19 +18,18 @@ import org.slf4j.LoggerFactory;
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
 
-
 public class Dummy extends HttpServlet {
-	
+
 	private static Logger log = LoggerFactory.getLogger(Dummy.class);
 	private static final long serialVersionUID = 1L;
-	
+
 	private static boolean validEmail(String email) {
 		boolean result = false;
 		try {
 			InternetAddress addr = new InternetAddress(email);
 			addr.validate();
 			result = true;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// Don't need to do anything, the simple 'false' return will tell enough
 		}
 		return result;
@@ -38,22 +37,21 @@ public class Dummy extends HttpServlet {
 
 	@Override
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
-		
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
 		Session sess = HibernateUtility.getSessionFactory().openSession();
-		
+
 		String userid = req.getParameter("userid");
-		
+
 		List<User> results = null;
-		
-		if(userid != null && userid.length() > 0) {
-			
-			if(req.getParameter("injection").equals("allow")) {
-				results = sess.createSQLQuery("select * from Users WHERE ID = "+userid).addEntity(User.class).list();
-			}else {
+
+		if (userid != null && userid.length() > 0) {
+
+			if (req.getParameter("injection").equals("allow")) {
+				results = sess.createSQLQuery("select * from Users WHERE ID = " + userid).addEntity(User.class).list();
+			} else {
 				results = sess.createQuery("FROM User U WHERE U.id = :user_id")
-								.setParameter("user_id", Long.parseLong(userid))
-								.list();
+						.setParameter("user_id", Long.parseLong(userid)).list();
 			}
 		}
 
@@ -62,6 +60,6 @@ public class Dummy extends HttpServlet {
 		log.info("Starting JSP");
 		req.getRequestDispatcher("/user.jsp").forward(req, res);
 		log.info("Gave up control");
-		
+
 	}
 }
