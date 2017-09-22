@@ -3,8 +3,8 @@
 <%
 	String isValidSession = (String)session.getAttribute("valid");
 
-	if(session.isNew() || isValidSession == null || isValidSession == "false" ){
-		//session.setAttribute("valid", "true");
+	if(!JspSnippets.isValidSession(session) ){
+		session.setAttribute("valid", "true");
 %>
 <%@ include file="register.jsp"%>
 <%

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+<%@ page import="facebroke.util.JspSnippets"%>
+	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,6 +27,8 @@
 			<a class="navbar-brand" href=<%= request.getContextPath() %>>FaceBroke</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
+		<% if(!JspSnippets.isValidSession(session)){
+		%>
 			<form class="navbar-form navbar-right">
 				<div class="form-group">
 					<input type="text" placeholder="Email or Username"
@@ -32,8 +37,13 @@
 				<div class="form-group">
 					<input type="password" placeholder="Password" class="form-control">
 				</div>
-				<button type="submit" class="btn btn-success">Sign in</button>
+				<button type="submit" class="btn btn-success">Log in</button>
 			</form>
+		<% }else{%>
+			<div class="navbar-right">
+				<h4>USER</h4>
+			</div>
+		<% } %>
 		</div>
 		<!--/.navbar-collapse -->
 	</div>

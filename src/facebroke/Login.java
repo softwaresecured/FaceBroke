@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
 
-public class Homepage extends HttpServlet {
+public class Login extends HttpServlet {
 
-	private static Logger log = LoggerFactory.getLogger(Homepage.class);
+	private static Logger log = LoggerFactory.getLogger(Login.class);
 	private static final long serialVersionUID = 1L;
 
 	@Override
