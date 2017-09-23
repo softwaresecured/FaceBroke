@@ -124,7 +124,7 @@ public class User {
 
 		String hashPassword = AuthHelper.hashPassword(pass, salt);
 
-		return this.b64Pass == hashPassword;
+		return this.b64Pass.equals(hashPassword);
 	}
 
 	public void setB64Pass(String b64Pass) {

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,42 +31,72 @@ public class Login extends HttpServlet {
 		reqDis = req.getRequestDispatcher("index.jsp");
 
 		log.info("Forwarding request {} to {}", req.toString(), res.toString());
-		
+
 		reqDis.forward(req, res);
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
+
 		RequestDispatcher reqDis = req.getRequestDispatcher("index.jsp");
-		
+
 		String user_cred = (String)req.getParameter("user_cred");
 		String pass = (String)req.getParameter("password");
-		
+
 		if(user_cred == null || pass == null) {
 			req.setAttribute("errorMessage", "Invalid Login Credentials");
 			reqDis.forward(req, res);
 			return;
 		}
 		
-		
+		if(user_cred == "" || pass == "") {
+			req.setAttribute("errorMessage", "Credentials can't be blank");
+			reqDis.forward(req, res);
+			return;
+		}
+
+
 		// Creds are not null, so need to try and validate against the db
-		
+
 		Session sess = HibernateUtility.getSessionFactory().openSession();
-		
+
 		List<User> results = null;
+
+		Query<User> query;
 		
 		if(validEmail(user_cred)) {
-			results = sess.createQuery("FROM User U WHERE U.id = :user_id")
-					.setParameter("user_id", Long.parseLong(userid)).list();
+			query = sess.createQuery("FROM User U WHERE U.email = :user_cred");
 		}else {
-			results = sess.createQuery("FROM User U WHERE U.id = :user_id")
-					.setParameter("user_id", Long.parseLong(userid)).list();
+			query = sess.createQuery("FROM User U WHERE U.username = :user_cred");
 		}
 		
+		results = query.setParameter("user_cred", user_cred).list();
+
+		log.info("Size of result list: " + results.size());
+		
+		if(results.size() < 1) {
+			req.setAttribute("errorMessage", "Invalid Login Credentials");
+			reqDis.forward(req, res);
+			return;
+		}
+		
+		User candidate = results.get(0);
+		
+		if(candidate.isPasswordValid(pass)) {
+			req.getSession().setAttribute("valid", "true");
+			req.getSession().setAttribute("user_id", candidate.getId());
+			req.getSession().setAttribute("user_username", candidate.getUsername());
+			req.getSession().setAttribute("user_fname", candidate.getFname());
+			req.getSession().setAttribute("user_lname", candidate.getLname());
+			res.sendRedirect("index.jsp");
+		}else {
+			req.setAttribute("errorMessage", "Invalid Login Credentials");
+			reqDis.forward(req, res);
+		}
+
 		
 	}
-	
+
 	private static boolean validEmail(String email) {
 		boolean result = false;
 		try {
