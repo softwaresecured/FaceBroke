@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-<%@ page import="facebroke.util.JspSnippets"%>
+<%@ page import="facebroke.util.ValidationSnipets"%>
 	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -29,7 +29,7 @@
 			<a class="navbar-brand" href=<%= request.getContextPath() %>>FaceBroke</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
-		<% if(!JspSnippets.isValidSession(session)){
+		<% if(!ValidationSnipets.isValidSession(session)){
 		%>
 			<form class="navbar-form navbar-right" action="login" method="post">
 				<div class="form-group">
