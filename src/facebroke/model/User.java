@@ -2,6 +2,7 @@ package facebroke.model;
 
 import java.time.ZonedDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -26,7 +27,10 @@ public class User {
 
 	private ZonedDateTime created, updated;
 
-	private String fname, lname, username, email;
+	private String fname, lname, email;
+	
+	@Column(unique=true)
+	private String username;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
