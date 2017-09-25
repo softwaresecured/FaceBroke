@@ -23,7 +23,7 @@ public class HibernateUtility {
 		return factory;
 	}
 	
-	public static synchronized SessionFactory buildSessionFactory() {
+	private static synchronized SessionFactory buildSessionFactory() {
 		
 		SessionFactory result = null;
 		

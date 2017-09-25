@@ -18,11 +18,14 @@ import org.slf4j.LoggerFactory;
 
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
+import facebroke.util.ValidationSnipets;
 
 public class Login extends HttpServlet {
 
 	private static Logger log = LoggerFactory.getLogger(Login.class);
 	private static final long serialVersionUID = 1L;
+	
+	private static final String INVALID_LOGIN_CREDS = "Invalid Login Credentials";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -44,7 +47,7 @@ public class Login extends HttpServlet {
 		String pass = (String)req.getParameter("password");
 
 		if(user_cred == null || pass == null) {
-			req.setAttribute("errorMessage", "Invalid Login Credentials");
+			req.setAttribute("errorMessage", INVALID_LOGIN_CREDS);
 			reqDis.forward(req, res);
 			return;
 		}
@@ -64,7 +67,7 @@ public class Login extends HttpServlet {
 
 		Query<User> query;
 		
-		if(validEmail(user_cred)) {
+		if(ValidationSnipets.isValidEmail(user_cred)) {
 			query = sess.createQuery("FROM User U WHERE U.email = :user_cred");
 		}else {
 			query = sess.createQuery("FROM User U WHERE U.username = :user_cred");
@@ -75,7 +78,7 @@ public class Login extends HttpServlet {
 		log.info("Size of result list: " + results.size());
 		
 		if(results.size() < 1) {
-			req.setAttribute("errorMessage", "Invalid Login Credentials");
+			req.setAttribute("errorMessage", INVALID_LOGIN_CREDS);
 			reqDis.forward(req, res);
 			return;
 		}
@@ -90,22 +93,10 @@ public class Login extends HttpServlet {
 			req.getSession().setAttribute("user_lname", candidate.getLname());
 			res.sendRedirect("index.jsp");
 		}else {
-			req.setAttribute("errorMessage", "Invalid Login Credentials");
+			req.setAttribute("errorMessage", INVALID_LOGIN_CREDS);
 			reqDis.forward(req, res);
 		}
 
 		
-	}
-
-	private static boolean validEmail(String email) {
-		boolean result = false;
-		try {
-			InternetAddress addr = new InternetAddress(email);
-			addr.validate();
-			result = true;
-		} catch (Exception e) {
-			// Don't need to do anything, the simple 'false' return will tell enough
-		}
-		return result;
 	}
 }

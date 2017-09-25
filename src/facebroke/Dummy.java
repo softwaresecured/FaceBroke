@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
-import facebroke.util.JspSnippets;
+import facebroke.util.ValidationSnipets;
 
 public class Dummy extends HttpServlet {
 
@@ -40,7 +40,7 @@ public class Dummy extends HttpServlet {
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
-		if(!JspSnippets.isValidSession(req.getSession())){
+		if(!ValidationSnipets.isValidSession(req.getSession())){
 			res.sendRedirect("index.jsp");
 			return;
 		}
