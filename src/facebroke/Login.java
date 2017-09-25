@@ -27,16 +27,16 @@ public class Login extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-		RequestDispatcher reqDis;
-		reqDis = req.getRequestDispatcher("index.jsp");
-
-		log.info("Forwarding request {} to {}", req.toString(), res.toString());
-
-		reqDis.forward(req, res);
+		handleLogin(req, res);
 	}
-
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+		handleLogin(req, res);
+	}
+
+	protected void handleLogin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		RequestDispatcher reqDis = req.getRequestDispatcher("index.jsp");
 
