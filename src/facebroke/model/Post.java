@@ -2,6 +2,7 @@ package facebroke.model;
 
 import java.time.ZonedDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,7 +23,7 @@ public class Post {
 
 	private ZonedDateTime created, updated;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "creator_id")
 	private User creator;
 
@@ -35,7 +36,7 @@ public class Post {
 	@Enumerated(EnumType.STRING)
 	private PostType type;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "wall_id")
 	private Wall wall;
 

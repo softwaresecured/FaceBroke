@@ -3,6 +3,7 @@ package facebroke.model;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -42,7 +43,7 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "wall_id")
 	private Wall wall;
 

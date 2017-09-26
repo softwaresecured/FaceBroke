@@ -1,3 +1,5 @@
+<%@ include file="header.jsp"%>
+
 <div class="row">
 	<div class="col-md-8 text-center">
 		<h2>Login Above or Register</h2>
@@ -43,3 +45,5 @@
 <footer class="footer">
 	<p class="text-muted">&copy; 2017 Fake Company, Inc.</p>
 </footer>
+
+<%@ include file="footer.jsp"%>

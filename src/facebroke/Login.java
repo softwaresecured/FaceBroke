@@ -33,13 +33,11 @@ public class Login extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
 		handleLogin(req, res);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
 		handleLogin(req, res);
 	}
 
@@ -47,21 +45,20 @@ public class Login extends HttpServlet {
 
 		RequestDispatcher reqDis = req.getRequestDispatcher("index.jsp");
 
-		String user_cred = (String)req.getParameter("user_cred");
-		String pass = (String)req.getParameter("password");
+		String user_cred = (String) req.getParameter("user_cred");
+		String pass = (String) req.getParameter("password");
 
-		if(user_cred == null || pass == null) {
-			req.setAttribute("serverMessage", INVALID_LOGIN_CREDS);
+		if (user_cred == null || pass == null) {
+			req.setAttribute("authMessage", INVALID_LOGIN_CREDS);
 			reqDis.forward(req, res);
 			return;
 		}
 
-		if(user_cred == "" || pass == "") {
-			req.setAttribute("serverMessage", "Credentials can't be blank");
+		if (user_cred == "" || pass == "") {
+			req.setAttribute("authMessage", "Credentials can't be blank");
 			reqDis.forward(req, res);
 			return;
 		}
-
 
 		// Creds are not null, so need to try and validate against the db
 
@@ -71,9 +68,9 @@ public class Login extends HttpServlet {
 
 		Query<User> query;
 
-		if(ValidationSnipets.isValidEmail(user_cred)) {
+		if (ValidationSnipets.isValidEmail(user_cred)) {
 			query = sess.createQuery("FROM User U WHERE U.email = :user_cred");
-		}else {
+		} else {
 			query = sess.createQuery("FROM User U WHERE U.username = :user_cred");
 		}
 
@@ -81,8 +78,8 @@ public class Login extends HttpServlet {
 
 		log.info("Size of result list: " + results.size());
 
-		if(results.size() < 1) {
-			req.setAttribute("serverMessage", INVALID_LOGIN_CREDS);
+		if (results.size() < 1) {
+			req.setAttribute("authMessage", INVALID_LOGIN_CREDS);
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -90,16 +87,17 @@ public class Login extends HttpServlet {
 
 		User candidate = results.get(0);
 
-		if(candidate.isPasswordValid(pass)) {
+		if (candidate.isPasswordValid(pass)) {
 			req.getSession().setAttribute("valid", "true");
 			req.getSession().setAttribute("user_id", candidate.getId());
 			req.getSession().setAttribute("user_username", candidate.getUsername());
 			req.getSession().setAttribute("user_fname", candidate.getFname());
 			req.getSession().setAttribute("user_lname", candidate.getLname());
+			req.getSession().setAttribute("user_wall_id", candidate.getWall().getId());
 			res.sendRedirect("index.jsp");
-		}else {
+		} else {
 			log.info("Invalid password entered");
-			req.setAttribute("serverMessage", INVALID_LOGIN_CREDS);
+			req.setAttribute("authMessage", INVALID_LOGIN_CREDS);
 			reqDis.forward(req, res);
 		}
 

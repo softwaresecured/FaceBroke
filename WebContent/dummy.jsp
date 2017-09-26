@@ -1,3 +1,5 @@
+<%@ include file="header.jsp"%>
+
 <!-- Example row of columns -->
 <div class="row">
 	<div class="col-md-4">
@@ -47,3 +49,5 @@
 		</form>
 	</div>
 </div>
+
+<%@ include file="footer.jsp"%>

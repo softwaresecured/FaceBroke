@@ -2,11 +2,9 @@ package facebroke;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.mail.internet.InternetAddress;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +69,7 @@ public class Register extends HttpServlet {
 		
 		// Validate the user name
 		if (username == null) {
-			req.setAttribute("serverMessage", "Username is required");
+			req.setAttribute("authMessage", "Username is required");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -88,7 +84,7 @@ public class Register extends HttpServlet {
 		sess.getTransaction().commit();
 		
 		if(results.size() > 0) {
-			req.setAttribute("serverMessage", "Username already taken");
+			req.setAttribute("authMessage", "Username already taken");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -97,7 +93,7 @@ public class Register extends HttpServlet {
 		
 		// Validate the email
 		if(email == null || !ValidationSnipets.isValidEmail(email)) {
-			req.setAttribute("serverMessage", "Invalid email address");
+			req.setAttribute("authMessage", "Invalid email address");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -108,7 +104,7 @@ public class Register extends HttpServlet {
 						.setParameter("email", email).list();
 		
 		if(results.size() > 0) {
-			req.setAttribute("serverMessage", "Email already taken");
+			req.setAttribute("authMessage", "Email already taken");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -117,7 +113,7 @@ public class Register extends HttpServlet {
 		
 		// Validate first and last names
 		if (fname == null || fname.length() < 1) {
-			req.setAttribute("serverMessage", "First name can't be blank. If you have a mononym, leave Last Name blank");
+			req.setAttribute("authMessage", "First name can't be blank. If you have a mononym, leave Last Name blank");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -130,7 +126,7 @@ public class Register extends HttpServlet {
 		
 		// Validate DOB
 		if (dob_raw == null) {
-			req.setAttribute("serverMessage", "Date of Bith can't be blank");
+			req.setAttribute("authMessage", "Date of Bith can't be blank");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -138,7 +134,7 @@ public class Register extends HttpServlet {
 		try {
 			dob = ValidationSnipets.parseDate(dob_raw);
 		} catch (ParseException e) {
-			req.setAttribute("serverMessage", "Invalid Date of Birth Format. Need yyyy-mm-dd");
+			req.setAttribute("authMessage", "Invalid Date of Birth Format. Need yyyy-mm-dd");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -147,21 +143,21 @@ public class Register extends HttpServlet {
 		
 		// Validate Password
 		if (pass1 == null || pass1.length() < 1 || pass2 ==null || pass2.length() < 1) {
-			req.setAttribute("serverMessage", "Password can't be blank");
+			req.setAttribute("authMessage", "Password can't be blank");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
 		}
 		
 		if (!ValidationSnipets.passwordFormatValid(pass1)) {
-			req.setAttribute("serverMessage", "Password must be at least 8 characters long and contain only a-z,A-z,0-9,!,#,$,^");
+			req.setAttribute("authMessage", "Password must be at least 8 characters long and contain only a-z,A-z,0-9,!,#,$,^");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
 		}
 		
 		if (!pass1.equals(pass2)) {
-			req.setAttribute("serverMessage", "Passwords don't match");
+			req.setAttribute("authMessage", "Passwords don't match");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -173,6 +169,7 @@ public class Register extends HttpServlet {
 		Wall w = new Wall(u);
 		
 		u.updatePassword(pass1);
+		u.setWall(w);
 		
 		sess.beginTransaction();
 		sess.save(u);
@@ -180,7 +177,7 @@ public class Register extends HttpServlet {
 		sess.getTransaction().commit();
 		
 		// Finally
-		req.setAttribute("serverMessage", "Registration Successful, go ahead and login!");
+		req.setAttribute("authMessage", "Registration Successful, go ahead and login!");
 		reqDis.forward(req, res);
 		sess.close();
 	}

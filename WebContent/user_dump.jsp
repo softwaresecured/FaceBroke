@@ -1,4 +1,5 @@
 <%@ include file="header.jsp"%>
+
 <%@ page import="java.util.List, facebroke.model.User"%>
 
 <div class="table-responsive">

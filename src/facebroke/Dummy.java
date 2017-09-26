@@ -22,24 +22,12 @@ import facebroke.util.ValidationSnipets;
 
 public class Dummy extends HttpServlet {
 	
-	public Dummy() {
-		super();
-	}
-	
-
 	private static Logger log = LoggerFactory.getLogger(Dummy.class);
 	private static final long serialVersionUID = 1L;
-
-	private static boolean validEmail(String email) {
-		boolean result = false;
-		try {
-			InternetAddress addr = new InternetAddress(email);
-			addr.validate();
-			result = true;
-		} catch (Exception e) {
-			// Don't need to do anything, the simple 'false' return will tell enough
-		}
-		return result;
+	
+	
+	public Dummy() {
+		super();
 	}
 
 	@Override
@@ -70,7 +58,7 @@ public class Dummy extends HttpServlet {
 		req.setAttribute("rows", results);
 
 		log.info("Starting JSP");
-		req.getRequestDispatcher("/user.jsp").forward(req, res);
+		req.getRequestDispatcher("user_dump.jsp").forward(req, res);
 		log.info("Gave up control");
 		
 		sess.close();
