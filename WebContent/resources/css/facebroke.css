@@ -1,24 +1,24 @@
 body {
-  padding-top: 60px;
+	padding-top: 60px;
 }
 
 .navbar {
-  background-color: #3b5998;
+	background-color: #3b5998;
 }
 
 .navbar-header a {
-  color: #FFF;
-  font-size: 30px;
+	color: #FFF;
+	font-size: 30px;
 }
 
 .navbar .navbar-toggle .icon-bar {
-  background-color: #FFF;
-  width: 30px;
-  height: 2px;
+	background-color: #FFF;
+	width: 30px;
+	height: 2px;
 }
 
 .reg-block {
-  padding-top: 50px;
+	padding-top: 50px;
 }
 
 .footer {
@@ -27,7 +27,8 @@ body {
 	height: 40px;
 }
 
-.user-dropdown-toggle, .user-dropdown-toggle:active, .user-dropdown-toggle:hover, .open > .user-dropdown-toggle {
+.user-dropdown-toggle, .user-dropdown-toggle:active,
+	.user-dropdown-toggle:hover, .open>.user-dropdown-toggle {
 	color: #FFF;
 	font-size: 25px;
 	line-height: 50px;
