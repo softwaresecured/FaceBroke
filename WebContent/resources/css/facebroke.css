@@ -27,7 +27,7 @@ body {
 	height: 40px;
 }
 
-.user-dropdown-toggle {
+.user-dropdown-toggle, .user-dropdown-toggle:active, .user-dropdown-toggle:hover, .open > .user-dropdown-toggle {
 	color: #FFF;
 	font-size: 25px;
 	line-height: 50px;

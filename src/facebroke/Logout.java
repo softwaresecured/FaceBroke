@@ -22,6 +22,10 @@ public class Logout extends HttpServlet {
 	
 	private static Logger log = LoggerFactory.getLogger(Login.class);
 	
+	public Logout() {
+		super();
+	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		handleLogout(req, res);

@@ -9,6 +9,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import facebroke.Loader;
 import facebroke.model.User;
@@ -17,6 +19,7 @@ public class HibernateUtility {
 
 	private static SessionFactory factory;
 	private static String urlParam = "hibernate.connection.url";
+	private final static Logger log = LoggerFactory.getLogger(HibernateUtility.class);
 
 	public static synchronized SessionFactory getSessionFactory() {
 		
@@ -24,14 +27,21 @@ public class HibernateUtility {
 		if (factory == null) {
 			factory = buildSessionFactory();
 			
+			log.info("Building session factory");
+			
 			// Now, we need to check if the DB is empty and load the dummy data if it is
 			try {
 				Session sess = factory.openSession();
-				List<User> results = sess.createQuery("from Users").list();
+				List<User> results = sess.createQuery("From User").list();
 				sess.close();
+				if(results.size() < 1) {
+					throw new Exception("Empty DB");
+				}
 				
 			// Should error out if the initial mapping hasn't occurred (i.e. DB is empty)
 			}catch(Exception e){
+				log.info(e.getMessage());
+				log.info("Trying to create DB");
 				Loader.loadDB();
 			}
 		}

@@ -62,3 +62,10 @@
 	</nav>
 
 	<div class="container">
+	
+	<% String err = (String)request.getAttribute("serverMessage");
+	if( err!= null && !err.isEmpty()){
+		out.print("<div class=\"row\"><div class=\"col-md-4 col-md-offset-4 alert alert-warning alert-dismissible fade in alert-message\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">x</span></button>" + err + "</div></div>");
+	}
+	request.setAttribute("serverMessage", "");
+%>

@@ -1,7 +1,9 @@
 package facebroke;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.internet.InternetAddress;
@@ -18,12 +20,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import facebroke.model.User;
+import facebroke.model.Wall;
 import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(Register.class);
+	
+	public Register() {
+		super();
+	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		handleRegistration(req,res);
@@ -48,17 +55,25 @@ public class Register extends HttpServlet {
 		String username = req.getParameter("regUsername");
 		String email = req.getParameter("regEmail");
 		String fname = req.getParameter("regFirstName");
-		String lname = req.getParameter("regLasttName");
-		String dob = req.getParameter("regDOB");
+		String lname = req.getParameter("regLastName");
+		String dob_raw = req.getParameter("regDOB");
 		String pass1 = req.getParameter("regPassword");
 		String pass2 = req.getParameter("regPasswordConfirm");
+		Date dob;
 		
+		log.info(username);
+		log.info(email);
+		log.info(fname);
+		log.info(lname);
+		log.info(dob_raw);
+		log.info(pass1);
+		log.info(pass2);
 		
 		
 		
 		// Validate the user name
 		if (username == null) {
-			req.setAttribute("errorMessage", "Username is required");
+			req.setAttribute("serverMessage", "Username is required");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -73,7 +88,7 @@ public class Register extends HttpServlet {
 		sess.getTransaction().commit();
 		
 		if(results.size() > 0) {
-			req.setAttribute("errorMessage", "Username already taken");
+			req.setAttribute("serverMessage", "Username already taken");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
@@ -82,23 +97,91 @@ public class Register extends HttpServlet {
 		
 		// Validate the email
 		if(email == null || !ValidationSnipets.isValidEmail(email)) {
-			req.setAttribute("errorMessage", "Invalid email address");
+			req.setAttribute("serverMessage", "Invalid email address");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
 		}
 		
-		sess.beginTransaction();
 		
 		results = (List<User>)sess.createQuery("FROM User U WHERE U.email = :email")
 						.setParameter("email", email).list();
-		sess.getTransaction().commit();
 		
 		if(results.size() > 0) {
-			req.setAttribute("errorMessage", "Email already taken");
+			req.setAttribute("serverMessage", "Email already taken");
 			reqDis.forward(req, res);
 			sess.close();
 			return;
 		}
+		
+		
+		// Validate first and last names
+		if (fname == null || fname.length() < 1) {
+			req.setAttribute("serverMessage", "First name can't be blank. If you have a mononym, leave Last Name blank");
+			reqDis.forward(req, res);
+			sess.close();
+			return;
+		}
+		
+		if(lname == null) {
+			lname = "";
+		}
+		
+		
+		// Validate DOB
+		if (dob_raw == null) {
+			req.setAttribute("serverMessage", "Date of Bith can't be blank");
+			reqDis.forward(req, res);
+			sess.close();
+			return;
+		}
+		try {
+			dob = ValidationSnipets.parseDate(dob_raw);
+		} catch (ParseException e) {
+			req.setAttribute("serverMessage", "Invalid Date of Birth Format. Need yyyy-mm-dd");
+			reqDis.forward(req, res);
+			sess.close();
+			return;
+		}
+		
+		
+		// Validate Password
+		if (pass1 == null || pass1.length() < 1 || pass2 ==null || pass2.length() < 1) {
+			req.setAttribute("serverMessage", "Password can't be blank");
+			reqDis.forward(req, res);
+			sess.close();
+			return;
+		}
+		
+		if (!ValidationSnipets.passwordFormatValid(pass1)) {
+			req.setAttribute("serverMessage", "Password must be at least 8 characters long and contain only a-z,A-z,0-9,!,#,$,^");
+			reqDis.forward(req, res);
+			sess.close();
+			return;
+		}
+		
+		if (!pass1.equals(pass2)) {
+			req.setAttribute("serverMessage", "Passwords don't match");
+			reqDis.forward(req, res);
+			sess.close();
+			return;
+		}
+		
+		
+		// All input is valid. Time to build our new user
+		User u = new User(fname,lname, username, email, dob);
+		Wall w = new Wall(u);
+		
+		u.updatePassword(pass1);
+		
+		sess.beginTransaction();
+		sess.save(u);
+		sess.save(w);
+		sess.getTransaction().commit();
+		
+		// Finally
+		req.setAttribute("serverMessage", "Registration Successful, go ahead and login!");
+		reqDis.forward(req, res);
+		sess.close();
 	}
 }

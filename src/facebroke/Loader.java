@@ -1,5 +1,8 @@
 package facebroke;
 
+import java.text.ParseException;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
@@ -12,6 +15,7 @@ import facebroke.model.User;
 import facebroke.model.User.UserRole;
 import facebroke.model.Wall;
 import facebroke.util.HibernateUtility;
+import facebroke.util.ValidationSnipets;
 
 public class Loader {
 
@@ -43,6 +47,8 @@ public class Loader {
 	private final static int NUMNAMES = 100;
 	private final static int NUMROUNDS = 1000;
 	private final static long seed = 1877;
+	private final static int LOWER_YEAR = 1950;
+	private final static int RANGE_YEAR = 75;
 	
 	public static void main(String[] args) {
 		loadDB();
@@ -67,8 +73,17 @@ public class Loader {
 			String l = lastNames[r.nextInt(NUMNAMES)];
 			String username = f + l + r.nextInt(NUMNAMES);
 			String email = username + "@fake.ca";
+			Date dob;
+			
+			try {
+				dob = ValidationSnipets.parseDate(String.format("%d-%d-%d", LOWER_YEAR+r.nextInt(RANGE_YEAR), 1+r.nextInt(12), 1+r.nextInt(29)));
+			}catch (ParseException e) {
+				dob = new GregorianCalendar(1950,2,17).getTime();
+			}
+			
+			
 
-			User u = new User(f, l, username, email.toLowerCase());
+			User u = new User(f, l, username, email.toLowerCase(), dob);
 			u.updatePassword(f);
 
 			Wall w = new Wall(u);
@@ -85,7 +100,8 @@ public class Loader {
 		/* Adding a tester account that will always be created */
 		sess.beginTransaction();
 		
-		User matt = new User("Matt","Yaraskavitch","jarusk","myaraskavitch@dummy.ca");
+		
+		User matt = new User("Matt","Yaraskavitch","jarusk","myaraskavitch@dummy.ca", new GregorianCalendar(1992,3,14).getTime());
 		matt.updatePassword("password");
 		matt.setRole(UserRole.ADMIN);
 		Wall w = new Wall(matt);
@@ -101,6 +117,7 @@ public class Loader {
 			System.out.println("User: " + u.getId() + " - " + u.getFname() + " - " + u.getLname());
 		}
 
+		sess.close();
 	}
 
 }

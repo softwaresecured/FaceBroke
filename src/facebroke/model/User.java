@@ -1,6 +1,7 @@
 package facebroke.model;
 
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +27,8 @@ public class User {
 	private String b64Salt, b64Pass;
 
 	private ZonedDateTime created, updated;
+	
+	private Date dob;
 
 	private String fname, lname;
 	
@@ -59,11 +62,12 @@ public class User {
 	 * @param email
 	 *            - String
 	 */
-	public User(String fname, String lname, String username, String email) {
+	public User(String fname, String lname, String username, String email, Date dob) {
 		this.fname = fname;
 		this.lname = lname;
 		this.username = username;
 		this.email = email;
+		this.dob = dob;
 		this.created = this.updated = ZonedDateTime.now();
 		this.role = UserRole.USER;
 	}
@@ -80,6 +84,10 @@ public class User {
 		return created;
 	}
 
+	public Date getDOB() {
+		return dob;
+	}
+	
 	public String getEmail() {
 		return email;
 	}
@@ -141,6 +149,10 @@ public class User {
 
 	public void setCreated(ZonedDateTime created) {
 		this.created = created;
+	}
+	
+	public void setDOB(Date d) {
+		this.dob = d;
 	}
 
 	public void setEmail(String email) {

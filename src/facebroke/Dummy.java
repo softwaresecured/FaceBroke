@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.mail.internet.InternetAddress;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,11 @@ import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
 public class Dummy extends HttpServlet {
+	
+	public Dummy() {
+		super();
+	}
+	
 
 	private static Logger log = LoggerFactory.getLogger(Dummy.class);
 	private static final long serialVersionUID = 1L;
@@ -66,6 +72,7 @@ public class Dummy extends HttpServlet {
 		log.info("Starting JSP");
 		req.getRequestDispatcher("/user.jsp").forward(req, res);
 		log.info("Gave up control");
-
+		
+		sess.close();
 	}
 }

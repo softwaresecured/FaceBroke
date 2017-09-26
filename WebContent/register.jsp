@@ -1,10 +1,3 @@
-<% String err = (String)request.getAttribute("errorMessage");
-	if( err!= null && !err.isEmpty()){
-		out.print("<div class=\"row\"><div class=\"col-md-4 col-md-offset-4 alert alert-warning alert-dismissible fade in alert-message\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>" + err + "</div></div>");
-	}
-	request.setAttribute("errorMessage", "");
-%>
-
 <div class="row">
 	<div class="col-md-8 text-center">
 		<h2>Login Above or Register</h2>
@@ -21,7 +14,7 @@
 		  </div>
 		  <div class="form-group">
 		    <label for="regFirstName">First Name</label>
-		    <input type="text" class="form-control" id="regFirstName" name=="regFirstName" placeholder="First Name">
+		    <input type="text" class="form-control" id="regFirstName" name="regFirstName" placeholder="First Name">
 		  </div>
 		  <div class="form-group">
 		    <label for="regLastName">Last Name</label>
@@ -33,7 +26,7 @@
 		  </div>
 		  <div class="form-group">
 		    <label for="regPassword">Password</label>
-		    <input type="password" class="form-control" id="regPassword" nameid="regPassword" placeholder="Password">
+		    <input type="password" class="form-control" id="regPassword" name="regPassword" placeholder="Password">
 		    <input type="password" class="form-control" id="regPasswordConfirm" name="regPasswordConfirm" placeholder="Confirm Password">
 		  </div>
 		  <button type="submit" class="btn btn-default btn-primary">Submit</button>
