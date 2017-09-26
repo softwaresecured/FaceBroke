@@ -60,6 +60,7 @@ public class Register extends HttpServlet {
 		if (username == null) {
 			req.setAttribute("errorMessage", "Username is required");
 			reqDis.forward(req, res);
+			sess.close();
 			return;
 		}
 		log.info("Received register request with username \""+username+"\"");
@@ -74,6 +75,7 @@ public class Register extends HttpServlet {
 		if(results.size() > 0) {
 			req.setAttribute("errorMessage", "Username already taken");
 			reqDis.forward(req, res);
+			sess.close();
 			return;
 		}
 		
@@ -82,6 +84,7 @@ public class Register extends HttpServlet {
 		if(email == null || !ValidationSnipets.isValidEmail(email)) {
 			req.setAttribute("errorMessage", "Invalid email address");
 			reqDis.forward(req, res);
+			sess.close();
 			return;
 		}
 		
@@ -94,6 +97,7 @@ public class Register extends HttpServlet {
 		if(results.size() > 0) {
 			req.setAttribute("errorMessage", "Email already taken");
 			reqDis.forward(req, res);
+			sess.close();
 			return;
 		}
 	}

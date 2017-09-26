@@ -27,10 +27,10 @@ public class User {
 
 	private ZonedDateTime created, updated;
 
-	private String fname, lname, email;
+	private String fname, lname;
 	
 	@Column(unique=true)
-	private String username;
+	private String username, email;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

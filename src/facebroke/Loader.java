@@ -43,9 +43,14 @@ public class Loader {
 	private final static int NUMNAMES = 100;
 	private final static int NUMROUNDS = 1000;
 	private final static long seed = 1877;
+	
+	public static void main(String[] args) {
+		loadDB();
+		System.exit(0);
+	}
 
 	@SuppressWarnings({ "unchecked" })
-	public static void main(String[] args) {
+	public static void loadDB() {
 		log.info("Attempting to load hibernate config");
 		SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
 		log.info("Finished loading hibernate config");
@@ -96,7 +101,6 @@ public class Loader {
 			System.out.println("User: " + u.getId() + " - " + u.getFname() + " - " + u.getLname());
 		}
 
-		System.exit(0);
 	}
 
 }
