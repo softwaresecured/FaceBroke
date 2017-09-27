@@ -55,6 +55,7 @@
 				%> <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="wall">Wall</a></li>
+					<li><a href="demo">Demo</a></li>
 					<li><a href="settings">Settings</a></li>
 					<li><a href="logout">Logout</a></li>
 				</ul>

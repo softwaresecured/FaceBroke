@@ -40,7 +40,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<h2>SQL Injection Demo</h2>
-		<form action="dummy" method="post">
+		<form action="demo" method="post">
 			User ID: <input type="text" name="userid"></br> </br> <input
 				type="radio" name="injection" value="allow">Allow SQL
 			Injection <input type="radio" name="injection" value="prevent"
