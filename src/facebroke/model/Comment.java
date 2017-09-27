@@ -32,7 +32,7 @@ public class Comment {
 	private Post parent;
 
 	// Constructor for Hibernate
-	public Comment() {
+	private Comment() {
 	}
 
 	/**

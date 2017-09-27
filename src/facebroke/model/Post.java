@@ -135,8 +135,4 @@ public class Post {
 		this.wall = wall;
 		this.updated = ZonedDateTime.now();
 	}
-	
-	public void addComment(Comment c) {
-		this.comments.add(c);
-	}
 }

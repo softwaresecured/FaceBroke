@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import facebroke.model.Comment;
 import facebroke.model.DummyDataInfo;
 import facebroke.model.Post;
 import facebroke.model.User;
@@ -57,7 +58,8 @@ public class Loader {
 	
 	public static void generateDummyDB() {
 		loadRandomUsers(NUMROUNDS, SEED);
-		loadRandomPosts(NUMROUNDS, SEED);
+		loadRandomPosts(4, SEED);
+		loadRandomComments(5, SEED);
 		loadVersionInfo(version);
 	}
 
@@ -96,8 +98,7 @@ public class Loader {
 			}catch (ParseException e) {
 				dob = new GregorianCalendar(1950,2,17).getTime();
 			}
-			
-			
+
 
 			User u = new User(f, l, username, email.toLowerCase(), dob);
 			u.updatePassword(f);
@@ -130,15 +131,15 @@ public class Loader {
 	}
 
 	
-	public static void loadRandomPosts(int numPosts, long seed) {
+	public static void loadRandomPosts(int maxNumPosts, long seed) {
 		log.info("Creating Random Posts");
-		log.info("Attempting to load hibernate config");
+		log.info("Attempting to load Hibernate SessionFactory");
 		SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
-		log.info("Finished loading hibernate config");
+		log.info("Finished loading Hibernate SessionFactory");
 
 		Session sess = sessionFactory.openSession();
 
-		Random r = new Random(seed);
+		Random r = new Random(seed*3);
 		LoremGenerator lg = new LoremGenerator(seed);
 
 
@@ -146,20 +147,61 @@ public class Loader {
 		
 		sess.beginTransaction();
 		
+		int totalCreated = 0;
+		
 		for (int i = 0; i < walls.size(); i++) {
 			Wall w = walls.get(i);
-			String title = lg.getWords(4 + r.nextInt(5));
-			String content = lg.getSentences(2);
-			User creator = walls.get(r.nextInt(walls.size())).getUser();
 			
-			Post p = new Post(w, creator, title, Post.PostType.TEXT, content);
-			
-			sess.save(p);
-
+			for (int j = 0; j < r.nextInt(maxNumPosts + 1); j++) {
+				String title = lg.getWords(4 + r.nextInt(5));
+				String content = lg.getSentences(2);
+				User creator = walls.get(r.nextInt(walls.size())).getUser();
+				
+				Post p = new Post(w, creator, title, Post.PostType.TEXT, content);
+				
+				sess.save(p);
+				totalCreated += 1;
+			}
 		}
 		
 		sess.getTransaction().commit();
 		
 		sess.close();
+		log.info("Have "+walls.size()+" walls");
+		log.info("Total num of posts created: "+totalCreated);
+	}
+	
+	
+	public static void loadRandomComments(int maxNumComments, long seed) {
+		log.info("Creating Random Comments");
+		log.info("Attempting to load Hibernate Session");
+		Session sess = HibernateUtility.getSessionFactory().openSession();
+		log.info("Finished loading Hibernate Session");
+		
+		Random r = new Random(seed*5);
+		LoremGenerator lg = new LoremGenerator(seed*4);
+		
+		List<Post> posts = sess.createQuery("FROM Post").list();
+		
+		sess.beginTransaction();
+		int totalComments = 0;
+		
+		for (int i = 0; i < posts.size(); i++) {
+			Post p = posts.get(i);
+			
+			for (int j = 0; j < r.nextInt(maxNumComments + 1); j++) {
+				String content = lg.getWords(4 + r.nextInt(5));
+				User creator = posts.get(r.nextInt(posts.size())).getCreator();
+				
+				Comment c = new Comment(creator, p, content);
+				sess.save(c);
+				totalComments += 1;
+			}
+		}
+		
+		sess.getTransaction().commit();
+		sess.close();
+		log.info("Have "+posts.size()+" posts");
+		log.info("Total num of comments created: "+totalComments);
 	}
 }
