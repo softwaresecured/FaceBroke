@@ -1,5 +1,7 @@
 package facebroke.model;
 
+import java.time.ZonedDateTime;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +21,8 @@ public class Wall {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	private ZonedDateTime created, updated;
 
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "user_id")
@@ -36,6 +40,7 @@ public class Wall {
 	 */
 	public Wall(User user) {
 		this.user = user;
+		this.created = this.updated = ZonedDateTime.now();
 	}
 
 	public long getId() {
@@ -48,5 +53,6 @@ public class Wall {
 
 	public void setUser(User user) {
 		this.user = user;
+		this.updated = ZonedDateTime.now();
 	}
 }

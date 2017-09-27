@@ -73,22 +73,21 @@ public class Comment {
 
 	public void setContent(String content) {
 		this.content = content;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setCreated(ZonedDateTime created) {
 		this.created = created;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setCreator(User creator) {
 		this.creator = creator;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setParent(Post parent) {
 		this.parent = parent;
+		this.updated = ZonedDateTime.now();
 	}
-
-	public void setUpdated(ZonedDateTime updated) {
-		this.updated = updated;
-	}
-
 }

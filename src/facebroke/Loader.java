@@ -11,10 +11,12 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import facebroke.model.Post;
 import facebroke.model.User;
 import facebroke.model.User.UserRole;
 import facebroke.model.Wall;
 import facebroke.util.HibernateUtility;
+import facebroke.util.LoremGenerator;
 import facebroke.util.ValidationSnipets;
 
 public class Loader {
@@ -46,17 +48,22 @@ public class Loader {
 	private final static Logger log = LoggerFactory.getLogger(Loader.class);
 	private final static int NUMNAMES = 100;
 	private final static int NUMROUNDS = 1000;
-	private final static long seed = 1877;
+	private final static long SEED = 1877;
 	private final static int LOWER_YEAR = 1950;
 	private final static int RANGE_YEAR = 75;
 	
-	public static void main(String[] args) {
-		loadDB();
+	/*public static void main(String[] args) {
+		generateDummyDB();
 		System.exit(0);
+	}*/
+	
+	public static void generateDummyDB() {
+		loadRandomUsers(NUMROUNDS, SEED);
+		loadRandomPosts(NUMROUNDS, SEED);
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	public static void loadDB() {
+	public static void loadRandomUsers(int numUsers, long seed) {
 		log.info("Attempting to load hibernate config");
 		SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
 		log.info("Finished loading hibernate config");
@@ -67,7 +74,7 @@ public class Loader {
 
 		sess.beginTransaction();
 
-		for (int i = 0; i < NUMROUNDS; ++i) {
+		for (int i = 0; i < numUsers; ++i) {
 
 			String f = firstNames[r.nextInt(NUMNAMES)];
 			String l = lastNames[r.nextInt(NUMNAMES)];
@@ -109,15 +116,40 @@ public class Loader {
 		sess.save(matt);
 		sess.save(w);
 		sess.getTransaction().commit();
-		
-
-		List<User> result = sess.createQuery("from User").list();
-
-		for (User u : result) {
-			System.out.println("User: " + u.getId() + " - " + u.getFname() + " - " + u.getLname());
-		}
 
 		sess.close();
 	}
 
+	
+	public static void loadRandomPosts(int numPosts, long seed) {
+		log.info("Creating Random Posts");
+		log.info("Attempting to load hibernate config");
+		SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
+		log.info("Finished loading hibernate config");
+
+		Session sess = sessionFactory.openSession();
+
+		Random r = new Random(seed);
+		LoremGenerator lg = new LoremGenerator(seed);
+
+
+		List<Wall> walls = sess.createQuery("FROM Wall w").list();
+		
+		for (int i = 0; i < walls.size(); i++) {
+			sess.beginTransaction();
+			
+			Wall w = walls.get(i);
+			String title = lg.getWords(4 + r.nextInt(5));
+			String content = lg.getSentences(2);
+			User creator = walls.get(r.nextInt(walls.size())).getUser();
+			
+			Post p = new Post(w, creator, title, Post.PostType.TEXT, content);
+			
+			sess.save(p);
+			
+			sess.getTransaction().commit();
+		}
+		
+		sess.close();
+	}
 }

@@ -142,46 +142,47 @@ public class User {
 
 	public void setB64Pass(String b64Pass) {
 		this.b64Pass = b64Pass;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setB64Salt(String b64Salt) {
 		this.b64Salt = b64Salt;
-	}
-
-	public void setCreated(ZonedDateTime created) {
-		this.created = created;
+		this.updated = ZonedDateTime.now();
 	}
 	
 	public void setDOB(Date d) {
 		this.dob = d;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setFname(String fname) {
 		this.fname = fname;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setLname(String lname) {
 		this.lname = lname;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setRole(UserRole role) {
 		this.role = role;
+		this.updated = ZonedDateTime.now();
 	}
-
-	public void setUpdated(ZonedDateTime updated) {
-		this.updated = updated;
-	}
-
+	
 	public void setUsername(String username) {
 		this.username = username;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setWall(Wall wall) {
 		this.wall = wall;
+		this.updated = ZonedDateTime.now();
 	}
 
 	/**
@@ -193,5 +194,6 @@ public class User {
 		byte[] salt = AuthHelper.generateSalt(AuthHelper.SALTLENGTH);
 		this.b64Pass = AuthHelper.hashPassword(password, salt);
 		this.b64Salt = AuthHelper.encodeBase64(salt);
+		this.updated = ZonedDateTime.now();
 	}
 }

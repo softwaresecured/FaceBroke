@@ -101,25 +101,26 @@ public class Post {
 
 	public void setContent(String content) {
 		this.content = content;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setCreator(User creator) {
 		this.creator = creator;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setType(PostType type) {
 		this.type = type;
-	}
-
-	public void setUpdated(ZonedDateTime updated) {
-		this.updated = updated;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public void setWall(Wall wall) {
 		this.wall = wall;
+		this.updated = ZonedDateTime.now();
 	}
 }

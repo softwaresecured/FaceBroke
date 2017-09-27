@@ -42,7 +42,7 @@ public class HibernateUtility {
 			}catch(Exception e){
 				log.info(e.getMessage());
 				log.info("Trying to create DB");
-				Loader.loadDB();
+				Loader.generateDummyDB();
 			}
 		}
 

@@ -48,7 +48,7 @@ public class LoremGenerator {
 	 * @param avgSentenceLength
 	 * @param minSentenceLength
 	 */
-	public LoremGenerator (Integer seed) {
+	public LoremGenerator (Long seed) {
 		
 		if (seed == null) {
 			r = new Random();
