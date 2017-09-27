@@ -6,13 +6,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="resources/img/favicon.ico" />
-
-<link rel="stylesheet" href="resources/css/bootstrap.min.css">
-<link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="resources/css/facebroke.css">
-<title>FaceBroke</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	    
+	<link rel="shortcut icon" href="resources/img/favicon.ico" />
+	
+	<link rel="stylesheet" href="resources/css/bootstrap.min.css">
+	<link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="resources/css/facebroke.css">
+	<title>FaceBroke</title>
 </head>
 <body>
 
@@ -43,22 +46,19 @@
 				<button type="submit" class="btn btn-success">Log in</button>
 			</form>
 			<% }else{%>
-			<div class="navbar-right dropdown">
-				<a href="#" class="dropdown-toggle user-dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false"> <%  String name = (String)session.getAttribute("user_fname");
-					if(name!=null){
-						out.print(name);
-					}else{
-						out.print("INVALID NAME");
-					}
-				%> <span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="wall">Wall</a></li>
-					<li><a href="demo">Demo</a></li>
-					<li><a href="settings">Settings</a></li>
-					<li><a href="logout">Logout</a></li>
-				</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class=" dropdown">
+					<a href="#" class="dropdown-toggle user-dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Matt<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="wall">Wall</a></li>
+						<li><a href="demo">Demo</a></li>
+						<li><a href="settings">Settings</a></li>
+						<li><a href="logout">Logout</a></li>
+					</ul>
+				</li>
+			</ul>
 			</div>
 			<% } %>
 		</div>

@@ -27,11 +27,24 @@ body {
 	height: 40px;
 }
 
-.user-dropdown-toggle, .user-dropdown-toggle:active,
-	.user-dropdown-toggle:hover, .open>.user-dropdown-toggle {
+.user-dropdown-toggle, .user-dropdown-toggle:hover, .open>.user-dropdown-toggle {
 	color: #FFF;
+	background-color: #3b5998;
 	font-size: 25px;
-	line-height: 50px;
+}
+
+.nav > li > a:focus, 
+.nav > li > a:hover, 
+.nav .open > a, 
+.nav .open > a:focus, 
+.nav .open > a:hover {
+	color: #FFF;
+	background-color: #3b5998;
+	text-decoration: underline;
+}
+
+.dropdown-menu > li > a {
+	color: #FFF;
 }
 
 .alert-message {
