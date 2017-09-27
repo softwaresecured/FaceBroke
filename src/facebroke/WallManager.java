@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import facebroke.model.Comment;
 import facebroke.model.Post;
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
@@ -64,7 +65,10 @@ public class WallManager extends HttpServlet {
 				.setMaxResults(POSTS_PER_PAGE)
 				.list();
 
+		
+		
 		req.setAttribute("wall_posts", posts);
+		
 
 		sess.close();
 		req.getRequestDispatcher("wall.jsp").forward(req, res);

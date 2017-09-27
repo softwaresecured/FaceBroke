@@ -1,6 +1,6 @@
 <%@ include file="header.jsp"%>
 
-<%@ page import="java.util.List, facebroke.model.User, facebroke.model.Post"%>
+<%@ page import="java.util.List, facebroke.model.User, facebroke.model.Post, facebroke.model.Comment"%>
 
 <div class="table-responsive">
 	<table class="table">
@@ -16,13 +16,26 @@
 	out.print("No Results");
 }else {
 	for (int i=0; i<rows.size(); i++){
+		Post p = rows.get(i);
+		
 		out.print("<tr>");
-		out.print("<td>" + rows.get(i).getCreator().getUsername() + "</td>");
-		out.print("<td>" + rows.get(i).getWall().getId() + "</td>");
-		out.print("<td>" + rows.get(i).getCreated() + "</td>");
-		out.print("<td>" + rows.get(i).getTitle() + "</td>");
-		out.print("<td>" + rows.get(i).getContent() + "</td>");
+		out.print("<td>" + p.getCreator().getUsername() + "</td>");
+		out.print("<td>" + p.getWall().getId() + "</td>");
+		out.print("<td>" + p.getCreated() + "</td>");
+		out.print("<td>" + p.getTitle() + "</td>");
+		out.print("<td>" + p.getContent() + "</td>");
 		out.print("</tr>\n");
+		
+		List<Comment> comments = p.getComments();
+		
+		for (int j=0; j<comments.size(); j++){
+			Comment c = comments.get(j);
+			
+			out.print("<tr>");
+			out.print("<td>" + c.getCreator().getUsername() + "</td>");
+			out.print("<td>" + c.getContent() + "</td>");
+			out.print("</tr>\n");
+		}
 	}
 }
 	%>

@@ -1,15 +1,19 @@
 package facebroke.model;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -39,6 +43,10 @@ public class Post {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "wall_id")
 	private Wall wall;
+	
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="parent", cascade=CascadeType.ALL)
+	private List<Comment> comments = new ArrayList<>();
+	
 
 	// Special constructor for Hibernate
 	public Post() {
@@ -98,6 +106,10 @@ public class Post {
 	public Wall getWall() {
 		return wall;
 	}
+	
+	public List<Comment> getComments(){
+		return comments;
+	}
 
 	public void setContent(String content) {
 		this.content = content;
@@ -122,5 +134,9 @@ public class Post {
 	public void setWall(Wall wall) {
 		this.wall = wall;
 		this.updated = ZonedDateTime.now();
+	}
+	
+	public void addComment(Comment c) {
+		this.comments.add(c);
 	}
 }
