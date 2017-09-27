@@ -5,7 +5,7 @@
 <div class="table-responsive">
 	<table class="table">
 
-<%
+		<%
 	User wallOwner = (User)request.getAttribute("wall_owner");
 %>
 

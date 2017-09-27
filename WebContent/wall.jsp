@@ -1,18 +1,19 @@
 <%@ include file="header.jsp"%>
 
-<%@ page import="java.util.List, facebroke.model.User, facebroke.model.Post, facebroke.model.Comment"%>
+<%@ page
+	import="java.util.List, facebroke.model.User, facebroke.model.Post, facebroke.model.Comment"%>
 
 <div class="table-responsive">
 	<table class="table">
 
-<%
-	List<Post> rows = (List<Post>)request.getAttribute("wall_posts");
-	User wallOwner = (User)request.getAttribute("wall_owner");
-%>
+	<%
+		List<Post> rows = (List<Post>)request.getAttribute("wall_posts");
+		User wallOwner = (User)request.getAttribute("wall_owner");
+	%>
 
-<h3><%= wallOwner.getFname() + " " + wallOwner.getLname() + " : " + wallOwner.getId()%></h3>
+		<h3><%= wallOwner.getFname() + " " + wallOwner.getLname() + " : " + wallOwner.getId()%></h3>
 
-<% if(rows == null || rows.isEmpty()){
+		<% if(rows == null || rows.isEmpty()){
 	out.print("No Results");
 }else {
 	for (int i=0; i<rows.size(); i++){

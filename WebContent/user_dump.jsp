@@ -2,6 +2,8 @@
 
 <%@ page import="java.util.List, facebroke.model.User"%>
 
+<h2>User Info</h2>
+
 <div class="table-responsive">
 	<table class="table">
 
