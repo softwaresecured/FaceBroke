@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import facebroke.model.Post;
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
+import facebroke.util.ValidationSnipets;
 
 public class WallManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,6 +29,11 @@ public class WallManager extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		
+		if(!ValidationSnipets.isValidSession(req.getSession())){
+			res.sendRedirect("index.jsp");
+			return;
+		}
 
 		long wall_id;
 		
@@ -53,7 +59,7 @@ public class WallManager extends HttpServlet {
 		req.setAttribute("wall_owner", wallOwner);
 
 		List<Post> posts = sess.createQuery(
-				"FROM post p where p.wall_id = :wall_id ORDER BY p.created desc")
+				"FROM Post p where p.wall.id = :wall_id ORDER BY p.created desc")
 				.setParameter("wall_id", wallOwner.getId())
 				.setMaxResults(POSTS_PER_PAGE)
 				.list();

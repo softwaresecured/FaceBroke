@@ -8,7 +8,7 @@
 		<%
 
   List<User> rows = (List<User>)request.getAttribute("rows");
-  if(rows.isEmpty()){
+  if(rows == null || rows.isEmpty()){
 	out.print("No Results");
   }else {
 	for (int i=0; i<rows.size(); i++){

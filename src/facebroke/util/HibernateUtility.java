@@ -32,7 +32,7 @@ public class HibernateUtility {
 			// Now, we need to check if the DB is empty and load the dummy data if it is
 			try {
 				Session sess = factory.openSession();
-				List<User> results = sess.createQuery("From User").list();
+				List<User> results = sess.createQuery("From DummyDataInfo").list();
 				sess.close();
 				if(results.size() < 1) {
 					throw new Exception("Empty DB");

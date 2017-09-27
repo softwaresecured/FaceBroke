@@ -61,12 +61,16 @@ public class Login extends HttpServlet {
 		}
 
 		// Creds are not null, so need to try and validate against the db
+		
+		log.info("Trying to get session factory");
 
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 
 		List<User> results = null;
 
 		Query<User> query;
+		
+		log.info("Trying to validate login");
 
 		if (ValidationSnipets.isValidEmail(user_cred)) {
 			query = sess.createQuery("FROM User U WHERE U.email = :user_cred");

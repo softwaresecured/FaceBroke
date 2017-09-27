@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import facebroke.model.DummyDataInfo;
 import facebroke.model.Post;
 import facebroke.model.User;
 import facebroke.model.User.UserRole;
@@ -51,15 +52,23 @@ public class Loader {
 	private final static long SEED = 1877;
 	private final static int LOWER_YEAR = 1950;
 	private final static int RANGE_YEAR = 75;
+	private static final String version = "0.1";
 	
-	/*public static void main(String[] args) {
-		generateDummyDB();
-		System.exit(0);
-	}*/
 	
 	public static void generateDummyDB() {
 		loadRandomUsers(NUMROUNDS, SEED);
 		loadRandomPosts(NUMROUNDS, SEED);
+		loadVersionInfo(version);
+	}
+
+	public static void loadVersionInfo(String ver) {
+		Session sess = HibernateUtility.getSessionFactory().openSession();
+		
+		sess.beginTransaction();
+		DummyDataInfo info = new DummyDataInfo(ver);
+		sess.save(info);
+		sess.getTransaction().commit();
+		sess.close();
 	}
 
 	@SuppressWarnings({ "unchecked" })
@@ -135,9 +144,9 @@ public class Loader {
 
 		List<Wall> walls = sess.createQuery("FROM Wall w").list();
 		
+		sess.beginTransaction();
+		
 		for (int i = 0; i < walls.size(); i++) {
-			sess.beginTransaction();
-			
 			Wall w = walls.get(i);
 			String title = lg.getWords(4 + r.nextInt(5));
 			String content = lg.getSentences(2);
@@ -146,9 +155,10 @@ public class Loader {
 			Post p = new Post(w, creator, title, Post.PostType.TEXT, content);
 			
 			sess.save(p);
-			
-			sess.getTransaction().commit();
+
 		}
+		
+		sess.getTransaction().commit();
 		
 		sess.close();
 	}
