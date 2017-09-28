@@ -20,6 +20,8 @@ ADD . /code/
 
 RUN mvn package
 
-RUN cp target/FaceBroke.war /usr/local/tomcat/webapps/
+RUN rm -rf /usr/local/tomcat/webapps/ROOT*
+
+RUN cp target/facebroke.war /usr/local/tomcat/webapps/ROOT.war
 
 CMD ["catalina.sh", "run"]
