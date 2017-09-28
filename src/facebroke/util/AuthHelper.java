@@ -63,22 +63,4 @@ public class AuthHelper {
 
 		return result;
 	}
-
-	public static void main(String[] args) {
-		byte[] salt = generateSalt(SALTLENGTH);
-
-		String hp = hashPassword("MyPassword", salt);
-		String hp2 = hashPassword("helloworld", salt);
-		String hp3 = hashPassword("MyPassword1", salt);
-
-		System.out.println("Hashed: " + hp);
-		System.out.println("Hashed: " + hp2);
-		System.out.println("Hashed: " + hp3);
-		System.out.println("Encoded salt: " + encodeBase64(salt));
-
-		String b64Salt = encodeBase64(salt);
-		String hp4 = hashPassword("MyPassword", decodeBase64(b64Salt));
-		System.out.println("Hashed: " + hp4);
-
-	}
 }

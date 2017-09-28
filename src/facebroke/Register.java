@@ -47,7 +47,6 @@ public class Register extends HttpServlet {
 		}
 		
 		RequestDispatcher reqDis = req.getRequestDispatcher("index.jsp");
-		Session sess = HibernateUtility.getSessionFactory().openSession();
 		
 		
 		String username = req.getParameter("regUsername");
@@ -59,36 +58,20 @@ public class Register extends HttpServlet {
 		String pass2 = req.getParameter("regPasswordConfirm");
 		Date dob;
 		
-		log.info(username);
-		log.info(email);
-		log.info(fname);
-		log.info(lname);
-		log.info(dob_raw);
-		log.info(pass1);
-		log.info(pass2);
-		
 		
 		
 		// Validate the user name
 		if (username == null) {
 			req.setAttribute("authMessage", "Username is required");
 			reqDis.forward(req, res);
-			sess.close();
 			return;
 		}
 		log.info("Received register request with username \""+username+"\"");
 		
-		sess.beginTransaction();
 		
-		List<User> results = null;
-		results = (List<User>)sess.createQuery("FROM User U WHERE U.username = :username")
-						.setParameter("username", username).list();
-		sess.getTransaction().commit();
-		
-		if(results.size() > 0) {
+		if(ValidationSnipets.isUsernameTaken(username)) {
 			req.setAttribute("authMessage", "Username already taken");
 			reqDis.forward(req, res);
-			sess.close();
 			return;
 		}
 		
@@ -97,18 +80,13 @@ public class Register extends HttpServlet {
 		if(email == null || !ValidationSnipets.isValidEmail(email)) {
 			req.setAttribute("authMessage", "Invalid email address");
 			reqDis.forward(req, res);
-			sess.close();
 			return;
 		}
 		
 		
-		results = (List<User>)sess.createQuery("FROM User U WHERE U.email = :email")
-						.setParameter("email", email).list();
-		
-		if(results.size() > 0) {
+		if(ValidationSnipets.isEmailTaken(email)) {
 			req.setAttribute("authMessage", "Email already taken");
 			reqDis.forward(req, res);
-			sess.close();
 			return;
 		}
 		
@@ -117,7 +95,6 @@ public class Register extends HttpServlet {
 		if (fname == null || fname.length() < 1) {
 			req.setAttribute("authMessage", "First name can't be blank. If you have a mononym, leave Last Name blank");
 			reqDis.forward(req, res);
-			sess.close();
 			return;
 		}
 		
@@ -130,7 +107,6 @@ public class Register extends HttpServlet {
 		if (dob_raw == null) {
 			req.setAttribute("authMessage", "Date of Bith can't be blank");
 			reqDis.forward(req, res);
-			sess.close();
 			return;
 		}
 		try {
@@ -138,7 +114,6 @@ public class Register extends HttpServlet {
 		} catch (ParseException e) {
 			req.setAttribute("authMessage", "Invalid Date of Birth Format. Need yyyy-mm-dd");
 			reqDis.forward(req, res);
-			sess.close();
 			return;
 		}
 		
@@ -147,21 +122,18 @@ public class Register extends HttpServlet {
 		if (pass1 == null || pass1.length() < 1 || pass2 ==null || pass2.length() < 1) {
 			req.setAttribute("authMessage", "Password can't be blank");
 			reqDis.forward(req, res);
-			sess.close();
 			return;
 		}
 		
 		if (!ValidationSnipets.passwordFormatValid(pass1)) {
 			req.setAttribute("authMessage", "Password must be at least 8 characters long and contain only a-z,A-z,0-9,!,#,$,^");
 			reqDis.forward(req, res);
-			sess.close();
 			return;
 		}
 		
 		if (!pass1.equals(pass2)) {
 			req.setAttribute("authMessage", "Passwords don't match");
 			reqDis.forward(req, res);
-			sess.close();
 			return;
 		}
 		
@@ -173,6 +145,7 @@ public class Register extends HttpServlet {
 		u.updatePassword(pass1);
 		u.setWall(w);
 		
+		Session sess = HibernateUtility.getSessionFactory().openSession();
 		sess.beginTransaction();
 		sess.save(u);
 		sess.save(w);

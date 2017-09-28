@@ -54,7 +54,7 @@
 					<ul class="dropdown-menu">
 						<li><a href="wall"><span class="glyphicon glyphicon-user"></span> Wall</a></li>
 						<li><a href="demo"><span class="glyphicon glyphicon-tag"></span> Demo</a></li>
-						<li><a href="settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+						<li><a href="settings?id=<%= session.getAttribute("user_id")%>"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
 						<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 					</ul>
 				</li>

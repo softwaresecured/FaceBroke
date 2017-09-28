@@ -9,6 +9,10 @@ import java.util.List;
 import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Session;
+
+import facebroke.model.User;
+
 public class ValidationSnipets {
 	
 	/**
@@ -54,7 +58,25 @@ public class ValidationSnipets {
 			}
 		}
 		
-		
 		return true;
+	}
+	
+	
+	public static boolean isEmailTaken(String email) {
+		Session sess = HibernateUtility.getSessionFactory().openSession();
+		List<User> results = null;
+		results = (List<User>)sess.createQuery("FROM User U WHERE U.email = :email")
+								.setParameter("email", email).list();
+		sess.close();
+		return results.size() > 0;
+	}
+	
+	public static boolean isUsernameTaken(String username) {
+		Session sess = HibernateUtility.getSessionFactory().openSession();
+		List<User> results = null;
+		results = (List<User>)sess.createQuery("FROM User U WHERE U.username = :username")
+								.setParameter("username", username).list();
+		sess.close();
+		return results.size() > 0;
 	}
 }
