@@ -8,7 +8,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	    
 	<link rel="shortcut icon" href="resources/img/favicon.ico" />
 	
@@ -52,10 +52,10 @@
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">Matt<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="wall">Wall</a></li>
-						<li><a href="demo">Demo</a></li>
-						<li><a href="settings">Settings</a></li>
-						<li><a href="logout">Logout</a></li>
+						<li><a href="wall"><span class="glyphicon glyphicon-user"></span> Wall</a></li>
+						<li><a href="demo"><span class="glyphicon glyphicon-tag"></span> Demo</a></li>
+						<li><a href="settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+						<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 					</ul>
 				</li>
 			</ul>
