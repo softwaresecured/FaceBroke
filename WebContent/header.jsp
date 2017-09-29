@@ -29,7 +29,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href=<%= request.getContextPath() %>>FaceBroke</a>
+			<a class="navbar-brand" href="<% String cpath = request.getContextPath(); if(cpath.isEmpty()){ cpath = "/"; } out.print(cpath); %>">FaceBroke</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<% if(!ValidationSnipets.isValidSession(session)){
