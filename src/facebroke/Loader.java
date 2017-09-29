@@ -1,6 +1,7 @@
 package facebroke;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -91,12 +92,12 @@ public class Loader {
 			String l = lastNames[r.nextInt(NUMNAMES)];
 			String username = f + l + r.nextInt(NUMNAMES);
 			String email = username + "@fake.ca";
-			Date dob;
+			Calendar dob;
 			
 			try {
 				dob = ValidationSnipets.parseDate(String.format("%d-%d-%d", LOWER_YEAR+r.nextInt(RANGE_YEAR), 1+r.nextInt(12), 1+r.nextInt(29)));
 			}catch (ParseException e) {
-				dob = new GregorianCalendar(1950,2,17).getTime();
+				dob = new GregorianCalendar(1950,2,17);
 			}
 
 
@@ -118,7 +119,7 @@ public class Loader {
 		sess.beginTransaction();
 		
 		
-		User matt = new User("Matt","Yaraskavitch","jarusk","myaraskavitch@dummy.ca", new GregorianCalendar(1992,3,14).getTime());
+		User matt = new User("Matt","Yaraskavitch","jarusk","myaraskavitch@dummy.ca", new GregorianCalendar(1992,3,14));
 		matt.updatePassword("password");
 		matt.setRole(UserRole.ADMIN);
 		Wall w = new Wall(matt);

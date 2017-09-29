@@ -1,7 +1,7 @@
 package facebroke.model;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,7 +29,7 @@ public class User {
 
 	private ZonedDateTime created, updated;
 	
-	private Date dob;
+	private Calendar dob;
 
 	private String fname, lname;
 	
@@ -63,7 +63,7 @@ public class User {
 	 * @param email
 	 *            - String
 	 */
-	public User(String fname, String lname, String username, String email, Date dob) {
+	public User(String fname, String lname, String username, String email, Calendar dob) {
 		this.fname = fname;
 		this.lname = lname;
 		this.username = username;
@@ -85,8 +85,12 @@ public class User {
 		return created;
 	}
 
-	public Date getDOB() {
+	public Calendar getDOB() {
 		return dob;
+	}
+	
+	public String getDOBString() {
+		return String.format("%d-%02d-%02d", this.dob.get(Calendar.YEAR), this.dob.get(Calendar.MONTH), this.dob.get(Calendar.DATE));
 	}
 	
 	public String getEmail() {
@@ -150,7 +154,7 @@ public class User {
 		this.updated = ZonedDateTime.now();
 	}
 	
-	public void setDOB(Date d) {
+	public void setDOB(Calendar d) {
 		this.dob = d;
 		this.updated = ZonedDateTime.now();
 	}

@@ -2,6 +2,7 @@ package facebroke;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class Register extends HttpServlet {
 		String dob_raw = req.getParameter("regDOB");
 		String pass1 = req.getParameter("regPassword");
 		String pass2 = req.getParameter("regPasswordConfirm");
-		Date dob;
+		Calendar dob;
 		
 		
 		
@@ -67,6 +68,10 @@ public class Register extends HttpServlet {
 			return;
 		}
 		log.info("Received register request with username \""+username+"\"");
+		log.info("Email: "+email);
+		log.info("First Name: "+fname);
+		log.info("Last Name: "+lname);
+		log.info("DOB: "+dob_raw);
 		
 		
 		if(ValidationSnipets.isUsernameTaken(username)) {

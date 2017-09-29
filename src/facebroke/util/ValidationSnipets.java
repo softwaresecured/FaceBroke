@@ -3,6 +3,7 @@ package facebroke.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,15 +39,16 @@ public class ValidationSnipets {
 	}
 	
 	
-	public static Date parseDate(String date) throws ParseException {
-		return new SimpleDateFormat("yyyy-MM-dd").parse(date);
+	public static Calendar parseDate(String date) throws ParseException {
+		Calendar result = Calendar.getInstance();
+		result.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+		return result;
 	}
 	
 	
 	public static boolean passwordFormatValid(String pass) {
-		
-		// length
-		if (pass.length() > 32 || pass.length() < 8) {
+		// length or null
+		if (pass == null || pass.length() > 32 || pass.length() < 8) {
 			return false;
 		}
 		
