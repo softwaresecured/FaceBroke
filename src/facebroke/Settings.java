@@ -96,9 +96,14 @@ public class Settings extends HttpServlet {
 			return;
 		}
 		
-		RequestDispatcher reqDis = req.getRequestDispatcher("settings");
+		log.info(req.getRequestURI());
+		log.info(req.getRequestURL().toString());
+		log.info(req.getQueryString());
+		log.info(req.getContextPath());
 		
-		String target_id_string = req.getParameter("target_id");
+		
+		
+		String target_user_id_string = req.getParameter("target_id");
 		String username = req.getParameter("regUsername");
 		String email = req.getParameter("regEmail");
 		String fname = req.getParameter("regFirstName");
@@ -108,9 +113,16 @@ public class Settings extends HttpServlet {
 		String pass2 = req.getParameter("regPasswordConfirm");
 		Date dob;
 		
+		// immediately add the id back as a parameter
+		// better way would be session var, but I want provide an attack surface
+		req.setAttribute("target_user_id",target_user_id_string);
+		
+		String forwardPath = "settings?id="+target_user_id_string;
+		//RequestDispatcher reqDis = req.getRequestDispatcher(forwardPath);
+		log.info("Forward path is "+forwardPath);
 		
 		// Get a session to fetch the target user to be updated
-		long target_id = Long.parseLong(target_id_string);
+		long target_id = Long.parseLong(target_user_id_string);
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		List<User> target_list = (List<User>) sess.createQuery("FROM User u where u.id = :user_id")
 								.setParameter("user_id", target_id)
@@ -132,77 +144,83 @@ public class Settings extends HttpServlet {
 				if(!ValidationSnipets.isUsernameTaken(username)) {
 					target.setUsername(username);
 					changes.add("Username updated");
+					log.info("Username updated");
 				}else {
 					errors.add("Username is unavaialble");
 				}
 			}
 			
 			
-			// Validate the email
-			if(email == null || !target.getEmail().equals(email)) {
+			// Change the email if needed
+			if(email != null && !target.getEmail().equals(email)) {
 				if(!ValidationSnipets.isEmailTaken(email)) {
 					target.setEmail(email);
 					changes.add("Email is updated");
+					log.info("Email is updated");
 				}else {
 					errors.add("Email is unavaialble");
 				}
 			}
 			
-			/*
-			
-			// Validate first and last names
-			if (fname == null || fname.length() < 1) {
-				req.setAttribute("authMessage", "First name can't be blank. If you have a mononym, leave Last Name blank");
-				reqDis.forward(req, res);
-				return;
+
+			// Change first and last names if needed
+			if (fname != null && fname.length() > 0 && !target.getFname().equals(fname)) {
+				target.setFname(fname);
+				changes.add("First name updated");
+				log.info("First name updated");
 			}
 			
-			if(lname == null) {
-				lname = "";
-			}
-			
-			
-			// Validate DOB
-			if (dob_raw == null) {
-				req.setAttribute("authMessage", "Date of Bith can't be blank");
-				reqDis.forward(req, res);
-				return;
-			}
-			try {
-				dob = ValidationSnipets.parseDate(dob_raw);
-			} catch (ParseException e) {
-				req.setAttribute("authMessage", "Invalid Date of Birth Format. Need yyyy-mm-dd");
-				reqDis.forward(req, res);
-				return;
+			if(lname != null && lname.length() > 0 && !target.getLname().equals(lname)) {
+				target.setLname(lname);
+				changes.add("Last name updated");
+				log.info("Last name updated");
 			}
 			
 			
 			// Validate Password
-			if (pass1 == null || pass1.length() < 1 || pass2 ==null || pass2.length() < 1) {
-				req.setAttribute("authMessage", "Password can't be blank");
-				reqDis.forward(req, res);
-				return;
+			if(pass1 == null || pass1.isEmpty()) {
+				// DO Nothing since user doesn't want password to change
+			}else if (!ValidationSnipets.passwordFormatValid(pass1)) {
+				errors.add("Password must be at least 8 characters long and contain only a-z,A-z,0-9,!,#,$,^");
+			}else if(target.isPasswordValid(pass1)) {
+				// Password unchanged, so do nothing
+			}else if(!pass1.equals(pass2)) {
+				errors.add("Passwords do not match");
+			}else {
+				//Got here, so in fact the new passwords match
+				// Updated stored password
+				target.updatePassword(pass1);
+				changes.add("Password updated");
 			}
 			
-			if (!ValidationSnipets.passwordFormatValid(pass1)) {
-				req.setAttribute("authMessage", "Password must be at least 8 characters long and contain only a-z,A-z,0-9,!,#,$,^");
-				reqDis.forward(req, res);
-				return;
+			
+			if(!errors.isEmpty()) {
+				req.getSession().setAttribute("settingsErrors", errors);
 			}
 			
-			if (!pass1.equals(pass2)) {
-				req.setAttribute("authMessage", "Passwords don't match");
-				reqDis.forward(req, res);
-				return;
+			// All done processing the input
+			// Save the updated user if changed
+			// and echo messages out to user
+			if(!changes.isEmpty()) {
+				sess.beginTransaction();
+				sess.update(target);
+				sess.getTransaction().commit();
+				req.getSession().setAttribute("settingsUpdated", changes);
 			}
+
 			
-			*/
 		}catch(FacebrokeException e) {
 			req.setAttribute("serverMessage", e.getMessage());
 			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.close();
+			log.error(e.getMessage());
 			return;
 		}
 		
+		
+		// All done, just go back to the settings page
+		sess.close();
+		res.sendRedirect(forwardPath);
 	}
 
 }
