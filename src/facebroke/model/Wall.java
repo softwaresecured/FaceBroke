@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-
 @Entity
 @Table(name = "Walls")
 public class Wall {
@@ -43,16 +41,23 @@ public class Wall {
 		this.created = this.updated = ZonedDateTime.now();
 	}
 
-	public long getId() {
-		return id;
-	}
-
 	public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
-		this.updated = ZonedDateTime.now();
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public ZonedDateTime getCreated() {
+		return created;
+	}
+
+	public ZonedDateTime getUpdated() {
+		return updated;
 	}
 }

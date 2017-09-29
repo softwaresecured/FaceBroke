@@ -3,7 +3,6 @@ package facebroke;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +13,6 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import facebroke.model.Comment;
 import facebroke.model.Post;
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
@@ -61,7 +59,8 @@ public class WallManager extends HttpServlet {
 		User wallOwner = results.get(0);
 		req.setAttribute("wall_owner", wallOwner);
 
-		List<Post> posts = sess.createQuery(
+		@SuppressWarnings("unchecked")
+		List<Post> posts = (List<Post>)sess.createQuery(
 				"FROM Post p where p.wall.id = :wall_id ORDER BY p.created desc")
 				.setParameter("wall_id", wallOwner.getId())
 				.setMaxResults(POSTS_PER_PAGE)

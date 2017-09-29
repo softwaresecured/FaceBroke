@@ -3,8 +3,6 @@ package facebroke;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,7 +38,7 @@ public class Register extends HttpServlet {
 		handleRegistration(req,res);
 	}
 
-	@SuppressWarnings("unchecked")
+
 	private void handleRegistration(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		if (ValidationSnipets.isValidSession(req.getSession())) {
 			res.sendRedirect("index.jsp");

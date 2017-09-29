@@ -1,10 +1,8 @@
 package facebroke;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.internet.InternetAddress;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -75,9 +73,9 @@ public class Login extends HttpServlet {
 		log.info("Trying to validate login");
 
 		if (ValidationSnipets.isValidEmail(user_cred)) {
-			query = sess.createQuery("FROM User U WHERE U.email = :user_cred");
+			query = (Query<User>)sess.createQuery("FROM User U WHERE U.email = :user_cred");
 		} else {
-			query = sess.createQuery("FROM User U WHERE U.username = :user_cred");
+			query = (Query<User>)sess.createQuery("FROM User U WHERE U.username = :user_cred");
 		}
 
 		results = query.setParameter("user_cred", user_cred).list();

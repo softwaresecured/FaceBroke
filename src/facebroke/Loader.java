@@ -2,7 +2,6 @@ package facebroke;
 
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
@@ -74,7 +73,7 @@ public class Loader {
 		sess.close();
 	}
 
-	@SuppressWarnings({ "unchecked" })
+
 	public static void loadRandomUsers(int numUsers, long seed) {
 		log.info("Attempting to load hibernate config");
 		SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
@@ -144,7 +143,8 @@ public class Loader {
 		LoremGenerator lg = new LoremGenerator(seed);
 
 
-		List<Wall> walls = sess.createQuery("FROM Wall w").list();
+		@SuppressWarnings("unchecked")
+		List<Wall> walls = (List<Wall>)sess.createQuery("FROM Wall w").list();
 		
 		sess.beginTransaction();
 		
@@ -182,7 +182,8 @@ public class Loader {
 		Random r = new Random(seed*5);
 		LoremGenerator lg = new LoremGenerator(seed*4);
 		
-		List<Post> posts = sess.createQuery("FROM Post").list();
+		@SuppressWarnings("unchecked")
+		List<Post> posts = (List<Post>)sess.createQuery("FROM Post").list();
 		
 		sess.beginTransaction();
 		int totalComments = 0;

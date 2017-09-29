@@ -1,13 +1,9 @@
 package facebroke;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,9 +47,11 @@ public class Settings extends HttpServlet {
 		try {
 			Session sess = HibernateUtility.getSessionFactory().openSession();
 			long target_id = Long.parseLong(target_id_string);
+			@SuppressWarnings("unchecked")
 			List<User> target_list = (List<User>) sess.createQuery("FROM User u where u.id = :user_id")
 									.setParameter("user_id", target_id)
 									.list();
+			@SuppressWarnings("unchecked")
 			List<User> current_user_list = (List<User>) sess.createQuery("FROM User u where u.id = :user_id")
 											.setParameter("user_id", (long)req.getSession().getAttribute("user_id"))
 											.list();
@@ -66,7 +64,7 @@ public class Settings extends HttpServlet {
 			
 			if(target == null) {
 				sess.close();
-				throw new FacebrokeException("Invalid user id = \""+target.getId()+"\" for Settings page");
+				throw new FacebrokeException("Invalid user id  for Settings page");
 			}
 			
 			if(target.getId() != current_user.getId() && !current_user.getRole().equals(User.UserRole.ADMIN)) {
@@ -108,10 +106,8 @@ public class Settings extends HttpServlet {
 		String email = req.getParameter("regEmail");
 		String fname = req.getParameter("regFirstName");
 		String lname = req.getParameter("regLastName");
-		String dob_raw = req.getParameter("regDOB");
 		String pass1 = req.getParameter("regPassword");
 		String pass2 = req.getParameter("regPasswordConfirm");
-		Date dob;
 		
 		// immediately add the id back as a parameter
 		// better way would be session var, but I want provide an attack surface
@@ -124,6 +120,7 @@ public class Settings extends HttpServlet {
 		// Get a session to fetch the target user to be updated
 		long target_id = Long.parseLong(target_user_id_string);
 		Session sess = HibernateUtility.getSessionFactory().openSession();
+		@SuppressWarnings("unchecked")
 		List<User> target_list = (List<User>) sess.createQuery("FROM User u where u.id = :user_id")
 								.setParameter("user_id", target_id)
 								.list();

@@ -32,6 +32,7 @@ public class Comment {
 	private Post parent;
 
 	// Constructor for Hibernate
+	@SuppressWarnings("unused")
 	private Comment() {
 	}
 
