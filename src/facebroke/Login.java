@@ -42,6 +42,11 @@ public class Login extends HttpServlet {
 	}
 
 	protected void handleLogin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		
+		if (ValidationSnipets.isValidSession(req.getSession())) {
+			res.sendRedirect("index");
+			return;
+		}
 
 		RequestDispatcher reqDis = req.getRequestDispatcher("register.jsp");
 
