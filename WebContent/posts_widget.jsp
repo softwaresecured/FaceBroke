@@ -21,3 +21,12 @@
 		</div>
 	</div>
 </c:forEach>
+
+<div class="row">
+	<nav aria-label="..." class="col-md-8 col-md-offset-2">
+	  <ul class="pager">
+	    <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Newer</a></li>
+	    <li class="next"><a href="#">Older <span aria-hidden="true">&rarr;</span></a></li>
+	  </ul>
+	</nav>
+</div>
