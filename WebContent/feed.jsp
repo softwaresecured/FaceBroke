@@ -9,8 +9,7 @@
 	<table class="table">
 
 	<%
-		List<Post> rows = (List<Post>)request.getAttribute("wall_posts");
-		User wallOwner = (User)request.getAttribute("wall_owner");
+		List<Post> rows = (List<Post>)request.getAttribute("posts");
 	%>
 
 		<% if(rows == null || rows.isEmpty()){

@@ -30,7 +30,7 @@ public class Feed extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		if(!ValidationSnipets.isValidSession(req.getSession())){
-			res.sendRedirect("register.jsp");
+			res.sendRedirect("register");
 			return;
 		}
 
@@ -40,8 +40,7 @@ public class Feed extends HttpServlet {
 		
 		@SuppressWarnings("unchecked")
 		List<Post> posts = (List<Post>)sess.createQuery(
-				"FROM Post p where p.creator.id = :user_id ORDER BY p.created desc")
-				.setParameter("user_id", user_id)
+				"FROM Post p ORDER BY p.created desc")
 				.setMaxResults(POSTS_PER_PAGE)
 				.list();
 		
