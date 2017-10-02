@@ -68,9 +68,9 @@
 
 	<div class="container">
 
-		<% String err = (String)session.getAttribute("authMessage");
+		<% String err = (String)request.getAttribute("authMessage");
 	if( err!= null && !err.isEmpty()){
 		out.print("<div class=\"row\"><div class=\"col-md-4 col-md-offset-4 alert alert-warning alert-dismissible fade in alert-message\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">x</span></button>" + err + "</div></div>");
 	}
-	session.setAttribute("authMessage", "");
+	request.setAttribute("authMessage", "");
 %>
