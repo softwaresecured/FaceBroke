@@ -68,7 +68,7 @@ public class WallManager extends HttpServlet {
 
 		
 		
-		req.setAttribute("wall_posts", posts);
+		req.setAttribute("posts", posts);
 		
 
 		sess.close();
