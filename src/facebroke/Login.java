@@ -43,20 +43,20 @@ public class Login extends HttpServlet {
 
 	protected void handleLogin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-		RequestDispatcher reqDis = req.getRequestDispatcher("index.jsp");
+		RequestDispatcher reqDis = req.getRequestDispatcher("index");
 
 		String user_cred = (String) req.getParameter("user_cred");
 		String pass = (String) req.getParameter("password");
 
 		if (user_cred == null || pass == null) {
-			req.setAttribute("authMessage", INVALID_LOGIN_CREDS);
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", INVALID_LOGIN_CREDS);
+			res.sendRedirect("register");
 			return;
 		}
 
 		if (user_cred == "" || pass == "") {
-			req.setAttribute("authMessage", "Credentials can't be blank");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "Credentials can't be blank");
+			res.sendRedirect("register");
 			return;
 		}
 
@@ -84,7 +84,7 @@ public class Login extends HttpServlet {
 
 		if (results.size() < 1) {
 			req.setAttribute("authMessage", INVALID_LOGIN_CREDS);
-			reqDis.forward(req, res);
+			res.sendRedirect("register");
 			sess.close();
 			return;
 		}
@@ -98,11 +98,11 @@ public class Login extends HttpServlet {
 			req.getSession().setAttribute("user_fname", candidate.getFname());
 			req.getSession().setAttribute("user_lname", candidate.getLname());
 			req.getSession().setAttribute("user_wall_id", candidate.getWall().getId());
-			res.sendRedirect("index.jsp");
+			res.sendRedirect("index");
 		} else {
 			log.info("Invalid password entered");
-			req.setAttribute("authMessage", INVALID_LOGIN_CREDS);
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", INVALID_LOGIN_CREDS);
+			res.sendRedirect("register");
 		}
 
 		sess.close();

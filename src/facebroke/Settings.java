@@ -34,7 +34,7 @@ public class Settings extends HttpServlet {
 		log.info("Got "+req.getParameterMap().size()+" paramters to GET");
 		
 		if (!ValidationSnipets.isValidSession(req.getSession())) {
-			res.sendRedirect("index.jsp");
+			res.sendRedirect("index");
 			log.info("Failed to validate session with \"valid\"=" + req.getSession().getAttribute("valid"));
 			return;
 		}
@@ -89,7 +89,7 @@ public class Settings extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		log.info("Got "+req.getParameterMap().size()+" paramters to POST");
 		if (!ValidationSnipets.isValidSession(req.getSession())) {
-			res.sendRedirect("index.jsp");
+			res.sendRedirect("index");
 			log.info("Failed to validate session with \"valid\"=" + req.getSession().getAttribute("valid"));
 			return;
 		}

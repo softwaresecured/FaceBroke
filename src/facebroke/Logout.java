@@ -40,7 +40,7 @@ public class Logout extends HttpServlet {
 	 * @throws IOException
 	 */
 	protected void handleLogout(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		RequestDispatcher reqDis = req.getRequestDispatcher("index.jsp");
+		RequestDispatcher reqDis = req.getRequestDispatcher("index");
 		HttpSession sess = req.getSession();
 		sess.setAttribute("valid", "false");
 		sess.setAttribute("user_id", "");

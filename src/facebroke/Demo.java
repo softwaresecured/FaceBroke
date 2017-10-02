@@ -34,7 +34,7 @@ public class Demo extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		if(!ValidationSnipets.isValidSession(req.getSession())){
-			res.sendRedirect("index.jsp");
+			res.sendRedirect("index");
 			return;
 		}
 
@@ -72,7 +72,7 @@ public class Demo extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		if(!ValidationSnipets.isValidSession(req.getSession())){
-			res.sendRedirect("index.jsp");
+			res.sendRedirect("index");
 			return;
 		}
 

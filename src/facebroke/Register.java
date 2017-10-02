@@ -30,7 +30,7 @@ public class Register extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		handleRegistration(req,res);
+		req.getRequestDispatcher("register.jsp").forward(req, res);
 	}
 
 
@@ -41,11 +41,11 @@ public class Register extends HttpServlet {
 
 	private void handleRegistration(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		if (ValidationSnipets.isValidSession(req.getSession())) {
-			res.sendRedirect("index.jsp");
+			res.sendRedirect("index");
 			return;
 		}
 		
-		RequestDispatcher reqDis = req.getRequestDispatcher("index.jsp");
+		RequestDispatcher reqDis = req.getRequestDispatcher("index");
 		
 		
 		String username = req.getParameter("regUsername");
@@ -61,8 +61,8 @@ public class Register extends HttpServlet {
 		
 		// Validate the user name
 		if (username == null) {
-			req.setAttribute("authMessage", "Username is required");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "Username is required");
+			res.sendRedirect("register");
 			return;
 		}
 		log.info("Received register request with username \""+username+"\"");
@@ -73,31 +73,31 @@ public class Register extends HttpServlet {
 		
 		
 		if(ValidationSnipets.isUsernameTaken(username)) {
-			req.setAttribute("authMessage", "Username already taken");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "Username already taken");
+			res.sendRedirect("register");
 			return;
 		}
 		
 		
 		// Validate the email
 		if(email == null || !ValidationSnipets.isValidEmail(email)) {
-			req.setAttribute("authMessage", "Invalid email address");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "Invalid email address");
+			res.sendRedirect("register");
 			return;
 		}
 		
 		
 		if(ValidationSnipets.isEmailTaken(email)) {
-			req.setAttribute("authMessage", "Email already taken");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "Email already taken");
+			res.sendRedirect("register");
 			return;
 		}
 		
 		
 		// Validate first and last names
 		if (fname == null || fname.length() < 1) {
-			req.setAttribute("authMessage", "First name can't be blank. If you have a mononym, leave Last Name blank");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "First name can't be blank. If you have a mononym, leave Last Name blank");
+			res.sendRedirect("register");
 			return;
 		}
 		
@@ -108,35 +108,35 @@ public class Register extends HttpServlet {
 		
 		// Validate DOB
 		if (dob_raw == null) {
-			req.setAttribute("authMessage", "Date of Bith can't be blank");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "Date of Bith can't be blank");
+			res.sendRedirect("register");
 			return;
 		}
 		try {
 			dob = ValidationSnipets.parseDate(dob_raw);
 		} catch (ParseException e) {
-			req.setAttribute("authMessage", "Invalid Date of Birth Format. Need yyyy-mm-dd");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "Invalid Date of Birth Format. Need yyyy-mm-dd");
+			res.sendRedirect("register");
 			return;
 		}
 		
 		
 		// Validate Password
 		if (pass1 == null || pass1.length() < 1 || pass2 ==null || pass2.length() < 1) {
-			req.setAttribute("authMessage", "Password can't be blank");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "Password can't be blank");
+			res.sendRedirect("register");
 			return;
 		}
 		
 		if (!ValidationSnipets.passwordFormatValid(pass1)) {
-			req.setAttribute("authMessage", "Password must be at least 8 characters long and contain only a-z,A-z,0-9,!,#,$,^");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "Password must be at least 8 characters long and contain only a-z,A-z,0-9,!,#,$,^");
+			res.sendRedirect("register");
 			return;
 		}
 		
 		if (!pass1.equals(pass2)) {
-			req.setAttribute("authMessage", "Passwords don't match");
-			reqDis.forward(req, res);
+			req.getSession().setAttribute("authMessage", "Passwords don't match");
+			res.sendRedirect("register");
 			return;
 		}
 		
@@ -155,8 +155,8 @@ public class Register extends HttpServlet {
 		sess.getTransaction().commit();
 		
 		// Finally
-		req.setAttribute("authMessage", "Registration Successful, go ahead and login!");
-		reqDis.forward(req, res);
+		req.getSession().setAttribute("authMessage", "Registration Successful, go ahead and login!");
+		res.sendRedirect("index");
 		sess.close();
 	}
 }
