@@ -83,7 +83,7 @@ public class Login extends HttpServlet {
 		log.info("Size of result list: " + results.size());
 
 		if (results.size() < 1) {
-			req.setAttribute("authMessage", INVALID_LOGIN_CREDS);
+			req.getSession().setAttribute("authMessage", INVALID_LOGIN_CREDS);
 			res.sendRedirect("register");
 			sess.close();
 			return;
