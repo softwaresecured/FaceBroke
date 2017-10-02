@@ -1,6 +1,6 @@
 <%@ include file="header.jsp"%>
 
-<div class="row">
+<div class="row reg-block">
 	<div class="col-md-8 text-center">
 		<h2>Login Above or Register</h2>
 	</div>
@@ -41,9 +41,14 @@
 		</form>
 	</div>
 </div>
+</div>
 
-<footer class="footer">
-	<p class="text-muted">&copy; 2017 Fake Company, Inc.</p>
-</footer>
+<div class="container">
+	<div class="row">
+		<footer class="footer">
+			<p class="text-muted">&copy; 2017 Fake Company, Inc.</p>
+		</footer>
+	</div>
+</div>
 
 <%@ include file="footer.jsp"%>
