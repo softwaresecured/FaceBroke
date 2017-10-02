@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -19,6 +21,11 @@
 </head>
 <body>
 
+	<c:set var="cpath" scope="page" value="${pageContext.request.contextPath}"/>
+	<c:if test="${cpath == '' || cpath == null}">
+		<c:set var="cpath" scope="page" value="/"/>
+	</c:if>
+
 	<nav class="navbar navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
@@ -29,11 +36,11 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="<% String cpath = request.getContextPath(); if(cpath.isEmpty()){ cpath = "/"; } out.print(cpath); %>">FaceBroke</a>
+			<a class="navbar-brand" href="${cpath}">FaceBroke</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
-			<% if(!ValidationSnipets.isValidSession(session)){
-		%>
+		<c:choose>
+			<c:when test="${sessionScope.valid != 'true'}">
 			<form class="navbar-form navbar-right" action="login" method="post">
 				<div class="form-group">
 					<input type="text" name="user_cred" placeholder="Email or Username"
@@ -45,7 +52,8 @@
 				</div>
 				<button type="submit" class="btn btn-success">Log in</button>
 			</form>
-			<% }else{%>
+			</c:when>
+			<c:otherwise>
 			<ul class="nav navbar-nav navbar-right">
 				<li class=" dropdown">
 					<a href="#" class="dropdown-toggle user-dropdown-toggle"
@@ -54,23 +62,27 @@
 					<ul class="dropdown-menu">
 						<li><a href="wall"><span class="glyphicon glyphicon-user"></span> Wall</a></li>
 						<li><a href="demo"><span class="glyphicon glyphicon-tag"></span> Demo</a></li>
-						<li><a href="settings?id=<%= session.getAttribute("user_id")%>"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+						<li><a href="settings?id=${sessionScope.user_id}"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
 						<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 					</ul>
 				</li>
 			</ul>
-			</div>
-			<% } %>
+			</c:otherwise>
+		</c:choose>
 		</div>
 		<!--/.navbar-collapse -->
 	</div>
 	</nav>
 
+	
 	<div class="container">
-
-		<% String err = (String)request.getAttribute("authMessage");
-	if( err!= null && !err.isEmpty()){
-		out.print("<div class=\"row\"><div class=\"col-md-4 col-md-offset-4 alert alert-warning alert-dismissible fade in alert-message\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">x</span></button>" + err + "</div></div>");
-	}
-	request.setAttribute("authMessage", "");
-%>
+		<c:if test="${authMessage != '' && authMessage != null}">
+		<div class=\"row\">
+			<div class="col-md-4 col-md-offset-4 alert alert-warning alert-dismissible fade in alert-message" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">x</span>
+				</button>
+				<c:out value="${authMessage}"/>
+			</div>
+		</div>
+		</c:if>

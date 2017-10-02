@@ -1,12 +1,9 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@ include file="header.jsp"%>
 
-<h2>Error:</h2>
+<h2>Error</h2>
 
-<% String error = (String)request.getAttribute("serverMessage");
-	if( error!= null && !error.isEmpty()){
-		out.print("<h4>" + error + "</h4>");
-	}
-	request.setAttribute("serverMessage", "");
-%>
+	<c:out value="${serverMessage}"/>
 
 <%@ include file="footer.jsp"%>

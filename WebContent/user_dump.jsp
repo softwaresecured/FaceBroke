@@ -6,24 +6,16 @@
 
 <div class="table-responsive">
 	<table class="table">
-
-		<%
-
-  List<User> rows = (List<User>)request.getAttribute("rows");
-  if(rows == null || rows.isEmpty()){
-	out.print("No Results");
-  }else {
-	for (int i=0; i<rows.size(); i++){
-		out.print("<tr>");
-		out.print("<td>" + rows.get(i).getFname() + "</td>");
-		out.print("<td>" + rows.get(i).getLname() + "</td>");
-		out.print("<td>" + rows.get(i).getEmail() + "</td>");
-		out.print("<td>" + rows.get(i).getUsername() + "</td>");
-		out.print("<td>" + rows.get(i).getB64Pass() + "</td>");
-		out.print("</tr>\n");
-	}
-  }
-	%>
+	
+	<c:forEach items="${rows}" var="u">
+		<tr>
+			<td>${u.fname}</td>
+			<td>${u.lname}</td>
+			<td>${u.email}</td>
+			<td>${u.username}</td>
+			<td>${u.b64Pass}</td>
+		</tr>	
+	</c:forEach>
 
 	</table>
 </div>
