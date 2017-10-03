@@ -57,7 +57,7 @@
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">Matt<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="wall"><span class="glyphicon glyphicon-user"></span> Wall</a></li>
+						<li><a href="wall?user_id=${sessionScope.user_id}"><span class="glyphicon glyphicon-user"></span> Wall</a></li>
 						<li><a href="demo"><span class="glyphicon glyphicon-tag"></span> Demo</a></li>
 						<li><a href="settings?id=${sessionScope.user_id}"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
 						<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>

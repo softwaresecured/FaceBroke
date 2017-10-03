@@ -23,12 +23,12 @@
 </c:forEach>
 
 
-<c:set var="back_path" scope="page" value="${sessionScope.wall_context}?start=${sessionScope.start - sessionScope.postsPerPage}"/>
-<c:if test="${(sessionScope.start - sessionScope.postsPerPage) < 0}">
-	<c:set var="back_path" scope="page" value="${sessionScope.wall_context}?start=0"/>
+<c:set var="back_path" scope="page" value="${wall_context}start=${param.start - sessionScope.postsPerPage}"/>
+<c:if test="${(param.start - sessionScope.postsPerPage) < 0}">
+	<c:set var="back_path" scope="page" value="${wall_context}start=0"/>
 	<c:set var="back_disabled" scope="page" value="disabled"/>
 </c:if>
-<c:set var="forward_path" scope="page" value="${sessionScope.wall_context}?start=${sessionScope.start + sessionScope.postsPerPage}"/>
+<c:set var="forward_path" scope="page" value="${wall_context}start=${param.start + sessionScope.postsPerPage}"/>
 
 
 <div class="row">

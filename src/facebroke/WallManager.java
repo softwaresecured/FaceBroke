@@ -3,6 +3,7 @@ package facebroke;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,17 +37,20 @@ public class WallManager extends HttpServlet {
 			return;
 		}
 		
-		req.getSession().setAttribute("wall_context", "wall");
+		RequestDispatcher reqDis;
 		
 		
 		int pageStart, postsPerPage;
-		long wall_id;
+		long user_id;
 		
 		try {
-			wall_id = Long.parseLong(req.getParameter("wall_id"));
+			user_id = Long.parseLong(req.getParameter("user_id"));
+			reqDis = req.getRequestDispatcher("wall.jsp");
 		}catch(NumberFormatException e) {
-			wall_id = (long) req.getSession().getAttribute("user_wall_id");
+			user_id = -1;
+			reqDis = req.getRequestDispatcher("feed.jsp");
 		}
+		log.info("User id: "+user_id);
 		
 		try {
 			pageStart = Integer.parseInt(req.getParameter("start"));
@@ -55,7 +59,7 @@ public class WallManager extends HttpServlet {
 			
 		}
 		
-		req.getSession().setAttribute("start",pageStart);
+		req.setAttribute("start",pageStart);
 		
 		try {
 			postsPerPage = (int)req.getSession().getAttribute("postsPerPage");
@@ -65,35 +69,44 @@ public class WallManager extends HttpServlet {
 		}
 		
 		Session sess = HibernateUtility.getSessionFactory().openSession();
-		log.info("Get wall with id = "+wall_id);
-		List<User> results = sess.createQuery("FROM User u WHERE u.wall.id = :wall_id")
-				.setParameter("wall_id", wall_id).list();
+		
+		List<Post> posts;
+		
+		// We want to get the main newsfeed
+		if(user_id == -1) {
+			posts = (List<Post>)sess.createQuery(
+					"FROM Post p ORDER BY p.created desc")
+					.setFirstResult(pageStart)
+					.setMaxResults(postsPerPage)
+					.list();
+		}else {
+			log.info("Get wall with user id = "+user_id);
+			List<User> results = sess.createQuery("FROM User u WHERE u.id = :user_id")
+					.setParameter("user_id", user_id).list();
 
-		if (results.size() < 1) {
-			req.setAttribute("serverMessage", INVALID_WALL_ID);
-			req.getRequestDispatcher("error.jsp").forward(req, res);
-			sess.close();
-			return;
+			if (results.size() < 1) {
+				req.setAttribute("serverMessage", INVALID_WALL_ID);
+				req.getRequestDispatcher("error.jsp").forward(req, res);
+				sess.close();
+				return;
+			}
+
+			User wallOwner = results.get(0);
+			req.setAttribute("wall_owner", wallOwner);
+
+			posts = (List<Post>)sess.createQuery(
+						"FROM Post p where p.wall.id = :wall_id ORDER BY p.created desc")
+						.setParameter("wall_id", wallOwner.getId())
+						.setFirstResult(pageStart)
+						.setMaxResults(postsPerPage)
+						.list();
+			
 		}
 
-		User wallOwner = results.get(0);
-		req.setAttribute("wall_owner", wallOwner);
-
-		@SuppressWarnings("unchecked")
-		List<Post> posts = (List<Post>)sess.createQuery(
-				"FROM Post p where p.wall.id = :wall_id ORDER BY p.created desc")
-				.setParameter("wall_id", wallOwner.getId())
-				.setFirstResult(pageStart)
-				.setMaxResults(postsPerPage)
-				.list();
-
-		
-		
 		req.setAttribute("posts", posts);
 		
-
 		sess.close();
-		req.getRequestDispatcher("wall.jsp").forward(req, res);
+		reqDis.forward(req, res);
 		return;
 	}
 
