@@ -59,7 +59,7 @@ public class Login extends HttpServlet {
 			return;
 		}
 
-		if (user_cred == "" || pass == "") {
+		if (user_cred.equals("") || pass.equals("")) {
 			req.setAttribute("authMessage", "Credentials can't be blank");
 			reqDis.forward(req, res);
 			return;

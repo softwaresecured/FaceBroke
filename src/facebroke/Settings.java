@@ -53,7 +53,7 @@ public class Settings extends HttpServlet {
 									.list();
 			@SuppressWarnings("unchecked")
 			List<User> current_user_list = (List<User>) sess.createQuery("FROM User u where u.id = :user_id")
-											.setParameter("user_id", (long)req.getSession().getAttribute("user_id"))
+											.setParameter("user_id", req.getSession().getAttribute("user_id"))
 											.list();
 			
 			if(target_list == null || target_list.isEmpty() || current_user_list == null || current_user_list.isEmpty()) {
@@ -109,13 +109,10 @@ public class Settings extends HttpServlet {
 		String pass1 = req.getParameter("regPassword");
 		String pass2 = req.getParameter("regPasswordConfirm");
 		
-		// immediately add the id back as a parameter
-		// better way would be session var, but I want provide an attack surface
-		req.setAttribute("target_user_id",target_user_id_string);
 		
-		String forwardPath = "settings?id="+target_user_id_string;
-		//RequestDispatcher reqDis = req.getRequestDispatcher(forwardPath);
-		log.info("Forward path is "+forwardPath);
+		
+		
+	
 		
 		// Get a session to fetch the target user to be updated
 		long target_id = Long.parseLong(target_user_id_string);
@@ -126,6 +123,20 @@ public class Settings extends HttpServlet {
 								.list();
 		
 		try {
+			// immediately add the id back as a parameter, sanitize first
+			
+			long target_user_id;
+			
+			try {
+				target_user_id = Long.parseLong(target_user_id_string);
+				req.setAttribute("target_user_id",target_user_id);
+			}catch(NumberFormatException e) {
+				throw new FacebrokeException("Invalid user_id");
+			}
+			
+			String forwardPath = "settings?id="+target_user_id;
+			log.info("Forward path is "+forwardPath);
+			
 			if(target_list == null || target_list.isEmpty()) {
 				throw new FacebrokeException("User with id = \""+target_id+"\" is not currently accessible");
 			}
@@ -150,12 +161,14 @@ public class Settings extends HttpServlet {
 			
 			// Change the email if needed
 			if(email != null && !target.getEmail().equals(email)) {
-				if(!ValidationSnipets.isEmailTaken(email)) {
+				if(!ValidationSnipets.isValidEmail(email)) {
+					errors.add("Email is invalid");
+				}else if(ValidationSnipets.isEmailTaken(email)){
+					errors.add("Email is unavaialble");
+				}else {
 					target.setEmail(email);
 					changes.add("Email is updated");
 					log.info("Email is updated");
-				}else {
-					errors.add("Email is unavaialble");
 				}
 			}
 			
@@ -204,8 +217,12 @@ public class Settings extends HttpServlet {
 				sess.getTransaction().commit();
 				req.getSession().setAttribute("settingsUpdated", changes);
 			}
-
 			
+			
+			// All done, just go back to the settings page
+			sess.close();
+			res.sendRedirect(forwardPath);
+
 		}catch(FacebrokeException e) {
 			req.setAttribute("serverMessage", e.getMessage());
 			req.getRequestDispatcher("error.jsp").forward(req, res);
@@ -213,11 +230,5 @@ public class Settings extends HttpServlet {
 			log.error(e.getMessage());
 			return;
 		}
-		
-		
-		// All done, just go back to the settings page
-		sess.close();
-		res.sendRedirect(forwardPath);
 	}
-
 }
