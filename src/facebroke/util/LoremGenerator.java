@@ -68,12 +68,12 @@ public class LoremGenerator {
 			return "";
 		}
 		
-		String buffer = "";
+		StringBuilder buffer = new StringBuilder();
 		
 		for (int i = 0; i < len; i++) {
-			buffer += words[r.nextInt(words.length)];
+			buffer.append(words[r.nextInt(words.length)]);
 			if(i+1 < len) {
-				buffer += " ";
+				buffer.append(" ");
 			}
 		}
 		
@@ -91,17 +91,17 @@ public class LoremGenerator {
 			return "";
 		}
 		
-		String buffer = "";
+		StringBuilder buffer = new StringBuilder();
 		
 		for (int i = 0; i < numSentences; i++) {
-			buffer += getWords(minSentenceLength + r.nextInt(upperRandom)) + ".";
+			buffer.append(getWords(minSentenceLength + r.nextInt(upperRandom)) + ".");
 			
 			if(i+1 < numSentences) {
-				buffer += " ";
+				buffer.append(" ");
 			}
 		}
 		
-		return buffer;
+		return buffer.toString();
 	}
 
 

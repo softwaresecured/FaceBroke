@@ -70,9 +70,7 @@ public class HibernateUtility {
 			result = new MetadataSources(reg).buildMetadata().buildSessionFactory();
 		} catch (Exception e) {
 			StandardServiceRegistryBuilder.destroy(reg);
-
-			System.err.println("\nCaught the following error in HibernateUtil, Dying...:\n" + e);
-			System.exit(1);
+			throw new RuntimeException("Caught the following error in HibernateUtil, Dying...:" + e);
 		}
 		
 		return result;
