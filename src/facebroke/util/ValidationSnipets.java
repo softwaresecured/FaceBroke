@@ -22,7 +22,7 @@ public class ValidationSnipets {
 	 */
 	public static boolean isValidSession(HttpSession session) {
 		String validVal = (String)session.getAttribute("valid");
-		return !(session.isNew() || validVal.equals(null) || validVal.equals("false"));
+		return !(session.isNew() || validVal == null || validVal.equals("false"));
 	}
 	
 	public static boolean isValidEmail(String email) {
