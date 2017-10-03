@@ -22,11 +22,21 @@
 	</div>
 </c:forEach>
 
+
+<c:set var="back_path" scope="page" value="${sessionScope.wall_context}?start=${sessionScope.start - sessionScope.postsPerPage}"/>
+<c:if test="${(sessionScope.start - sessionScope.postsPerPage) < 0}">
+	<c:set var="back_path" scope="page" value="${sessionScope.wall_context}?start=0"/>
+	<c:set var="back_disabled" scope="page" value="disabled"/>
+</c:if>
+<c:set var="forward_path" scope="page" value="${sessionScope.wall_context}?start=${sessionScope.start + sessionScope.postsPerPage}"/>
+
+
 <div class="row">
 	<nav aria-label="..." class="col-md-8 col-md-offset-2">
 	  <ul class="pager">
-	    <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Newer</a></li>
-	    <li class="next"><a href="#">Older <span aria-hidden="true">&rarr;</span></a></li>
+	    <li class="previous ${back_disabled}"><a href="${back_path}" class="${back_disabled}"><span aria-hidden="true">&larr;</span> Newer</a></li>
+	    <li class="next"><a href="${forward_path}">Older <span aria-hidden="true">&rarr;</span></a></li>
+	    <li><c:out value=""/></li>
 	  </ul>
 	</nav>
 </div>

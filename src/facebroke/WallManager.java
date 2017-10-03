@@ -35,13 +35,33 @@ public class WallManager extends HttpServlet {
 			res.sendRedirect("index");
 			return;
 		}
-
+		
+		req.getSession().setAttribute("wall_context", "wall");
+		
+		
+		int pageStart, postsPerPage;
 		long wall_id;
 		
 		try {
 			wall_id = Long.parseLong(req.getParameter("wall_id"));
 		}catch(NumberFormatException e) {
 			wall_id = (long) req.getSession().getAttribute("user_wall_id");
+		}
+		
+		try {
+			pageStart = Integer.parseInt(req.getParameter("start"));
+		}catch(NumberFormatException e) {
+			pageStart = 0;
+			
+		}
+		
+		req.getSession().setAttribute("start",pageStart);
+		
+		try {
+			postsPerPage = (int)req.getSession().getAttribute("postsPerPage");
+		}catch (Exception e) {
+			postsPerPage = POSTS_PER_PAGE;
+			req.getSession().setAttribute("postsPerPage",postsPerPage);
 		}
 		
 		Session sess = HibernateUtility.getSessionFactory().openSession();
@@ -63,7 +83,8 @@ public class WallManager extends HttpServlet {
 		List<Post> posts = (List<Post>)sess.createQuery(
 				"FROM Post p where p.wall.id = :wall_id ORDER BY p.created desc")
 				.setParameter("wall_id", wallOwner.getId())
-				.setMaxResults(POSTS_PER_PAGE)
+				.setFirstResult(pageStart)
+				.setMaxResults(postsPerPage)
 				.list();
 
 		

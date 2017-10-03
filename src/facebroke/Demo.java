@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import facebroke.model.Post;
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
@@ -23,6 +24,7 @@ public class Demo extends HttpServlet {
 
 	private static Logger log = LoggerFactory.getLogger(Demo.class);
 	private static final long serialVersionUID = 1L;
+	private final static int PAGESIZE = 20;
 
 
 	public Demo() {
@@ -77,5 +79,28 @@ public class Demo extends HttpServlet {
 		}
 
 		req.getRequestDispatcher("demo.jsp").forward(req, res);
+	}
+
+
+	public static void main(String[] args) {
+		Session sess = HibernateUtility.getSessionFactory().openSession();
+		
+		int start = 1500;
+		
+		sess.beginTransaction();
+		
+		List<Post> results = (List<Post>)sess.createQuery("FROM Post p ORDER BY p.id desc")
+								 .setFirstResult(start)
+								 .setMaxResults(PAGESIZE)
+								 .list();
+		
+		sess.getTransaction().commit();
+		sess.close();
+		
+		for(Post p : results) {
+			System.out.println(p.getId());
+		}
+		
+		System.exit(0);
 	}
 }
