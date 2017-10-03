@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.Session;
 
 import facebroke.model.User;
@@ -22,19 +22,11 @@ public class ValidationSnipets {
 	 */
 	public static boolean isValidSession(HttpSession session) {
 		String validVal = (String)session.getAttribute("valid");
-		return !(session.isNew() || validVal == null || validVal == "false");
+		return !(session.isNew() || validVal.equals(null) || validVal.equals("false"));
 	}
 	
 	public static boolean isValidEmail(String email) {
-		boolean result = false;
-		try {
-			InternetAddress addr = new InternetAddress(email);
-			addr.validate();
-			result = true;
-		} catch (Exception e) {
-			// Don't need to do anything, the simple 'false' return will tell enough
-		}
-		return result;
+		return EmailValidator.getInstance().isValid(email);
 	}
 	
 	
