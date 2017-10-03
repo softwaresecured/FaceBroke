@@ -21,6 +21,10 @@ import facebroke.util.HibernateUtility;
 import facebroke.util.LoremGenerator;
 import facebroke.util.ValidationSnipets;
 
+/**
+ * Utility class to load the DB with varying kinds of generated data
+ *
+ */
 public class Loader {
 
 	// The sample names below were taken from

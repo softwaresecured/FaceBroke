@@ -18,6 +18,11 @@ import facebroke.model.User;
 import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
+/**
+ * Class that holds sample vulnerabilities to be used later
+ * @author matt
+ *
+ */
 
 @WebServlet("/demo")
 public class Demo extends HttpServlet {
@@ -79,28 +84,5 @@ public class Demo extends HttpServlet {
 		}
 
 		req.getRequestDispatcher("demo.jsp").forward(req, res);
-	}
-
-
-	public static void main(String[] args) {
-		Session sess = HibernateUtility.getSessionFactory().openSession();
-		
-		int start = 1500;
-		
-		sess.beginTransaction();
-		
-		List<Post> results = (List<Post>)sess.createQuery("FROM Post p ORDER BY p.id desc")
-								 .setFirstResult(start)
-								 .setMaxResults(PAGESIZE)
-								 .list();
-		
-		sess.getTransaction().commit();
-		sess.close();
-		
-		for(Post p : results) {
-			System.out.println(p.getId());
-		}
-		
-		System.exit(0);
 	}
 }

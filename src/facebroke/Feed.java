@@ -12,6 +12,14 @@ import facebroke.util.ValidationSnipets;
 
 /**
  * Servlet implementation class Feed
+ * 
+ * Serves as the index page (the "newsfeed" on the mainpage)
+ * 
+ * In reality, the feed and a user's wall are the same thing, only difference 
+ * is that a wall only contains a certain user's content.
+ * 
+ * This servlet simply sets the user_id to null and forwards it to the WallManager,
+ * which interprets this as the newsfeed
  */
 @WebServlet("/index")
 public class Feed extends HttpServlet {
