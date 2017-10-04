@@ -1,12 +1,30 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<form action="wall" method="post">
+					<div class="form-group">
+						<label for="content">${new_post_context}</label>
+						<input type="text" class="form-control" id="content" name="content">
+					</div>
+					<div class="text-right">
+						<button type="submit" class="btn btn-default btn-primary">Post</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <c:forEach items="${posts}" var="p">
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4>${p.title}</h4>
-				<p><a href="wall?user_id=${p.creator.id}">${p.creator.fname} ${p.creator.lname}</a> ---> <a href="wall?user_id=${p.wall.user.id}">${p.wall.user.fname} ${p.wall.user.lname}</a></p>
+				<h4><a href="wall?user_id=${p.creator.id}">${p.creator.fname} ${p.creator.lname}</a> ---> <a href="wall?user_id=${p.wall.user.id}">${p.wall.user.fname} ${p.wall.user.lname}</a></h4>
 			</div>
 			<div class="panel-body">${p.content}</div>
 

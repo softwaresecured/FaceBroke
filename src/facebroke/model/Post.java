@@ -35,7 +35,7 @@ public class Post {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	private String title, content;
+	private String content;
 
 	@Enumerated(EnumType.STRING)
 	private PostType type;
@@ -66,10 +66,9 @@ public class Post {
 	 * @param content
 	 *            - post content, either plaintext or Base64 encoded, based on type
 	 */
-	public Post(Wall wall, User creator, String title, PostType type, String content) {
+	public Post(Wall wall, User creator, PostType type, String content) {
 		this.wall = wall;
 		this.creator = creator;
-		this.title = title;
 		this.type = type;
 		this.content = content;
 		this.created = this.updated = ZonedDateTime.now();
@@ -89,10 +88,6 @@ public class Post {
 
 	public long getId() {
 		return id;
-	}
-
-	public String getTitle() {
-		return title;
 	}
 
 	public PostType getType() {
@@ -118,11 +113,6 @@ public class Post {
 
 	public void setCreator(User creator) {
 		this.creator = creator;
-		this.updated = ZonedDateTime.now();
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 		this.updated = ZonedDateTime.now();
 	}
 

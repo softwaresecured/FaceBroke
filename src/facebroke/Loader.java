@@ -160,11 +160,11 @@ public class Loader {
 			Wall w = walls.get(i);
 			
 			for (int j = 0; j < r.nextInt(maxNumPosts + 1); j++) {
-				String title = lg.getWords(4 + r.nextInt(5));
+				//String title = lg.getWords(4 + r.nextInt(5));
 				String content = lg.getSentences(2);
 				User creator = walls.get(r.nextInt(walls.size())).getUser();
 				
-				Post p = new Post(w, creator, title, Post.PostType.TEXT, content);
+				Post p = new Post(w, creator, Post.PostType.TEXT, content);
 				
 				sess.save(p);
 				totalCreated += 1;
