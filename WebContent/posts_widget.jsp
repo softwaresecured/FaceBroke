@@ -6,7 +6,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h4>${p.title}</h4>
-				<p>${p.creator.username} ---> ${p.wall.user.username}</p>
+				<p><a href="wall?user_id=${p.creator.id}">${p.creator.fname} ${p.creator.lname}</a> ---> <a href="wall?user_id=${p.wall.user.id}">${p.wall.user.fname} ${p.wall.user.lname}</a></p>
 			</div>
 			<div class="panel-body">${p.content}</div>
 
