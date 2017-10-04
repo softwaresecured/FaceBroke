@@ -3,6 +3,8 @@ package facebroke;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -53,7 +55,7 @@ public class Loader {
 			"Castillo", "Price", "Hughes", "Vasquez", "Sanders", "Jimenez", "Long", "Foster" };
 	private final static Logger log = LoggerFactory.getLogger(Loader.class);
 	private final static int NUMNAMES = 100;
-	private final static int NUMROUNDS = 1000;
+	private final static int NUM_USERS = 10000;
 	private final static long SEED = 1877;
 	private final static int LOWER_YEAR = 1950;
 	private final static int RANGE_YEAR = 75;
@@ -63,7 +65,7 @@ public class Loader {
 	
 	
 	public static void generateDummyDB() {
-		loadRandomUsers(NUMROUNDS, SEED);
+		loadRandomUsers(NUM_USERS, SEED);
 		loadRandomPosts(MAX_RANDOM_POSTS, SEED);
 		loadRandomComments(MAX_RANDOM_COMMENTS, SEED);
 		loadVersionInfo(version);
@@ -88,6 +90,10 @@ public class Loader {
 		Session sess = sessionFactory.openSession();
 
 		Random r = new Random(seed);
+		
+		HashSet<String> takenNames = new HashSet<>();
+		
+		log.info("Creating users....");
 
 		sess.beginTransaction();
 
@@ -95,7 +101,14 @@ public class Loader {
 
 			String f = firstNames[r.nextInt(NUMNAMES)];
 			String l = lastNames[r.nextInt(NUMNAMES)];
-			String username = f + l + r.nextInt(NUMNAMES);
+			String username;
+			
+			do {
+				username = f + l + r.nextInt(NUMNAMES);
+			} while (takenNames.contains(username));
+			
+			takenNames.add(username);
+			
 			String email = username + "@fake.ca";
 			Calendar dob;
 			
@@ -134,6 +147,8 @@ public class Loader {
 		sess.getTransaction().commit();
 
 		sess.close();
+		
+		log.info("Total num of users created: " + (takenNames.size() + 1));
 	}
 
 	
