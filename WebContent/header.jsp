@@ -19,7 +19,7 @@
 <body>
 
 	<c:set var="cpath" scope="page" value="${pageContext.request.contextPath}"/>
-	<c:if test="${cpath == '' || cpath == null}">
+	<c:if test="${cpath == ''}">
 		<c:set var="cpath" scope="page" value="/"/>
 	</c:if>
 
