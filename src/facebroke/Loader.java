@@ -57,13 +57,15 @@ public class Loader {
 	private final static long SEED = 1877;
 	private final static int LOWER_YEAR = 1950;
 	private final static int RANGE_YEAR = 75;
+	private final static int MAX_RANDOM_POSTS = 4;
+	private final static int MAX_RANDOM_COMMENTS = 6;
 	private static final String version = "0.1";
 	
 	
 	public static void generateDummyDB() {
 		loadRandomUsers(NUMROUNDS, SEED);
-		loadRandomPosts(4, SEED);
-		loadRandomComments(5, SEED);
+		loadRandomPosts(MAX_RANDOM_POSTS, SEED);
+		loadRandomComments(MAX_RANDOM_COMMENTS, SEED);
 		loadVersionInfo(version);
 	}
 
