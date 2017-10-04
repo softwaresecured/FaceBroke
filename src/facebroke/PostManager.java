@@ -20,13 +20,13 @@ import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
 @WebServlet("/wall")
-public class WallManager extends HttpServlet {
+public class PostManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory.getLogger(WallManager.class);
+	private static Logger log = LoggerFactory.getLogger(PostManager.class);
 	private static final String INVALID_WALL_ID = "The given Wall does not exist";
 	private static final int POSTS_PER_PAGE = 20;
 
-	public WallManager() {
+	public PostManager() {
 		super();
 	}
 
