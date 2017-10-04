@@ -112,6 +112,9 @@ public class PostManager extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
+		if(!ValidationSnipets.isValidSession(req.getSession())){
+			res.sendRedirect("index");
+			return;
+		}
 	}
 }
