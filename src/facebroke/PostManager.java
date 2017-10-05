@@ -15,7 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import facebroke.model.Post;
+import facebroke.model.Post.PostType;
 import facebroke.model.User;
+import facebroke.model.Wall;
+import facebroke.util.FacebrokeException;
 import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
@@ -116,5 +119,106 @@ public class PostManager extends HttpServlet {
 			res.sendRedirect("index");
 			return;
 		}
+		
+		Session sess = HibernateUtility.getSessionFactory().openSession();
+		
+		
+		String wall_id_string = req.getParameter("user_id");
+		String creator_id_string = req.getParameter("creator_id");
+		String type_string = req.getParameter("type");
+		String content = req.getParameter("content");
+		
+		log.info("Received POST for a new post");
+		log.info("Wall ID: "+wall_id_string);
+		log.info("Creator ID: "+creator_id_string);
+		log.info("Content Type: "+type_string);
+		
+		Wall target;
+		User creator;
+		PostType type;
+		
+		// Validate Wall ID
+		try {
+			long wall_id = Long.parseLong(wall_id_string);
+			
+			List<Wall> walls = (List<Wall>)sess.createQuery("FROM Wall w WHERE w.id = :wall_id")
+							 .setParameter("wall_id", wall_id)
+							 .list();
+			
+			if(walls.isEmpty()) {
+				throw new FacebrokeException("Invalid Wall id");
+			}
+			
+			target = walls.get(0);
+			
+		}catch(FacebrokeException e) {
+			req.setAttribute("serverMessage", e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.close();
+			return;
+		}catch(NumberFormatException e) {
+			req.setAttribute("serverMessage", "Could not parse Wall ID: "+e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.close();
+			return;
+		}
+		
+		
+		// Validate User ID
+		try {
+			long user_id = Long.parseLong(creator_id_string);
+			
+			List<User> users = (List<User>)sess.createQuery("FROM User u WHERE u.id = :user_id")
+					 						.setParameter("user_id", user_id)
+					 						.list();
+			
+			if (users.isEmpty()) {
+				throw new FacebrokeException("Invalid User id");
+			}
+			
+			creator = users.get(0);
+			
+		}catch(FacebrokeException e) {
+			req.setAttribute("serverMessage", e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.close();
+			return;
+		}catch(NumberFormatException e) {
+			req.setAttribute("serverMessage", "Could not parse User ID: "+e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.close();
+			return;
+		}
+		
+		
+		// Validate Content Type
+		try {
+			if (type_string.equals("TEXT")) {
+				type = PostType.TEXT;
+			}else if(type_string.equals("IMAGE")) {
+				type = PostType.IMAGE;
+			} else if(type_string.equals("LINK")) {
+				type = PostType.LINK;
+			} else {
+				throw new FacebrokeException("Invalid Content Type: "+type_string);
+			}
+		}catch(FacebrokeException e) {
+			req.setAttribute("serverMessage", e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.close();
+			return;
+		}
+		
+		
+		// BAD IDEA but temporarily treat all content as valid
+		Post p = new Post(target, creator, type, content);
+		sess.beginTransaction();
+		sess.save(p);
+		sess.getTransaction().commit();
+		sess.close();
+		
+		log.info("Created a new post");
+		
+		res.sendRedirect("index");
 	}
 }

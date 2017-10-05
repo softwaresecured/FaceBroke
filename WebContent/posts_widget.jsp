@@ -4,8 +4,10 @@
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<form action="wall" method="post">
+				<form action="${postContext}" method="post">
 					<div class="form-group">
+						<input type="hidden" name="creator_id" value="${sessionScope.user_id}">
+						<input type="hidden" name="type" value="TEXT">
 						<label for="content">${new_post_context}</label>
 						<input type="text" class="form-control" id="content" name="content">
 					</div>
@@ -19,12 +21,19 @@
 </div>
 
 
+
+
 <c:forEach items="${posts}" var="p">
+
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4><a href="wall?user_id=${p.creator.id}">${p.creator.fname} ${p.creator.lname}</a> ---> <a href="wall?user_id=${p.wall.user.id}">${p.wall.user.fname} ${p.wall.user.lname}</a></h4>
+				<c:set var="header_content" scope="page" value=""/>
+				<c:if test="${!p.creator.id.equals(p.wall.user.id)}">
+					<c:set var="header_content" scope="page" value=" --> <a href='wall?user_id=${p.wall.user.id}'>${p.wall.user.fname} ${p.wall.user.lname}</a>"/>
+				</c:if>
+				<h4><a href="wall?user_id=${p.creator.id}">${p.creator.fname} ${p.creator.lname}</a>${header_content}</h4>
 			</div>
 			<div class="panel-body">${p.content}</div>
 

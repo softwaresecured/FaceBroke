@@ -55,7 +55,7 @@ public class Loader {
 			"Castillo", "Price", "Hughes", "Vasquez", "Sanders", "Jimenez", "Long", "Foster" };
 	private final static Logger log = LoggerFactory.getLogger(Loader.class);
 	private final static int NUMNAMES = 100;
-	private final static int NUM_USERS = 10000;
+	private final static int NUM_USERS = 1000;
 	private final static long SEED = 1877;
 	private final static int LOWER_YEAR = 1950;
 	private final static int RANGE_YEAR = 75;
