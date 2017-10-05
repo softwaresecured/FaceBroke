@@ -74,3 +74,8 @@ body {
 .name-sep {
 	font-size: 15px;
 }
+
+.profile-img {
+	width: 160px;
+	height: 160px;
+}

@@ -1,7 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="row">
-	<div class="col-md-6 col-md-offset-3">
+	<div class="col-md-3 text-center">
+	<c:if test="${onWall == 1}">
+		<img src="resources/img/dummy.png" alt="User profile picture" class="img-rounded profile-img">
+	</c:if>
+	</div>
+	
+
+	<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<form action="${postContext}" method="post">
