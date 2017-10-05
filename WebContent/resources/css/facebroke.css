@@ -70,3 +70,7 @@ body {
 .reg-block {
 	padding-top: 25px;
 }
+
+.name-sep {
+	font-size: 15px;
+}

@@ -31,7 +31,7 @@
 			<div class="panel-heading">
 				<c:set var="header_content" scope="page" value=""/>
 				<c:if test="${!p.creator.id.equals(p.wall.user.id)}">
-					<c:set var="header_content" scope="page" value=" --> <a href='wall?user_id=${p.wall.user.id}'>${p.wall.user.fname} ${p.wall.user.lname}</a>"/>
+					<c:set var="header_content" scope="page" value="   <span class='glyphicon glyphicon-triangle-right name-sep'></span>   <a href='wall?user_id=${p.wall.user.id}'>${p.wall.user.fname} ${p.wall.user.lname}</a>"/>
 				</c:if>
 				<h4><a href="wall?user_id=${p.creator.id}">${p.creator.fname} ${p.creator.lname}</a>${header_content}</h4>
 			</div>
