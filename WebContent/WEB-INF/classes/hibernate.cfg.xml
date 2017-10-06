@@ -30,6 +30,7 @@
 		<mapping class="facebroke.model.Wall" />
 		<mapping class="facebroke.model.Post" />
 		<mapping class="facebroke.model.Comment" />
+		<mapping class="facebroke.model.Image" />
 		<mapping class="facebroke.model.DummyDataInfo" />
 
 	</session-factory>

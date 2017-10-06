@@ -62,4 +62,22 @@
 	</div>
 </div>
 
+<br>
+<br>
+
+<div class="row">
+	<div class="col-md-4 col-md-push-4">
+		<form action="image" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="creator_id" value="${target_user_id}">
+			<input type="hidden" name="owner_id" value="${target_user_id}">
+			<input type="hidden" name="label" value="Profile Picture">
+			<div class="form-group">
+				<label for="file">Profile Picture</label>
+				<input type="file" id="file" name="file">
+			</div>
+			<button type="submit" class="btn btn-default btn-primary">Upload</button>
+		</form>
+	</div>
+</div>
+
 <%@ include file="footer.jsp"%>
