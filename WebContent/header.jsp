@@ -56,7 +56,7 @@
 				<li class=" dropdown">
 					<a href="#" class="dropdown-toggle user-dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false"><img src="resources/img/dummy.png" alt="User profile picture" class="profile-header-img"> ${sessionScope.user_fname}<span class="caret"></span></a>
+						aria-expanded="false"><img src="resources/img/dummy.png" alt="User profile picture" class="img-rounded profile-header-img">${sessionScope.user_fname}<span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="wall?user_id=${sessionScope.user_id}"><span class="glyphicon glyphicon-user"></span> Wall</a></li>
 						<li><a href="demo"><span class="glyphicon glyphicon-tag"></span> Demo</a></li>
