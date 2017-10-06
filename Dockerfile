@@ -1,8 +1,7 @@
-FROM tomcat:8.5.20-jre8
+FROM tomcat:8.5.23-jre8-alpine
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-		maven \
-		openjdk-8-jdk
+
+RUN apk add --no-cache openjdk8 maven
 
 RUN mkdir /code
 WORKDIR /code
