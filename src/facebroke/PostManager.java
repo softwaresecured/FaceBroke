@@ -137,8 +137,9 @@ public class PostManager extends HttpServlet {
 		User creator;
 		PostType type;
 		
-		// Validate Wall ID
+		
 		try {
+			// Validate Wall ID
 			long wall_id = Long.parseLong(wall_id_string);
 			
 			List<Wall> walls = (List<Wall>)sess.createQuery("FROM Wall w WHERE w.id = :wall_id")
@@ -151,21 +152,9 @@ public class PostManager extends HttpServlet {
 			
 			target = walls.get(0);
 			
-		}catch(FacebrokeException e) {
-			req.setAttribute("serverMessage", e.getMessage());
-			req.getRequestDispatcher("error.jsp").forward(req, res);
-			sess.close();
-			return;
-		}catch(NumberFormatException e) {
-			req.setAttribute("serverMessage", "Could not parse Wall ID: "+e.getMessage());
-			req.getRequestDispatcher("error.jsp").forward(req, res);
-			sess.close();
-			return;
-		}
-		
-		
-		// Validate User ID
-		try {
+			
+			
+			// Validate User ID
 			long user_id = Long.parseLong(creator_id_string);
 			
 			List<User> users = (List<User>)sess.createQuery("FROM User u WHERE u.id = :user_id")
@@ -178,21 +167,9 @@ public class PostManager extends HttpServlet {
 			
 			creator = users.get(0);
 			
-		}catch(FacebrokeException e) {
-			req.setAttribute("serverMessage", e.getMessage());
-			req.getRequestDispatcher("error.jsp").forward(req, res);
-			sess.close();
-			return;
-		}catch(NumberFormatException e) {
-			req.setAttribute("serverMessage", "Could not parse User ID: "+e.getMessage());
-			req.getRequestDispatcher("error.jsp").forward(req, res);
-			sess.close();
-			return;
-		}
-		
-		
-		// Validate Content Type
-		try {
+			
+			
+			// Validate Content Type
 			if (type_string.equals("TEXT")) {
 				type = PostType.TEXT;
 			}else if(type_string.equals("IMAGE")) {
@@ -202,15 +179,27 @@ public class PostManager extends HttpServlet {
 			} else {
 				throw new FacebrokeException("Invalid Content Type: "+type_string);
 			}
+			
+			
+			
+			// BAD IDEA but temporarily treat all content as valid
+			if(content.isEmpty()) {
+				throw new FacebrokeException("Post content can't be empty");
+			}
+			
 		}catch(FacebrokeException e) {
 			req.setAttribute("serverMessage", e.getMessage());
 			req.getRequestDispatcher("error.jsp").forward(req, res);
 			sess.close();
 			return;
+		}catch(NumberFormatException e) {
+			req.setAttribute("serverMessage", "Could not parse ID: "+e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.close();
+			return;
 		}
+
 		
-		
-		// BAD IDEA but temporarily treat all content as valid
 		Post p = new Post(target, creator, type, content);
 		sess.beginTransaction();
 		sess.save(p);

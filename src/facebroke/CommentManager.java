@@ -58,46 +58,53 @@ public class CommentManager extends HttpServlet {
 		User creator;
 		Post target;
 		
-		// Validate user
+		
 		try {
+			// Validate user
 			long creator_id = Long.parseLong(creator_id_string);
-			List<User> results = (List<User>) sess.createQuery("FROM User u WHERE u.id = :creator_id")
+			List<User> users = (List<User>) sess.createQuery("FROM User u WHERE u.id = :creator_id")
 													.setParameter("creator_id", creator_id)
 													.list();
 			
-			if(results.isEmpty()) {
+			if(users.isEmpty()) {
 				throw new FacebrokeException("Invalid creator id");
 			}
 			
-			creator = results.get(0);
-		}catch (Exception e) {
-			req.setAttribute("serverMessage", e.getMessage());
-			req.getRequestDispatcher("error.jsp").forward(req, res);
-			sess.close();
-			return;
-		}
-		
-		
-		// Validate Post ID
-		try {
+			creator = users.get(0);
+			
+			
+			// Validate Post ID
 			long post_id = Long.parseLong(post_id_string);
-			List<Post> results = (List<Post>) sess.createQuery("FROM Post p WHERE p.id = :post_id")
+			List<Post> posts = (List<Post>) sess.createQuery("FROM Post p WHERE p.id = :post_id")
 													.setParameter("post_id", post_id)
 													.list();
 			
-			if(results.isEmpty()) {
+			if(posts.isEmpty()) {
 				throw new FacebrokeException("Invlaid post id");
 			}
 			
-			target = results.get(0);
+			target = posts.get(0);
 			
-		}catch(Exception e) {
+			
+			
+			// BAD IDEA but temporarily treat all content as valid
+			if(content.isEmpty()) {
+				throw new FacebrokeException("Comment content can't be empty");
+			}
+			
+		}catch (FacebrokeException e) {
 			req.setAttribute("serverMessage", e.getMessage());
 			req.getRequestDispatcher("error.jsp").forward(req, res);
 			sess.close();
 			return;
 		}
-		
+		catch (NumberFormatException e) {
+			req.setAttribute("serverMessage", e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.close();
+			return;
+		}
+
 		
 		// Create the comment
 		Comment c = new Comment(creator,target,content);
