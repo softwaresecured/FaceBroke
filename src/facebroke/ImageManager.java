@@ -169,7 +169,12 @@ public class ImageManager extends HttpServlet {
 			
 			sess.getTransaction().commit();
 			log.info("Created new img: "+img.toString());
+			req.getSession().setAttribute("user_pic_id", img.getId());
 			log.info("Mimetype: "+mimetype);
+			
+			if(context.equals("profile") && creator.equals(owner)) {
+				res.sendRedirect("settings?id="+owner.getId());
+			}
 			
 		}catch(FileUploadException e) {
 			log.error(e.getMessage());

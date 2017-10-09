@@ -84,7 +84,7 @@
 
 	<div class="container">
 		<c:if test="${authMessage != '' && authMessage != null}">
-			<div class=\"row\">
+			<div class="row">
 				<div
 					class="col-md-4 col-md-offset-4 alert alert-warning alert-dismissible fade in alert-message"
 					role="alert">
