@@ -46,7 +46,11 @@ public class User {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "wall_id")
 	private Wall wall;
-
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "picture_id")
+	private Image profilePicture;
+	
 	// Hibernate constructor
 	public User() {
 	}
@@ -199,5 +203,13 @@ public class User {
 		this.b64Pass = AuthHelper.hashPassword(password, salt);
 		this.b64Salt = AuthHelper.encodeBase64(salt);
 		this.updated = ZonedDateTime.now();
+	}
+
+	public Image getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(Image profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 }

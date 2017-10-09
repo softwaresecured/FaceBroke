@@ -3,8 +3,7 @@
 <div class="row">
 	<div class="col-md-3 text-center">
 		<c:if test="${onWall == 1}">
-			<img src="resources/img/dummy.png" alt="User profile picture"
-				class="img-rounded profile-img">
+			<img src="image?id=${sessionScope.user_pic_id}" alt="User profile picture" class="img-rounded profile-img">
 		</c:if>
 	</div>
 
@@ -41,10 +40,10 @@
 					<c:set var="header_content" scope="page" value="" />
 					<c:if test="${!p.creator.id.equals(p.wall.user.id)}">
 						<c:set var="header_content" scope="page"
-							value="   <span class='glyphicon glyphicon-triangle-right name-sep'></span>   <a href='wall?user_id=${p.wall.user.id}'>${p.wall.user.fname} ${p.wall.user.lname}</a>" />
+							value="   <span class='glyphicon glyphicon-triangle-right name-sep'></span>   <a href='wall?user_id=${p.wall.user.id}'><img src='image?id=${p.wall.user.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-post'>${p.wall.user.fname} ${p.wall.user.lname}</a>" />
 					</c:if>
 					<h4>
-						<a href="wall?user_id=${p.creator.id}">${p.creator.fname}
+						<a href="wall?user_id=${p.creator.id}"><img src='image?id=${p.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-post'>${p.creator.fname}
 							${p.creator.lname}</a>${header_content}</h4>
 				</div>
 				<div class="panel-body">${p.content}</div>
@@ -52,7 +51,7 @@
 				<div class="panel-footer">
 					<ul>
 						<c:forEach items="${p.comments}" var="comm">
-							<li><a href="wall?user_id=${comm.creator.id}">${comm.creator.fname}
+							<li><a href="wall?user_id=${comm.creator.id}"><img src='image?id=${comm.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-comment'>${comm.creator.fname}
 									${comm.creator.lname}</a><br>${comm.content}</li>
 						</c:forEach>
 					</ul>

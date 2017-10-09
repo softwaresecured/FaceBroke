@@ -3,7 +3,6 @@ package facebroke;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import facebroke.model.Comment;
 import facebroke.model.DummyDataInfo;
+import facebroke.model.Image;
 import facebroke.model.Post;
 import facebroke.model.User;
 import facebroke.model.User.UserRole;
@@ -28,7 +28,6 @@ import facebroke.util.ValidationSnipets;
  *
  */
 public class Loader {
-
 	// The sample names below were taken from
 	// https://github.com/fivethirtyeight/data/tree/master/most-common-name
 	private final static String[] firstNames = { "Michael", "James", "John", "Robert", "David", "William", "Mary",
@@ -56,7 +55,7 @@ public class Loader {
 	
 	private final static Logger log = LoggerFactory.getLogger(Loader.class);
 	private final static int NUMNAMES = 100;
-	private final static int NUM_USERS = 10000;
+	private final static int NUM_USERS = 1000;
 	private final static long SEED = 1877;
 	private final static int LOWER_YEAR = 1950;
 	private final static int RANGE_YEAR = 75;
@@ -97,7 +96,8 @@ public class Loader {
 		log.info("Creating users....");
 
 		sess.beginTransaction();
-
+		
+		
 		for (int i = 0; i < numUsers; ++i) {
 
 			String f = firstNames[r.nextInt(NUMNAMES)];

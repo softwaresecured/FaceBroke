@@ -103,6 +103,11 @@ public class Login extends HttpServlet {
 			req.getSession().setAttribute("user_fname", candidate.getFname());
 			req.getSession().setAttribute("user_lname", candidate.getLname());
 			req.getSession().setAttribute("user_wall_id", candidate.getWall().getId());
+			if(candidate.getProfilePicture() != null) {
+				req.getSession().setAttribute("user_pic_id", candidate.getProfilePicture().getId());
+			}else {
+				req.getSession().setAttribute("user_pic_id", "default");
+			}
 			res.sendRedirect("index");
 		} else {
 			log.info("Invalid password entered");

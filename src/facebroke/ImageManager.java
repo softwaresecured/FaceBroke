@@ -45,9 +45,17 @@ public class ImageManager extends HttpServlet {
 			buildFactory();
 		}
     	
+    	String id_string = req.getParameter("id");
+    	
+    	if(id_string == null || id_string.equals("default") || id_string.equals("")) {
+    		log.error("No such image. Sending dummy");
+    		req.getRequestDispatcher("resources/img/dummy.png").forward(req, res);
+    		return;
+    	}
+    	
     	Session sess = HibernateUtility.getSessionFactory().openSession();
 		
-    	String id_string = req.getParameter("id");
+    	
     	
     	try {
     		long id = Long.parseLong(id_string);
