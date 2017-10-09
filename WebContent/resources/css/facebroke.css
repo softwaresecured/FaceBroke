@@ -1,6 +1,6 @@
 html {
-  position: relative;
-  min-height: 100%;
+	position: relative;
+	min-height: 100%;
 }
 
 body {
@@ -33,22 +33,21 @@ body {
 	height: 40px;
 }
 
-.user-dropdown-toggle, .user-dropdown-toggle:hover, .open>.user-dropdown-toggle {
+.user-dropdown-toggle, .user-dropdown-toggle:hover, .open>.user-dropdown-toggle
+	{
 	color: #FFF;
 	background-color: #3b5998;
 	font-size: 25px;
 }
 
-.nav > li > a:focus, 
-.nav > li > a:hover, 
-.nav .open > a:focus, 
-.nav .open > a:hover {
+.nav>li>a:focus, .nav>li>a:hover, .nav .open>a:focus, .nav .open>a:hover,
+	.nav .open>a {
 	color: #FFF;
 	background-color: #3b5998;
 	text-decoration: underline;
 }
 
-.dropdown-menu > li > a {
+.dropdown-menu>li>a {
 	background-color: #FFF;
 }
 
@@ -59,12 +58,12 @@ body {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  padding-top: 20px;
-  padding-left: 20px;
-  /* Set the fixed height of the footer here */
-  height: 60px;
+	position: absolute;
+	bottom: 0;
+	padding-top: 20px;
+	padding-left: 20px;
+	/* Set the fixed height of the footer here */
+	height: 60px;
 }
 
 .reg-block {
