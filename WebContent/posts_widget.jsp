@@ -13,6 +13,7 @@
 			<div class="panel-heading">
 				<form action="${postContext}" method="post">
 					<div class="form-group">
+						<input type="hidden" name="on_wall" value="${onWall}">
 						<input type="hidden" name="creator_id"
 							value="${sessionScope.user_id}"> <input type="hidden"
 							name="type" value="TEXT"> <label for="content">${new_post_context}</label>
@@ -35,7 +36,7 @@
 
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-			<div class="panel panel-default">
+			<div class="panel panel-default" id="${p.id}">
 				<div class="panel-heading">
 					<c:set var="header_content" scope="page" value="" />
 					<c:if test="${!p.creator.id.equals(p.wall.user.id)}">
@@ -56,6 +57,7 @@
 						</c:forEach>
 					</ul>
 					<form action="comment" method="post">
+						<input type="hidden" name="on_wall" value="${onWall}">
 						<div class="form-group">
 							<input type="hidden" name="creator_id"
 								value="${sessionScope.user_id}"> <input type="hidden"

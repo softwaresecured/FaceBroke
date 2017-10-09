@@ -67,6 +67,10 @@ public class Comment {
 	public ZonedDateTime getUpdated() {
 		return updated;
 	}
+	
+	public Post getParent() {
+		return this.parent;
+	}
 
 	public void setContent(String content) {
 		this.content = content;

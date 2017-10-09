@@ -127,6 +127,7 @@ public class PostManager extends HttpServlet {
 		String creator_id_string = req.getParameter("creator_id");
 		String type_string = req.getParameter("type");
 		String content = req.getParameter("content");
+		String on_wall = req.getParameter("on_wall");
 		
 		log.info("Received POST for a new post");
 		log.info("Wall ID: "+wall_id_string);
@@ -208,6 +209,11 @@ public class PostManager extends HttpServlet {
 		
 		log.info("Created a new post");
 		
-		res.sendRedirect("index");
+		if(on_wall == null || on_wall.equals("")) {
+			res.sendRedirect("index");
+		}else {
+			res.sendRedirect("wall?user_id="+target.getId());
+		}
+		
 	}
 }

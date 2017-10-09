@@ -45,6 +45,7 @@ public class CommentManager extends HttpServlet {
 		String creator_id_string = req.getParameter("creator_id");
 		String post_id_string = req.getParameter("post_id");
 		String content = req.getParameter("content");
+		String on_wall = req.getParameter("on_wall");
 		
 		log.info("Creating comment");
 		log.info("Creator ID: "+creator_id_string);
@@ -62,6 +63,7 @@ public class CommentManager extends HttpServlet {
 		try {
 			// Validate user
 			long creator_id = Long.parseLong(creator_id_string);
+			@SuppressWarnings("unchecked")
 			List<User> users = (List<User>) sess.createQuery("FROM User u WHERE u.id = :creator_id")
 													.setParameter("creator_id", creator_id)
 													.list();
@@ -75,6 +77,7 @@ public class CommentManager extends HttpServlet {
 			
 			// Validate Post ID
 			long post_id = Long.parseLong(post_id_string);
+			@SuppressWarnings("unchecked")
 			List<Post> posts = (List<Post>) sess.createQuery("FROM Post p WHERE p.id = :post_id")
 													.setParameter("post_id", post_id)
 													.list();
@@ -115,6 +118,10 @@ public class CommentManager extends HttpServlet {
 		
 		log.info("Created a new comment");
 		
-		res.sendRedirect("index");
+		if(on_wall == null || on_wall.equals("")) {
+			res.sendRedirect("index#"+c.getParent().getId());
+		}else {
+			res.sendRedirect("wall?user_id="+target.getWall().getId()+"#"+c.getParent().getId());
+		}
 	}
 }
