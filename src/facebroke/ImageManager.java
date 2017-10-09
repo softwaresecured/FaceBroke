@@ -39,7 +39,7 @@ public class ImageManager extends HttpServlet {
     
     
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    	log.info("Received GET request");
+    	log.info("Received GET request: "+req.getQueryString());
     	
     	if(factory==null) {
 			buildFactory();
@@ -85,6 +85,7 @@ public class ImageManager extends HttpServlet {
 		
 		String owner_id_string = "";
 		String creator_id_string = "";
+		String context = "";
 		String label = "";
 		String mimetype = "";
 		
@@ -109,6 +110,10 @@ public class ImageManager extends HttpServlet {
 						
 					case "label":
 						label = val;
+						break;
+						
+					case "context":
+						context = val;
 						break;
 	
 					default:
@@ -145,6 +150,12 @@ public class ImageManager extends HttpServlet {
 			sess.beginTransaction();
 			Image img = new Image(owner, creator, Image.Viewable.All, data, size, label);
 			sess.save(img);
+			
+			if(context.equals("profile") && creator.equals(owner)) {
+				owner.setProfilePicture(img);
+				sess.save(owner);
+			}
+			
 			sess.getTransaction().commit();
 			log.info("Created new img: "+img.toString());
 			log.info("Mimetype: "+mimetype);

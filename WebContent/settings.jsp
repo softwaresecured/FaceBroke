@@ -83,6 +83,7 @@
 			<input type="hidden" name="creator_id" value="${target_user_id}">
 			<input type="hidden" name="owner_id" value="${target_user_id}">
 			<input type="hidden" name="label" value="Profile Picture">
+			<input type="hidden" name="context" value="profile">
 			<div class="form-group">
 				<label for="file">Profile Picture</label> <input type="file"
 					id="file" name="file">

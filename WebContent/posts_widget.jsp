@@ -3,7 +3,7 @@
 <div class="row">
 	<div class="col-md-3 text-center">
 		<c:if test="${onWall == 1}">
-			<img src="image?id=${sessionScope.user_pic_id}" alt="User profile picture" class="img-rounded profile-img">
+			<img src="image?id=${wall_owner.profilePicture.id}" alt="User profile picture" class="img-rounded profile-img">
 		</c:if>
 	</div>
 

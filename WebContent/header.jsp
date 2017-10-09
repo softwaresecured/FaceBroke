@@ -59,7 +59,7 @@
 						<li class=" dropdown"><a href="#"
 							class="dropdown-toggle user-dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false"><img src="resources/img/dummy.png"
+							aria-expanded="false"><img src="image?id=${sessionScope.user_pic_id}"
 								alt="User profile picture"
 								class="img-rounded profile-header-img">${sessionScope.user_fname}<span
 								class="caret"></span></a>
