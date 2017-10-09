@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import facebroke.model.Image;
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
+import facebroke.util.ValidationSnipets;
 
 
 @WebServlet("/image")
@@ -39,6 +40,11 @@ public class ImageManager extends HttpServlet {
     
     
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	if(!ValidationSnipets.isValidSession(req.getSession())){
+			res.sendRedirect("register");
+			return;
+		}
+    	
     	log.info("Received GET request: "+req.getQueryString());
     	
     	if(factory==null) {
@@ -77,6 +83,11 @@ public class ImageManager extends HttpServlet {
 
     
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		if(!ValidationSnipets.isValidSession(req.getSession())){
+			res.sendRedirect("register");
+			return;
+		}
+		
 		log.info("Received POST request");
 		
 		if(factory==null) {
