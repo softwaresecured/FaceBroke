@@ -35,7 +35,7 @@ public class Feed extends HttpServlet {
 			return;
 		}
 		
-		req.setAttribute("user_id", null);
+		req.setAttribute("user_id", "");
 		req.getRequestDispatcher("wall").forward(req, res);
 	}
 }

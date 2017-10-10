@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
+import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,15 +40,15 @@ public class CommentManager extends HttpServlet {
 		
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		
-		String creator_id_string = ValidationSnipets.sanitizeCRLF(req.getParameter("creator_id"));
-		String post_id_string = ValidationSnipets.sanitizeCRLF(req.getParameter("post_id"));
-		String content = ValidationSnipets.sanitizeCRLF(req.getParameter("content"));
-		String on_wall = ValidationSnipets.sanitizeCRLF(req.getParameter("on_wall"));
+		String creator_id_string = req.getParameter("creator_id");
+		String post_id_string = req.getParameter("post_id");
+		String content = Encode.forHtml(req.getParameter("content"));
+		String on_wall = req.getParameter("on_wall");
 		
 		log.info("Creating comment");
-		log.info("Creator ID: {}",creator_id_string);
-		log.info("Post ID: {}",post_id_string);
-		log.info("Content: {}",content);
+		log.info("Creator ID: {}",ValidationSnipets.sanitizeCRLF(creator_id_string));
+		log.info("Post ID: {}",ValidationSnipets.sanitizeCRLF(post_id_string));
+		log.info("Content: {}",ValidationSnipets.sanitizeCRLF(content));
 		
 		User creator;
 		Post target;
@@ -82,8 +83,6 @@ public class CommentManager extends HttpServlet {
 			target = posts.get(0);
 			
 			
-			
-			// BAD IDEA but temporarily treat all content as valid
 			if(content.isEmpty()) {
 				throw new FacebrokeException("Comment content can't be empty");
 			}

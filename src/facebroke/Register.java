@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
+import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,13 +49,13 @@ public class Register extends HttpServlet {
 		RequestDispatcher reqDis = req.getRequestDispatcher("register.jsp");
 		
 		
-		String username = req.getParameter("regUsername");
-		String email = req.getParameter("regEmail");
-		String fname = req.getParameter("regFirstName");
-		String lname = req.getParameter("regLastName");
-		String dob_raw = req.getParameter("regDOB");
-		String pass1 = req.getParameter("regPassword");
-		String pass2 = req.getParameter("regPasswordConfirm");
+		String username = Encode.forHtml(req.getParameter("regUsername"));
+		String email = Encode.forHtml(req.getParameter("regEmail"));
+		String fname = Encode.forHtml(req.getParameter("regFirstName"));
+		String lname = Encode.forHtml(req.getParameter("regLastName"));
+		String dob_raw = Encode.forHtml(req.getParameter("regDOB"));
+		String pass1 = Encode.forHtml(req.getParameter("regPassword"));
+		String pass2 = Encode.forHtml(req.getParameter("regPasswordConfirm"));
 		Calendar dob;
 		
 		
