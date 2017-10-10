@@ -180,19 +180,9 @@ public class Loader {
 			for (int j = 0; j < r.nextInt(maxNumPosts + 1); j++) {
 				String content = lg.getSentences(2);
 				User creator = walls.get(r.nextInt(walls.size())).getUser();
-				
-				
-				int year = r.nextInt(4)+2007;
-				int month = r.nextInt(12)+1;
-				int day = r.nextInt(28)+1;
-				int hour = r.nextInt(24);
-				int minute = r.nextInt(60);
-				
-				String timeString = String.format("%d-%02d-%02dT%02d:%02d:%02d-04:00", year,month,day,hour,minute,7);
-				
-				
+						
 				Post p = new Post(w, creator, Post.PostType.TEXT, content);
-				p.setCreated(ZonedDateTime.parse(timeString));
+				p.setCreated(randomTimeStamp(seed*7));
 				sess.save(p);
 				totalCreated += 1;
 			}
@@ -229,6 +219,7 @@ public class Loader {
 				User creator = posts.get(r.nextInt(posts.size())).getCreator();
 				
 				Comment c = new Comment(creator, p, content);
+				c.setCreated(randomTimeStamp(seed*9));
 				sess.save(c);
 				totalComments += 1;
 			}
@@ -245,5 +236,27 @@ public class Loader {
 		ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
 	    buffer.putLong(x);
 	    return buffer.array();
+	}
+	
+	private static ZonedDateTime randomTimeStamp(long seed) {
+		Random r = new SecureRandom(longToBytes(seed*3));
+		
+		ZonedDateTime tmp = null;
+		
+		do {
+			int year = r.nextInt(11)+2007;
+			int month = r.nextInt(12)+1;
+			int day = r.nextInt(28)+1;
+			int hour = r.nextInt(24);
+			int minute = r.nextInt(60);
+			int second = r.nextInt(60);
+			
+			String timeString = String.format("%d-%02d-%02dT%02d:%02d:%02d-04:00", year,month,day,hour,minute,second);
+			
+			tmp = ZonedDateTime.parse(timeString);
+			
+		}while(tmp.isAfter(ZonedDateTime.now()));
+		
+		return tmp;
 	}
 }
