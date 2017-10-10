@@ -44,7 +44,7 @@ public class Logout extends HttpServlet {
 	protected void handleLogout(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		RequestDispatcher reqDis = req.getRequestDispatcher("index");
 		HttpSession sess = req.getSession();
-		String user_id = (String) req.getSession().getAttribute("user_id");
+		long user_id = (long) req.getSession().getAttribute("user_id");
 		sess.setAttribute("valid", "false");
 		sess.setAttribute("user_id", "");
 		sess.setAttribute("user_username", "");
@@ -52,7 +52,7 @@ public class Logout extends HttpServlet {
 		sess.setAttribute("user_lname", "");
 		sess.invalidate();
 		
-		log.info("User {} logged out",ValidationSnipets.sanitizeCRLF(user_id));
+		log.info("User {} logged out",user_id);
 		reqDis.forward(req, res);
 	}
 }

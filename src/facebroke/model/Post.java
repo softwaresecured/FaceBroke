@@ -125,4 +125,9 @@ public class Post {
 		this.wall = wall;
 		this.updated = ZonedDateTime.now();
 	}
+
+	public void setCreated(ZonedDateTime created) {
+		this.created = created;
+		this.updated = ZonedDateTime.now();
+	}
 }

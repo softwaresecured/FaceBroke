@@ -3,6 +3,7 @@ package facebroke;
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
 import java.text.ParseException;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -56,12 +57,12 @@ public class Loader {
 	
 	private final static Logger log = LoggerFactory.getLogger(Loader.class);
 	private final static int NUMNAMES = 100;
-	private final static int NUM_USERS = 10000;
+	private final static int NUM_USERS = 1000;
 	private final static long SEED = 1877;
 	private final static int LOWER_YEAR = 1950;
 	private final static int RANGE_YEAR = 75;
-	private final static int MAX_RANDOM_POSTS = 20;
-	private final static int MAX_RANDOM_COMMENTS = 8;
+	private final static int MAX_RANDOM_POSTS = 10;
+	private final static int MAX_RANDOM_COMMENTS = 6;
 	private static final String version = "0.1";
 	
 	
@@ -180,8 +181,18 @@ public class Loader {
 				String content = lg.getSentences(2);
 				User creator = walls.get(r.nextInt(walls.size())).getUser();
 				
-				Post p = new Post(w, creator, Post.PostType.TEXT, content);
 				
+				int year = r.nextInt(4)+2007;
+				int month = r.nextInt(12)+1;
+				int day = r.nextInt(28)+1;
+				int hour = r.nextInt(24);
+				int minute = r.nextInt(60);
+				
+				String timeString = String.format("%d-%02d-%02dT%02d:%02d:%02d-04:00", year,month,day,hour,minute,7);
+				
+				
+				Post p = new Post(w, creator, Post.PostType.TEXT, content);
+				p.setCreated(ZonedDateTime.parse(timeString));
 				sess.save(p);
 				totalCreated += 1;
 			}
