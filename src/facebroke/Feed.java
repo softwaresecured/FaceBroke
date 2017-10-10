@@ -24,7 +24,6 @@ import facebroke.util.ValidationSnipets;
 @WebServlet("/index")
 public class Feed extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final int POSTS_PER_PAGE = 20;
 
     public Feed() {
         super();

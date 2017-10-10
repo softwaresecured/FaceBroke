@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import facebroke.model.Comment;
 import facebroke.model.DummyDataInfo;
-import facebroke.model.Image;
 import facebroke.model.Post;
 import facebroke.model.User;
 import facebroke.model.User.UserRole;

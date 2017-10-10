@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="e"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -59,16 +60,16 @@
 						<li class=" dropdown"><a href="#"
 							class="dropdown-toggle user-dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false"><img src="image?id=${sessionScope.user_pic_id}"
+							aria-expanded="false"><img src="image?id=${e:forHtml(sessionScope.user_pic_id)}"
 								alt="User profile picture"
-								class="img-rounded profile-header-img">${sessionScope.user_fname}<span
+								class="img-rounded profile-header-img">${e:forHtml(sessionScope.user_fname)}<span
 								class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="wall?user_id=${sessionScope.user_id}"><span
+								<li><a href="wall?user_id=${e:forHtml(sessionScope.user_id)}"><span
 										class="glyphicon glyphicon-user"></span> Wall</a></li>
 								<li><a href="demo"><span
 										class="glyphicon glyphicon-tag"></span> Demo</a></li>
-								<li><a href="settings?id=${sessionScope.user_id}"><span
+								<li><a href="settings?id=${e:forHtml(sessionScope.user_id)}"><span
 										class="glyphicon glyphicon-cog"></span> Settings</a></li>
 								<li><a href="logout"><span
 										class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -92,7 +93,7 @@
 						aria-label="Close">
 						<span aria-hidden="true">x</span>
 					</button>
-					<c:out value="${authMessage}" />
+					<c:out value="${e:forHtml(authMessage)}" />
 				</div>
 			</div>
 		</c:if>

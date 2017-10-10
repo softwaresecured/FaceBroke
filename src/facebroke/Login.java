@@ -41,6 +41,7 @@ public class Login extends HttpServlet {
 		handleLogin(req, res);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void handleLogin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
 		if (ValidationSnipets.isValidSession(req.getSession())) {

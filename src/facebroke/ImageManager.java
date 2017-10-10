@@ -2,10 +2,8 @@ package facebroke;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLConnection;
 import java.util.List;
 
-import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;

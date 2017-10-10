@@ -13,7 +13,6 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import facebroke.model.Post;
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
@@ -29,7 +28,6 @@ public class Demo extends HttpServlet {
 
 	private static Logger log = LoggerFactory.getLogger(Demo.class);
 	private static final long serialVersionUID = 1L;
-	private final static int PAGESIZE = 20;
 
 
 	public Demo() {

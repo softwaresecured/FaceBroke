@@ -55,6 +55,7 @@ public class ValidationSnipets {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public static boolean isEmailTaken(String email) {
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		List<User> results = null;
@@ -65,6 +66,7 @@ public class ValidationSnipets {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public static boolean isUsernameTaken(String username) {
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		List<User> results = null;

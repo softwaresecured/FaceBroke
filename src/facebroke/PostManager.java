@@ -33,6 +33,7 @@ public class PostManager extends HttpServlet {
 		super();
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
 		if(!ValidationSnipets.isValidSession(req.getSession())){
@@ -114,6 +115,7 @@ public class PostManager extends HttpServlet {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		if(!ValidationSnipets.isValidSession(req.getSession())){
 			res.sendRedirect("index");
