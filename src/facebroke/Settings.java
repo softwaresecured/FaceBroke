@@ -35,13 +35,13 @@ public class Settings extends HttpServlet {
 		
 		if (!ValidationSnipets.isValidSession(req.getSession())) {
 			res.sendRedirect("index");
-			log.info("Failed to validate session with \"valid\"=" + req.getSession().getAttribute("valid"));
+			log.info("Failed to validate session with 'valid'={}",ValidationSnipets.sanitizeCRLF((String)req.getSession().getAttribute("valid")));
 			return;
 		}
 		
 		String target_id_string = req.getParameter("id");
 		
-		log.info("Received GET param \"id\"="+target_id_string);
+		log.info("Received GET param 'id={}",ValidationSnipets.sanitizeCRLF(target_id_string));
 		
 		// Validate permissions
 		try {
@@ -90,14 +90,9 @@ public class Settings extends HttpServlet {
 		log.info("Got "+req.getParameterMap().size()+" paramters to POST");
 		if (!ValidationSnipets.isValidSession(req.getSession())) {
 			res.sendRedirect("index");
-			log.info("Failed to validate session with \"valid\"=" + req.getSession().getAttribute("valid"));
+			log.info("Failed to validate session with 'valid'={}",ValidationSnipets.sanitizeCRLF((String)req.getSession().getAttribute("valid")));
 			return;
 		}
-		
-		log.info(req.getRequestURI());
-		log.info(req.getRequestURL().toString());
-		log.info(req.getQueryString());
-		log.info(req.getContextPath());
 		
 		
 		
@@ -135,7 +130,7 @@ public class Settings extends HttpServlet {
 			}
 			
 			String forwardPath = "settings?id="+target_user_id;
-			log.info("Forward path is "+forwardPath);
+			log.info("Forward path is {}",ValidationSnipets.sanitizeCRLF(forwardPath));
 			
 			if(target_list == null || target_list.isEmpty()) {
 				throw new FacebrokeException("User with id = \""+target_id+"\" is not currently accessible");
@@ -227,7 +222,7 @@ public class Settings extends HttpServlet {
 			req.setAttribute("serverMessage", e.getMessage());
 			req.getRequestDispatcher("error.jsp").forward(req, res);
 			sess.close();
-			log.error(e.getMessage());
+			log.error("{}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
 			return;
 		}
 	}

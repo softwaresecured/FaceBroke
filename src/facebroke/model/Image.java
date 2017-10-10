@@ -46,7 +46,7 @@ public class Image {
 		this.owner = owner;
 		this.creator = creator;
 		this.access = access;
-		this.content = content;
+		this.content = content.clone();
 		this.setSize(size);
 		this.label = label;
 		this.created = this.updated = ZonedDateTime.now();
@@ -87,12 +87,12 @@ public class Image {
 
 
 	public byte[] getContent() {
-		return content;
+		return content.clone();
 	}
 
 
 	public void setContent(byte[] content) {
-		this.content = content;
+		this.content = content.clone();
 		this.updated = ZonedDateTime.now();
 	}
 

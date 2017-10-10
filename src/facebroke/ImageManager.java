@@ -45,7 +45,7 @@ public class ImageManager extends HttpServlet {
 			return;
 		}
     	
-    	log.info("Received GET request: "+req.getQueryString());
+    	log.info("Received GET request: {}",ValidationSnipets.sanitizeCRLF(req.getQueryString()));
     	
     	if(factory==null) {
 			buildFactory();
@@ -72,7 +72,7 @@ public class ImageManager extends HttpServlet {
     		
     		
     	}catch(NumberFormatException e) {
-    		log.error(e.getMessage());
+    		log.error("{}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
     	}catch(IndexOutOfBoundsException e) {
     		log.error("No such image. Sending dummy");
     		req.getRequestDispatcher("resources/img/dummy.png").forward(req, res);
@@ -132,9 +132,9 @@ public class ImageManager extends HttpServlet {
 				}
 				
 				if(i.isFormField()) {
-					log.info("Field: "+name+"    Val: "+val);
+					log.info("Field: {}    Val: {}",ValidationSnipets.sanitizeCRLF(name),ValidationSnipets.sanitizeCRLF(val));
 				}else {
-					log.info("Size: "+i.getSize());
+					log.info("Size: {}",i.getSize());
 					data = i.get();
 					size = (int) i.getSize();
 				}
@@ -168,7 +168,7 @@ public class ImageManager extends HttpServlet {
 			}
 			
 			sess.getTransaction().commit();
-			log.info("Created new img: "+img.toString());
+			log.info("Created new img: {}",ValidationSnipets.sanitizeCRLF(img.toString()));
 			req.getSession().setAttribute("user_pic_id", img.getId());
 			log.info("Mimetype: "+mimetype);
 			
@@ -177,9 +177,9 @@ public class ImageManager extends HttpServlet {
 			}
 			
 		}catch(FileUploadException e) {
-			log.error(e.getMessage());
+			log.error("{}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
 		}catch(NumberFormatException e) {
-			log.error(e.getMessage());
+			log.error("{}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
 		}
 	}
 

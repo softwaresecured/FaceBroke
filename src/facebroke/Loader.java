@@ -1,5 +1,7 @@
 package facebroke;
 
+import java.nio.ByteBuffer;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -55,12 +57,12 @@ public class Loader {
 	
 	private final static Logger log = LoggerFactory.getLogger(Loader.class);
 	private final static int NUMNAMES = 100;
-	private final static int NUM_USERS = 1000;
+	private final static int NUM_USERS = 10000;
 	private final static long SEED = 1877;
 	private final static int LOWER_YEAR = 1950;
 	private final static int RANGE_YEAR = 75;
-	private final static int MAX_RANDOM_POSTS = 6;
-	private final static int MAX_RANDOM_COMMENTS = 6;
+	private final static int MAX_RANDOM_POSTS = 20;
+	private final static int MAX_RANDOM_COMMENTS = 8;
 	private static final String version = "0.1";
 	
 	
@@ -89,7 +91,7 @@ public class Loader {
 
 		Session sess = sessionFactory.openSession();
 
-		Random r = new Random(seed);
+		Random r = new SecureRandom(longToBytes(seed));
 		
 		HashSet<String> takenNames = new HashSet<>();
 		
@@ -161,7 +163,7 @@ public class Loader {
 
 		Session sess = sessionFactory.openSession();
 
-		Random r = new Random(seed*3);
+		Random r = new SecureRandom(longToBytes(seed*3));
 		LoremGenerator lg = new LoremGenerator(seed);
 
 
@@ -200,7 +202,7 @@ public class Loader {
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		log.info("Finished loading Hibernate Session");
 		
-		Random r = new Random(seed*5);
+		Random r = new SecureRandom(longToBytes(seed*5));
 		LoremGenerator lg = new LoremGenerator(seed*4);
 		
 		@SuppressWarnings("unchecked")
@@ -226,5 +228,12 @@ public class Loader {
 		sess.close();
 		log.info("Have "+posts.size()+" posts");
 		log.info("Total num of comments created: "+totalComments);
+	}
+	
+	
+	private static byte[] longToBytes(long x) {
+		ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+	    buffer.putLong(x);
+	    return buffer.array();
 	}
 }

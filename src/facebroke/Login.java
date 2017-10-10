@@ -85,7 +85,7 @@ public class Login extends HttpServlet {
 
 		results = query.setParameter("user_cred", user_cred).list();
 
-		log.info("Size of result list: " + results.size());
+		log.info("Size of result list: {}",results.size());
 
 		if (results.size() < 1) {
 			req.setAttribute("authMessage", INVALID_LOGIN_CREDS);

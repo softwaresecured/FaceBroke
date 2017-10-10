@@ -39,9 +39,4 @@ public class Feed extends HttpServlet {
 		req.setAttribute("user_id", null);
 		req.getRequestDispatcher("wall").forward(req, res);
 	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-
 }

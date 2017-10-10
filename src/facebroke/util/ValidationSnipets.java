@@ -64,6 +64,7 @@ public class ValidationSnipets {
 		return results.size() > 0;
 	}
 	
+	
 	public static boolean isUsernameTaken(String username) {
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		List<User> results = null;
@@ -71,5 +72,13 @@ public class ValidationSnipets {
 								.setParameter("username", username).list();
 		sess.close();
 		return results.size() > 0;
+	}
+	
+	
+	public static String sanitizeCRLF(String source) {
+		if(source == null ) {
+			return "";
+		}
+		return source.replaceAll("[\r\n]","");
 	}
 }

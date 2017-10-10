@@ -1,5 +1,7 @@
 package facebroke.util;
 
+import java.nio.ByteBuffer;
+import java.security.SecureRandom;
 import java.util.Random;
 
 public class LoremGenerator {
@@ -51,9 +53,11 @@ public class LoremGenerator {
 	public LoremGenerator (Long seed) {
 		
 		if (seed == null) {
-			r = new Random();
+			r = new SecureRandom();
 		}else {
-			r = new Random(seed);
+			ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+		    buffer.putLong(seed);
+			r = new SecureRandom(buffer.array());
 		}
 	}
 	

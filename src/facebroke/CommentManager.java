@@ -3,7 +3,6 @@ package facebroke;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,21 +39,15 @@ public class CommentManager extends HttpServlet {
 		
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		
-		RequestDispatcher reqDis = req.getRequestDispatcher("index");
-		
-		String creator_id_string = req.getParameter("creator_id");
-		String post_id_string = req.getParameter("post_id");
-		String content = req.getParameter("content");
-		String on_wall = req.getParameter("on_wall");
+		String creator_id_string = ValidationSnipets.sanitizeCRLF(req.getParameter("creator_id"));
+		String post_id_string = ValidationSnipets.sanitizeCRLF(req.getParameter("post_id"));
+		String content = ValidationSnipets.sanitizeCRLF(req.getParameter("content"));
+		String on_wall = ValidationSnipets.sanitizeCRLF(req.getParameter("on_wall"));
 		
 		log.info("Creating comment");
-		log.info("Creator ID: "+creator_id_string);
-		log.info("Post ID: "+post_id_string);
-		log.info("Content: "+content);
-		log.info(req.getPathInfo());
-		log.info(req.getRequestURI());
-		log.info(req.getRequestURL().toString());
-		log.info(req.getContextPath());
+		log.info("Creator ID: {}",creator_id_string);
+		log.info("Post ID: {}",post_id_string);
+		log.info("Content: {}",content);
 		
 		User creator;
 		Post target;

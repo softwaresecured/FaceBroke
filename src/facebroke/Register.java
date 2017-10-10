@@ -65,11 +65,11 @@ public class Register extends HttpServlet {
 			reqDis.forward(req, res);
 			return;
 		}
-		log.info("Received register request with username \""+username+"\"");
-		log.info("Email: "+email);
-		log.info("First Name: "+fname);
-		log.info("Last Name: "+lname);
-		log.info("DOB: "+dob_raw);
+		log.info("Received register request with username '{}'",ValidationSnipets.sanitizeCRLF(username));
+		log.info("Email: {}",ValidationSnipets.sanitizeCRLF(email));
+		log.info("First Name: {}",ValidationSnipets.sanitizeCRLF(fname));
+		log.info("Last Name: {}",ValidationSnipets.sanitizeCRLF(lname));
+		log.info("DOB: {}",ValidationSnipets.sanitizeCRLF(dob_raw));
 		
 		
 		if(ValidationSnipets.isUsernameTaken(username)) {

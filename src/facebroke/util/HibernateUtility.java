@@ -39,7 +39,7 @@ public class HibernateUtility {
 				
 			// Should error out if the initial mapping hasn't occurred (i.e. DB is empty)
 			}catch(Exception e){
-				log.info(e.getMessage());
+				log.info("{}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
 				log.info("Trying to create DB");
 				Loader.generateDummyDB();
 			}

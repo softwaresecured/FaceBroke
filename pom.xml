@@ -24,6 +24,22 @@
 					<warSourceDirectory>WebContent</warSourceDirectory>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-jspc-maven-plugin</artifactId>
+			  	<version>9.4.7.v20170914</version>
+			  	<executions>
+			    	<execution>
+			      		<id>jspc</id>
+			      		<goals>
+			        		<goal>jspc</goal>
+			      		</goals>
+			      		<configuration>
+			      			<webAppSourceDirectory>${project.basedir}/WebContent</webAppSourceDirectory>
+			      		</configuration>
+			    	</execution>
+			  	</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>

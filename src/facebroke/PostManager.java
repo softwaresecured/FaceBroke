@@ -53,7 +53,7 @@ public class PostManager extends HttpServlet {
 			user_id = -1;
 			reqDis = req.getRequestDispatcher("feed.jsp");
 		}
-		log.info("User id: "+user_id);
+		log.info("User id: {}",user_id);
 		
 		try {
 			pageStart = Integer.parseInt(req.getParameter("start"));
@@ -130,9 +130,9 @@ public class PostManager extends HttpServlet {
 		String on_wall = req.getParameter("on_wall");
 		
 		log.info("Received POST for a new post");
-		log.info("Wall ID: "+wall_id_string);
-		log.info("Creator ID: "+creator_id_string);
-		log.info("Content Type: "+type_string);
+		log.info("Wall ID: {}",ValidationSnipets.sanitizeCRLF(wall_id_string));
+		log.info("Creator ID: {}",ValidationSnipets.sanitizeCRLF(creator_id_string));
+		log.info("Content Type: {}",ValidationSnipets.sanitizeCRLF(type_string));
 		
 		Wall target;
 		User creator;
