@@ -11,10 +11,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+
+/**
+ * JPA-annotated class to hold an Image (png, jpeg, etc.) and it's associated metadata
+ * 
+ * @author matt @ Software Secured
+ */
 @Entity
 @Table(name = "Images")
 public class Image {
 	
+	/**
+	 * Represents who can view the image (permission level):
+	 *   involved -> only the creator and owner
+	 *   all -> any validated user of the site
+	 *   
+	 * @author matt @ Software Secured
+	 */
 	public enum Viewable {
 		INVOLVED, All
 	}
@@ -38,10 +51,21 @@ public class Image {
 	
 	private ZonedDateTime created, updated;
 	
-	
-	public Image() {}
+	// Private Hibernate constructor
+	@SuppressWarnings("unused")
+	private Image() {}
 
 
+	/**
+	 * Image constructor
+	 * @param owner - User who owns the context of the image (i.e. owner of the Wall or the Owner of the profile)
+	 * @param creator - User initiating the creation of the Images
+	 * @param access - {@link Viewable}
+	 * @param content - the byte[] holding the image
+	 * @param size - the size in bytes of the image (size of byte[])
+	 * @param label - the description of the image, optional
+	 * @param type - the mimetype reported by the server upon upload
+	 */
 	public Image(User owner, User creator, Viewable access, byte[] content, int size, String label, String type) {
 		this.owner = owner;
 		this.creator = creator;
@@ -54,17 +78,6 @@ public class Image {
 	}
 
 
-	public User getOwner() {
-		return owner;
-	}
-
-
-	public void setOwner(User owner) {
-		this.owner = owner;
-		this.updated = ZonedDateTime.now();
-	}
-
-
 	public User getCreator() {
 		return creator;
 	}
@@ -72,6 +85,17 @@ public class Image {
 
 	public void setCreator(User creator) {
 		this.creator = creator;
+		this.updated = ZonedDateTime.now();
+	}
+
+
+	public User getOwner() {
+		return owner;
+	}
+
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 		this.updated = ZonedDateTime.now();
 	}
 
@@ -88,12 +112,23 @@ public class Image {
 
 
 	public byte[] getContent() {
-		return content.clone();
+		return content;
 	}
 
 
 	public void setContent(byte[] content) {
-		this.content = content.clone();
+		this.content = content;
+		this.updated = ZonedDateTime.now();
+	}
+
+
+	public int getSize() {
+		return size;
+	}
+
+
+	public void setSize(int size) {
+		this.size = size;
 		this.updated = ZonedDateTime.now();
 	}
 
@@ -109,13 +144,14 @@ public class Image {
 	}
 
 
-	public long getId() {
-		return id;
+	public String getContentType() {
+		return contentType;
 	}
 
 
-	public ZonedDateTime getUpdated() {
-		return updated;
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+		this.updated = ZonedDateTime.now();
 	}
 
 
@@ -124,23 +160,13 @@ public class Image {
 	}
 
 
-	public int getSize() {
-		return size;
-	}
-
-
-	public void setSize(int size) {
-		this.size = size;
-	}
-
-
-	public String getContentType() {
-		return contentType;
-	}
-
-
-	public void setContentType(String type) {
-		this.contentType = type;
+	public void setCreated(ZonedDateTime created) {
+		this.created = created;
 		this.updated = ZonedDateTime.now();
+	}
+
+
+	public long getId() {
+		return id;
 	}
 }

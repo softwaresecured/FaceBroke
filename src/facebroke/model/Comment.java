@@ -2,7 +2,6 @@ package facebroke.model;
 
 import java.time.ZonedDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +11,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * A JPA-annotated Model that represents a Comment in FaceBroke.
+ * Also stores metadata as needed and refers to associated Post and the creating User
+ * 
+ * @author matt @ Software Secured
+ */
 @Entity
 @Table(name = "Comments")
 public class Comment {
@@ -42,7 +47,7 @@ public class Comment {
 	 * @param creator
 	 *            - user creating the comment
 	 * @param parent
-	 *            - parent the comment is on
+	 *            - parent Post the comment is on
 	 * @param content
 	 */
 	public Comment(User creator, Post parent, String content) {

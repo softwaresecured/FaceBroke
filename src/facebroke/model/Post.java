@@ -17,14 +17,29 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+
+/**
+ * JPA-annotated class to hold a Post and the assocaited metadata (creator, target, etc)
+ * 
+ * @author matt @ Software Secured
+ */
 @Entity
 @Table(name = "Posts")
 public class Post {
 
+	/**
+	 * An enum to represent the type stored in the 'content' string
+	 * 
+	 *   IMAGE -> an id of an Image is in 'content'
+	 *   LINK -> simple string containing a link in 'content'
+	 *   TEXT -> standard text post, all content should be HTML escaped
+	 * 
+	 * @author matt @ Software Secured
+	 */
 	public enum PostType {
 		IMAGE, LINK, TEXT
 	}
-
+	
 	private ZonedDateTime created, updated;
 
 	@OneToOne
@@ -48,9 +63,9 @@ public class Post {
 	private List<Comment> comments = new ArrayList<>();
 	
 
-	// Special constructor for Hibernate
-	public Post() {
-	}
+	// Private Hibernate constructor
+	@SuppressWarnings("unused")
+	private Post() {}
 
 	/**
 	 * Build a post
@@ -74,41 +89,26 @@ public class Post {
 		this.created = this.updated = ZonedDateTime.now();
 	}
 
-	public String getContent() {
-		return content;
-	}
-
 	public ZonedDateTime getCreated() {
 		return created;
 	}
 
-	public User getCreator() {
-		return creator;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public PostType getType() {
-		return type;
+	public void setCreated(ZonedDateTime created) {
+		this.created = created;
+		this.updated = ZonedDateTime.now();
 	}
 
 	public ZonedDateTime getUpdated() {
 		return updated;
 	}
 
-	public Wall getWall() {
-		return wall;
-	}
-	
-	public List<Comment> getComments(){
-		return comments;
+	public void setUpdated(ZonedDateTime updated) {
+		this.updated = updated;
+		this.updated = ZonedDateTime.now();
 	}
 
-	public void setContent(String content) {
-		this.content = content;
-		this.updated = ZonedDateTime.now();
+	public User getCreator() {
+		return creator;
 	}
 
 	public void setCreator(User creator) {
@@ -116,9 +116,26 @@ public class Post {
 		this.updated = ZonedDateTime.now();
 	}
 
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+		this.updated = ZonedDateTime.now();
+	}
+
+	public PostType getType() {
+		return type;
+	}
+
 	public void setType(PostType type) {
 		this.type = type;
 		this.updated = ZonedDateTime.now();
+	}
+
+	public Wall getWall() {
+		return wall;
 	}
 
 	public void setWall(Wall wall) {
@@ -126,8 +143,16 @@ public class Post {
 		this.updated = ZonedDateTime.now();
 	}
 
-	public void setCreated(ZonedDateTime created) {
-		this.created = created;
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 		this.updated = ZonedDateTime.now();
+	}
+
+	public long getId() {
+		return id;
 	}
 }

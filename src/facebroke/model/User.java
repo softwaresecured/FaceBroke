@@ -17,10 +17,23 @@ import javax.persistence.Table;
 
 import facebroke.util.AuthHelper;
 
+/**
+ * JPA-annotated class to hold a User and the associated data
+ * 
+ * @author matt @ Software Secured
+ */
 @Entity
 @Table(name = "Users")
 public class User {
 
+	/**
+	 * Simple enum representing the role the User holds
+	 * 
+	 *   ADMIN -> can change anyone's settings or remove any content
+	 *   USER -> Only change their own settings and creations and Posts
+	 *   
+	 * @author matt @ Software Secured
+	 */
 	public enum UserRole {
 		ADMIN, USER
 	}
@@ -51,9 +64,9 @@ public class User {
 	@JoinColumn(name = "picture_id")
 	private Image profilePicture;
 	
-	// Hibernate constructor
-	public User() {
-	}
+	// Private Hibernate constructor
+	@SuppressWarnings("unused")
+	private User() {}
 
 	/**
 	 * Build a User object
