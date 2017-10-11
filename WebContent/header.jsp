@@ -45,7 +45,7 @@
 					<form class="navbar-form navbar-right" action="login" method="post">
 						<div class="form-group">
 							<input type="text" name="user_cred"
-								placeholder="Email or Username" class="form-control">
+								placeholder="Email or Username" class="form-control" autofocus>
 						</div>
 						<div class="form-group">
 							<input type="password" name="password" placeholder="Password"

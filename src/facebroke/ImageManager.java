@@ -43,7 +43,7 @@ public class ImageManager extends HttpServlet {
 			return;
 		}
     	
-    	log.info("Received GET request: {}",ValidationSnipets.sanitizeCRLF(req.getQueryString()));
+    	log.info("Received GET request");
     	
     	if(factory==null) {
 			buildFactory();
