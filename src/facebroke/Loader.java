@@ -25,8 +25,13 @@ import facebroke.util.HibernateUtility;
 import facebroke.util.LoremGenerator;
 import facebroke.util.ValidationSnipets;
 
+
 /**
- * Utility class to load the DB with varying kinds of generated data
+ * A helper class to Load the DB with sample data.
+ * A number of parameters can be tweaked in this file to affect the generated data (average number of posts per user etc.)(lines 63-69)
+ * This generation also uses a constant seed value to insure repeatable results with the same parameters
+ * 
+ * @author matt @ Software Secured
  *
  */
 public class Loader {
@@ -66,6 +71,9 @@ public class Loader {
 	private static final String version = "0.1";
 	
 	
+	/**
+	 * Manager method to build the DB by calling designated methods in order with constants
+	 */
 	public static void generateDummyDB() {
 		loadRandomUsers(NUM_USERS, SEED);
 		loadRandomPosts(MAX_RANDOM_POSTS, SEED);
@@ -73,6 +81,11 @@ public class Loader {
 		loadVersionInfo(version);
 	}
 
+	
+	/**
+	 * Put the data set version into the DB (so that Hibernate knows whether to recreate the DB)
+	 * @param ver - the version string for the current data params
+	 */
 	public static void loadVersionInfo(String ver) {
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		
@@ -84,6 +97,11 @@ public class Loader {
 	}
 
 
+	/**
+	 * Generate a certain number of random users
+	 * @param numUsers - the number of random users to create
+	 * @param seed - the seed value to be used for generation
+	 */
 	public static void loadRandomUsers(int numUsers, long seed) {
 		log.info("Attempting to load hibernate config");
 		SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
@@ -115,6 +133,7 @@ public class Loader {
 			String email = username + "@fake.ca";
 			Calendar dob;
 			
+			// Build random birthday
 			try {
 				dob = ValidationSnipets.parseDate(String.format("%d-%d-%d", LOWER_YEAR+r.nextInt(RANGE_YEAR), 1+r.nextInt(12), 1+r.nextInt(29)));
 			}catch (ParseException e) {
@@ -139,7 +158,7 @@ public class Loader {
 		/* Adding a tester account that will always be created */
 		sess.beginTransaction();
 		
-		
+		/* DELETE once DB changes are full done  in dev cycle*/
 		User matt = new User("Matt","Yaraskavitch","jarusk","myaraskavitch@dummy.ca", new GregorianCalendar(1992,3,14));
 		matt.updatePassword("password");
 		matt.setRole(UserRole.ADMIN);
@@ -155,6 +174,11 @@ public class Loader {
 	}
 
 	
+	/**
+	 * Generate a random number of posts (up to maxNumPosts) per wall
+	 * @param maxNumPosts - maximum number of posts to possibly create per wall
+	 * @param seed - seed for RNGs
+	 */
 	public static void loadRandomPosts(int maxNumPosts, long seed) {
 		log.info("Creating Random Posts");
 		log.info("Attempting to load Hibernate SessionFactory");
@@ -182,7 +206,7 @@ public class Loader {
 				User creator = walls.get(r.nextInt(walls.size())).getUser();
 						
 				Post p = new Post(w, creator, Post.PostType.TEXT, content);
-				p.setCreated(randomTimeStamp(seed*7));
+				p.setCreated(randomTimeStamp(2007, seed*7));
 				sess.save(p);
 				totalCreated += 1;
 			}
@@ -196,6 +220,11 @@ public class Loader {
 	}
 	
 	
+	/**
+	 * Generate a random number of comments (up to maxNumComments per post)
+	 * @param maxNumComments - maximum number of comments to possibly create per post
+	 * @param seed - seed for RNGs
+	 */
 	public static void loadRandomComments(int maxNumComments, long seed) {
 		log.info("Creating Random Comments");
 		log.info("Attempting to load Hibernate Session");
@@ -219,7 +248,7 @@ public class Loader {
 				User creator = posts.get(r.nextInt(posts.size())).getCreator();
 				
 				Comment c = new Comment(creator, p, content);
-				c.setCreated(randomTimeStamp(seed*9));
+				c.setCreated(randomTimeStamp(2007, seed*9));
 				sess.save(c);
 				totalComments += 1;
 			}
@@ -232,19 +261,30 @@ public class Loader {
 	}
 	
 	
+	/**
+	 * Helper to convert a long to an array of bytes
+	 * @param x - the input long value
+	 * @return the byte-array version of the input long
+	 */
 	private static byte[] longToBytes(long x) {
 		ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
 	    buffer.putLong(x);
 	    return buffer.array();
 	}
 	
-	private static ZonedDateTime randomTimeStamp(long seed) {
+	
+	/**
+	 * Build a random time stamp to represent creation date (of Post or Comment)
+	 * @param seed - seed for RNGs
+	 * @return - the time stamp as a ZonedDateTime
+	 */
+	private static ZonedDateTime randomTimeStamp(int lowestYear, long seed) {
 		Random r = new SecureRandom(longToBytes(seed*3));
 		
 		ZonedDateTime tmp = null;
 		
 		do {
-			int year = r.nextInt(11)+2007;
+			int year = r.nextInt(11)+lowestYear;
 			int month = r.nextInt(12)+1;
 			int day = r.nextInt(28)+1;
 			int hour = r.nextInt(24);

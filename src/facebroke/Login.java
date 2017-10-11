@@ -19,6 +19,12 @@ import facebroke.model.User;
 import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
+
+/**
+ * Handle /login endpoint that validates user login and sets required session parameters
+ * 
+ * @author matt @ Software Secured
+ */
 @WebServlet("/login")
 public class Login extends HttpServlet {
 
@@ -27,28 +33,54 @@ public class Login extends HttpServlet {
 
 	private static final String INVALID_LOGIN_CREDS = "Invalid Login Credentials";
 
+	
+	/**
+	 * Call parent Servlet constructor
+	 */
 	public Login() {
 		super();
 	}
 
+	
+	/**
+	 * Respond to GET request. Forward control to the handleLogin method
+	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		handleLogin(req, res);
 	}
 
+	
+	/**
+	 * Respond to POST request. Forward control to the handleLogin method
+	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		handleLogin(req, res);
 	}
 
+	
+	/**
+	 * Process Login parameters and return the correct JSP depending on outcome
+	 * 
+	 * Accepts two parameters:
+	 *   user_cred -> either registration email or username
+	 *   password -> plaintext password for user account
+	 * 
+	 * @param req - HttpServletRequest from either GET or POST
+	 * @param res - HttpServletResponse to pass info back to user
+	 * @throws ServletException - Hiccups propagate up
+	 * @throws IOException - Hiccups propagate up
+	 */
 	@SuppressWarnings("unchecked")
 	protected void handleLogin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
+		// Redirect to index if we're already logged in
 		if (ValidationSnipets.isValidSession(req.getSession())) {
 			res.sendRedirect("index");
 			return;
 		}
 
+		// Setup a dispatcher to return to login page on error
 		RequestDispatcher reqDis = req.getRequestDispatcher("register.jsp");
 
 		String user_cred = (String) req.getParameter("user_cred");
@@ -88,6 +120,7 @@ public class Login extends HttpServlet {
 
 		log.info("Size of result list: {}",results.size());
 
+		// Couldn't find the user_cred in DB
 		if (results.size() < 1) {
 			req.setAttribute("authMessage", INVALID_LOGIN_CREDS);
 			reqDis.forward(req, res);
@@ -95,8 +128,10 @@ public class Login extends HttpServlet {
 			return;
 		}
 
+		// Got a match for username or email
 		User candidate = results.get(0);
 
+		// If password is valid then set up session parameters
 		if (candidate.isPasswordValid(pass)) {
 			req.getSession().setAttribute("valid", "true");
 			req.getSession().setAttribute("user_id", candidate.getId());
@@ -109,6 +144,7 @@ public class Login extends HttpServlet {
 			}else {
 				req.getSession().setAttribute("user_pic_id", "default");
 			}
+			// All done authentication, so return user to index page
 			res.sendRedirect("index");
 		} else {
 			log.info("Invalid password entered");

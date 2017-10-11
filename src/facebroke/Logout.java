@@ -13,33 +13,51 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import facebroke.util.ValidationSnipets;
 
+/**
+ * Handle /logout endpoint. Simply clears the session attributes and kills session
+ * 
+ * @author matt @ Software Secured
+ */
 @WebServlet("/logout")
 public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(Login.class);
 	
+	
+	/**
+	 * Call parent Servlet constructor
+	 */
 	public Logout() {
 		super();
 	}
 	
+	
+	/**
+	 * Catch GET requests and pass to handleLogout
+	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		handleLogout(req, res);
 	}
 
+	
+	/**
+	 * Catch POST requests and pass to handleLogout
+	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		handleLogout(req, res);
 	}
 	
+	
 	/**
 	 * Handle the cleanup of a user session when they request logout, from either POST or GET
-	 * @param req
-	 * @param res
-	 * @throws ServletException
-	 * @throws IOException
+	 * 
+	 * @param req - HttpServletRequest from either GET or POST
+	 * @param res - HttpServletResponse to pass info back to user
+	 * @throws ServletException - Hiccups propagate up
+	 * @throws IOException - Hiccups propagate up
 	 */
 	protected void handleLogout(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		RequestDispatcher reqDis = req.getRequestDispatcher("index");

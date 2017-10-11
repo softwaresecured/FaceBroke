@@ -23,18 +23,18 @@ public class Image {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "creator_id")
 	private User creator;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "owner_id")
 	private User owner;
 	
 	private Viewable access;
 	private byte[] content;
 	private int size;
-	private String label;
+	private String label, contentType;
 	
 	private ZonedDateTime created, updated;
 	
@@ -42,13 +42,14 @@ public class Image {
 	public Image() {}
 
 
-	public Image(User owner, User creator, Viewable access, byte[] content, int size, String label) {
+	public Image(User owner, User creator, Viewable access, byte[] content, int size, String label, String type) {
 		this.owner = owner;
 		this.creator = creator;
 		this.access = access;
 		this.content = content.clone();
 		this.setSize(size);
 		this.label = label;
+		this.setContentType(type);
 		this.created = this.updated = ZonedDateTime.now();
 	}
 
@@ -130,5 +131,16 @@ public class Image {
 
 	public void setSize(int size) {
 		this.size = size;
+	}
+
+
+	public String getContentType() {
+		return contentType;
+	}
+
+
+	public void setContentType(String type) {
+		this.contentType = type;
+		this.updated = ZonedDateTime.now();
 	}
 }

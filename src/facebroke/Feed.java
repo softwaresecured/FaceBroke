@@ -20,16 +20,28 @@ import facebroke.util.ValidationSnipets;
  * 
  * This servlet simply sets the user_id to null and forwards it to the WallManager,
  * which interprets this as the newsfeed
+ * 
+ * @author matt @ Software Secured
+ * 
  */
 @WebServlet("/index")
 public class Feed extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	
+	/**
+	 * Call parent constructor
+	 */
     public Feed() {
         super();
     }
 
+    
+    /**
+     * Handle GET requests to the index. Render the wall JSP to the user if they have a valid session
+     */
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		// If not valid session, send user to registration page
 		if(!ValidationSnipets.isValidSession(req.getSession())){
 			res.sendRedirect("register");
 			return;

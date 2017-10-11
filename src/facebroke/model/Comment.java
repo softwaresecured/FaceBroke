@@ -20,7 +20,7 @@ public class Comment {
 
 	private ZonedDateTime created, updated;
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "creator_id")
 	private User creator;
 

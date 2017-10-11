@@ -23,6 +23,15 @@ import facebroke.util.FacebrokeException;
 import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
+
+/**
+ * Handle /wall endpoint.
+ * 
+ *   GET -> Handles pagination and returning the correct ranges of posts to users for a particular wall
+ *   POST -> Allows a user to create a new Post on a given Wall
+ * 
+ * @author matt @ Software Secured
+ */
 @WebServlet("/wall")
 public class PostManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,10 +39,21 @@ public class PostManager extends HttpServlet {
 	private static final String INVALID_WALL_ID = "The given Wall does not exist";
 	private static final int POSTS_PER_PAGE = 20;
 
+	
+	/**
+	 * Call parent Servlet constructor
+	 */
 	public PostManager() {
 		super();
 	}
 
+	
+	/**
+	 * Handle GET requests. Means returning a Wall JSP with the correct request parameters to render a page
+	 * Accepts the following parameters:
+	 *   user_id -> the user_id corresponding to the wall being requested. -1 implies get the general newsfeed (all posts)
+	 *   start -> the id of the first post to be on the requested page
+	 */
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
@@ -116,6 +136,15 @@ public class PostManager extends HttpServlet {
 	}
 
 
+	/**
+	 * Handle POST request. A User sends a request to create a new Post on a Wall
+	 * Accepts the following parameters:
+	 *   user_id -> the ID of the target user, the owner of the wall this is being psoted to
+	 *   creator_id -> the ID of the user creating the post
+	 *   type -> the type of the content string (only really handling TEXT right now)
+	 *   content -> the content string
+	 *   on_wall -> if not null or empty, then we're sending the request on a wall
+	 */
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		if(!ValidationSnipets.isValidSession(req.getSession())){
@@ -176,10 +205,15 @@ public class PostManager extends HttpServlet {
 			// Validate Content Type
 			if (type_string.equals("TEXT")) {
 				type = PostType.TEXT;
+				
 			}else if(type_string.equals("IMAGE")) {
 				type = PostType.IMAGE;
+				throw new FacebrokeException("Unimplemented Content Type: "+type_string);
+				
 			} else if(type_string.equals("LINK")) {
 				type = PostType.LINK;
+				throw new FacebrokeException("Unimplemented Content Type: "+type_string);
+				
 			} else {
 				throw new FacebrokeException("Invalid Content Type: "+type_string);
 			}
@@ -213,8 +247,10 @@ public class PostManager extends HttpServlet {
 		log.info("Created a new post");
 		
 		if(on_wall == null || on_wall.equals("")) {
+			// Must be on Newsfeed so go back there
 			res.sendRedirect("index");
 		}else {
+			// Must be on a User's wall so return there
 			res.sendRedirect("wall?user_id="+target.getId());
 		}
 		

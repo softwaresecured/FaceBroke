@@ -27,7 +27,7 @@ public class Post {
 
 	private ZonedDateTime created, updated;
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "creator_id")
 	private User creator;
 
@@ -40,7 +40,7 @@ public class Post {
 	@Enumerated(EnumType.STRING)
 	private PostType type;
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "wall_id")
 	private Wall wall;
 	

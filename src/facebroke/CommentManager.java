@@ -22,24 +22,42 @@ import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
 
+
+/**
+ * This class represents the /comment endpoint.
+ * Only supports the POST operation, which is used to create a new Comment on an existing Post
+ * 
+ * @author matt @ Software Secured
+ *
+ */
 @WebServlet("/comment")
 public class CommentManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(CommentManager.class);
 
+	/**
+	 * Call base constructor
+	 */
     public CommentManager() {
         super();
     }
 
 
+    /**
+     * Handle the creation of a new Comment on Post. Requires the following parameters:
+     *   creator_id -> the numerical id of the creating user
+     *   post_id ->  
+     */
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		if(!ValidationSnipets.isValidSession(req.getSession())){
 			res.sendRedirect("index");
 			return;
 		}
 		
+		log.info("Loading session factory");
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		
+		log.info("Fetching request parameters");
 		String creator_id_string = req.getParameter("creator_id");
 		String post_id_string = req.getParameter("post_id");
 		String content = Encode.forHtml(req.getParameter("content"));
@@ -67,6 +85,7 @@ public class CommentManager extends HttpServlet {
 			}
 			
 			creator = users.get(0);
+			log.info("Loaded creator: {}",creator.getUsername());
 			
 			
 			// Validate Post ID
@@ -81,12 +100,14 @@ public class CommentManager extends HttpServlet {
 			}
 			
 			target = posts.get(0);
+			log.info("Loaded target Post: {}",target.getId());
 			
 			
 			if(content.isEmpty()) {
 				throw new FacebrokeException("Comment content can't be empty");
 			}
-			
+		
+			// Only catch these errors, RuntimeErrors propagate
 		}catch (FacebrokeException e) {
 			req.setAttribute("serverMessage", e.getMessage());
 			req.getRequestDispatcher("error.jsp").forward(req, res);

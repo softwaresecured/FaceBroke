@@ -18,22 +18,33 @@ import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
 /**
- * Class that holds sample vulnerabilities to be used later
- * @author matt
+ * A simple demo page for SQL injection.
+ * Not going to remain in final version, simply a place to hold code during dev
+ * 
+ * @author matt @ Software Secured
  *
  */
-
 @WebServlet("/demo")
 public class Demo extends HttpServlet {
 
 	private static Logger log = LoggerFactory.getLogger(Demo.class);
 	private static final long serialVersionUID = 1L;
 
-
+	
+	/**
+	 * Call parent constructor
+	 */
 	public Demo() {
 		super();
 	}
 
+	
+	/**
+	 * Handle the submission of a request for User ID.
+	 * Uses the following parameters:
+	 *   userid -> the target userid to fetch from the DB
+	 *   injection -> if equals "allow" then allow easy SQL injection
+	 */
 	@Override
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -53,6 +64,7 @@ public class Demo extends HttpServlet {
 
 			if (req.getParameter("injection").equals("allow")) {
 				results = sess.createSQLQuery("select * from Users WHERE ID = " + userid).addEntity(User.class).list();
+				log.info("Allowed raw SQL query without validation");
 			} else {
 				try {
 				results = sess.createQuery("FROM User U WHERE U.id = :user_id")
@@ -63,6 +75,7 @@ public class Demo extends HttpServlet {
 					sess.close();
 					return;
 				}
+				log.info("Executed SQL using prepared statements and Hibernate");
 			}
 		}
 
@@ -75,12 +88,18 @@ public class Demo extends HttpServlet {
 		sess.close();
 	}
 
+	
+	/**
+	 * Handle GET. Doesn't take parameters, just passes control to the Demo JSP
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		log.info("Received GET request");
 		if(!ValidationSnipets.isValidSession(req.getSession())){
 			res.sendRedirect("index");
 			return;
 		}
 
 		req.getRequestDispatcher("demo.jsp").forward(req, res);
+		log.info("Handed control to JSP");
 	}
 }

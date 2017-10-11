@@ -21,19 +21,39 @@ import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
 
+/**
+ * Handles /settings endpoint
+ *   GET -> render a settings JSP to user with the current settings of the target user (must validate first)
+ *   POST -> change settings of a target User (must validate first)
+ * 
+ * @author matt @ Software Secured
+ */
 @WebServlet("/settings")
 public class Settings extends HttpServlet {
 	private static Logger log = LoggerFactory.getLogger(Settings.class);
 	private static final long serialVersionUID = 1L;
 
+	
+	/**
+	 * Call the parent Servlet Constructor
+	 */
     public Settings() {
         super();
     }
 
 
+    /**
+     * Handle a GET request. In this context, this means a User wishes to load the settings page for a given User ID. 
+     * We must make sure they have permissions to load these settings and then render the page
+     * 
+     *  Accepts the following parameters:
+     *    id -> the user_id of the User who's settings we will view/modify
+     *    
+     */
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		log.info("Got "+req.getParameterMap().size()+" paramters to GET");
 		
+		// If not logged in currently, return to registration/login page
 		if (!ValidationSnipets.isValidSession(req.getSession())) {
 			res.sendRedirect("index");
 			log.info("Failed to validate session with 'valid'={}",ValidationSnipets.sanitizeCRLF((String)req.getSession().getAttribute("valid")));
@@ -60,7 +80,11 @@ public class Settings extends HttpServlet {
 			if(target_list == null || target_list.isEmpty() || current_user_list == null || current_user_list.isEmpty()) {
 				throw new FacebrokeException("User with id = \""+target_id+"\" is not currently accessible");
 			}
+			
+			// Got our target User (owner of the settings we'll view/change)
 			User target = target_list.get(0);
+			
+			// Got the user requesting the page (likely the same as target above, in most common case)
 			User current_user = current_user_list.get(0);
 			
 			if(target == null) {
@@ -68,6 +92,7 @@ public class Settings extends HttpServlet {
 				throw new FacebrokeException("Invalid user id  for Settings page");
 			}
 			
+			// Make sure the User has permission to view the target's settings
 			if(target.getId() != current_user.getId() && !current_user.getRole().equals(User.UserRole.ADMIN)) {
 				sess.close();
 				throw new FacebrokeException("User with id = \""+current_user.getId()+"\" has insufficient privileges to lookup other users' settings");
@@ -84,9 +109,26 @@ public class Settings extends HttpServlet {
 			req.setAttribute("serverMessage", e.getMessage());
 			req.getRequestDispatcher("error.jsp").forward(req, res);
 			return;
+		}catch(NumberFormatException e) {
+			req.setAttribute("serverMessage", "Invalid TargetID: "+target_id_string);
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			return;
 		}
 	}
 
+	
+	/**
+	 * Handle a POST request, changing settings accordingly
+	 * 
+	 * Accepts the following parameters:
+	 *   target_id -> the ID of the User being updated
+	 *   regEmail -> email (was originally set in the settings form via GET request)
+	 *   regFirstName -> first name (was originally set in the settings form via GET request)
+	 *   regLastName -> last name (was originally set in the settings form via GET request)
+	 *   regPassword -> new password
+	 *   regPasswordConfirm -> new password confirmation
+	 *   
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		log.info("Got "+req.getParameterMap().size()+" paramters to POST");
 		if (!ValidationSnipets.isValidSession(req.getSession())) {
@@ -95,8 +137,6 @@ public class Settings extends HttpServlet {
 			return;
 		}
 		
-		
-		
 		String target_user_id_string = Encode.forHtml(req.getParameter("target_id"));
 		String username = Encode.forHtml(req.getParameter("regUsername"));
 		String email = Encode.forHtml(req.getParameter("regEmail"));
@@ -104,10 +144,6 @@ public class Settings extends HttpServlet {
 		String lname = Encode.forHtml(req.getParameter("regLastName"));
 		String pass1 = Encode.forHtml(req.getParameter("regPassword"));
 		String pass2 = Encode.forHtml(req.getParameter("regPasswordConfirm"));
-		
-		
-		
-		
 	
 		
 		// Get a session to fetch the target user to be updated
@@ -144,7 +180,7 @@ public class Settings extends HttpServlet {
 			
 			
 			// Change the user name if needed
-			if (username != null && !target.getUsername().equals(username)) {
+			if (username != null && !username.isEmpty() && !target.getUsername().equals(username)) {
 				if(!ValidationSnipets.isUsernameTaken(username)) {
 					target.setUsername(username);
 					changes.add("Username updated");
@@ -156,7 +192,7 @@ public class Settings extends HttpServlet {
 			
 			
 			// Change the email if needed
-			if(email != null && !target.getEmail().equals(email)) {
+			if(email != null && !email.isEmpty() && !target.getEmail().equals(email)) {
 				if(!ValidationSnipets.isValidEmail(email)) {
 					errors.add("Email is invalid");
 				}else if(ValidationSnipets.isEmailTaken(email)){
@@ -170,13 +206,13 @@ public class Settings extends HttpServlet {
 			
 
 			// Change first and last names if needed
-			if (fname != null && fname.length() > 0 && !target.getFname().equals(fname)) {
+			if (fname != null && !fname.isEmpty() && fname.length() > 0 && !target.getFname().equals(fname)) {
 				target.setFname(fname);
 				changes.add("First name updated");
 				log.info("First name updated");
 			}
 			
-			if(lname != null && lname.length() > 0 && !target.getLname().equals(lname)) {
+			if(lname != null && !lname.isEmpty() && lname.length() > 0 && !target.getLname().equals(lname)) {
 				target.setLname(lname);
 				changes.add("Last name updated");
 				log.info("Last name updated");

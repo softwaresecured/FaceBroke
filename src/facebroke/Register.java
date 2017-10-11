@@ -21,25 +21,68 @@ import facebroke.model.Wall;
 import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
+
+/**
+ * Handle /register endpoint. Allows a new user to register via POST
+ * 
+ * @author matt @ Software Secured
+ */
 @WebServlet("/register")
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(Register.class);
 	
+	
+	/**
+	 * Call parent Servlet constructor
+	 */
 	public Register() {
 		super();
 	}
 
+	
+	/**
+	 * Handle GET requests for the /register page.
+	 * Simply should return the registration/login page if user is not logged in.
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		
+		// If suer is already logged in, send to homepage
+		if(ValidationSnipets.isValidSession(req.getSession())){
+			res.sendRedirect("index");
+			return;
+		}
+		
+		// Forward the request to the register JSP file
 		req.getRequestDispatcher("register.jsp").forward(req, res);
 	}
 
 
+	/**
+	 * Handle a new registration via POST request. Simple pass control to the handleRegistration method
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		handleRegistration(req,res);
 	}
 
 
+	/**
+	 * Handle registering new User.
+	 * 
+	 * Accepts the following parameters:
+	 *   regUsername -> the username the candidate is requesting (must be unique)
+	 *   regEmail -> the email the candidate is requesting (must be unique)
+	 *   regFirstName -> candidate's first name (must not be blank)
+	 *   regLastName -> candidate's last name (may be blank. i.e. mononyms)
+	 *   regDOB -> candidate's Date of Birth
+	 *   regPassword -> candidate's Password
+	 *   regPasswordConfirm -> must match the first password
+	 * 
+	 * @param req
+	 * @param res
+	 * @throws IOException
+	 * @throws ServletException
+	 */
 	private void handleRegistration(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		if (ValidationSnipets.isValidSession(req.getSession())) {
 			res.sendRedirect("index");
@@ -72,7 +115,7 @@ public class Register extends HttpServlet {
 		log.info("Last Name: {}",ValidationSnipets.sanitizeCRLF(lname));
 		log.info("DOB: {}",ValidationSnipets.sanitizeCRLF(dob_raw));
 		
-		
+		// Die if username is not unique
 		if(ValidationSnipets.isUsernameTaken(username)) {
 			req.setAttribute("authMessage", "Username already taken");
 			reqDis.forward(req, res);
@@ -87,7 +130,7 @@ public class Register extends HttpServlet {
 			return;
 		}
 		
-		
+		// Die is email is not unique
 		if(ValidationSnipets.isEmailTaken(email)) {
 			req.setAttribute("authMessage", "Email already taken");
 			reqDis.forward(req, res);
@@ -102,6 +145,7 @@ public class Register extends HttpServlet {
 			return;
 		}
 		
+		// Catch in case of mononyms
 		if(lname == null) {
 			lname = "";
 		}
@@ -116,6 +160,7 @@ public class Register extends HttpServlet {
 		try {
 			dob = ValidationSnipets.parseDate(dob_raw);
 		} catch (ParseException e) {
+			// Die if DOB can't be parsed
 			req.setAttribute("authMessage", "Invalid Date of Birth Format. Need yyyy-mm-dd");
 			reqDis.forward(req, res);
 			return;
