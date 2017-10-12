@@ -6,8 +6,20 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
+
+/**
+ * A static class to hold useful methods for misc. authentication tasks.
+ * 
+ * No need to ever instantiate.
+ * 
+ * 
+ * @author matt @ Software Secured
+ */
 public class AuthHelper {
 
+	/**
+	 * Current default, but would require 
+	 */
 	public final static int SALTLENGTH = 32;
 
 	public static byte[] decodeBase64(String str) {

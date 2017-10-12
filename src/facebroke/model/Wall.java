@@ -11,6 +11,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+
+/**
+ * JPA-annotated class to hold a Wall and the associated data.
+ * 
+ * Currently, this object seems superfluous since there's currently a 1-1 relationship
+ * between a Wall and the owning User. However, intention is to expand the
+ * app with the ability to create new Wall objects (i.e. create a public group)
+ * so this is simply a proactive table
+ * 
+ * @author matt @ Software Secured
+ */
 @Entity
 @Table(name = "Walls")
 public class Wall {
@@ -26,9 +37,9 @@ public class Wall {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	// Hibernate constructor
-	public Wall() {
-	}
+	// Private Hibernate constructor
+	@SuppressWarnings("unused")
+	private Wall() {}
 
 	/**
 	 * Build a wall, not the "Mexico will pay for it" kind, thankfully
