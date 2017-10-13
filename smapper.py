@@ -33,6 +33,7 @@ def load_jsp(filename, jsps):
     with jsps[filename].open() as file:
         for line in file:
             if ".jsp" in line and "include" in line:
+                result.append((-1,""))
                 matches = re.search(r"[\'\"](.*.jsp)", line)
                 if matches:
                     chunk = load_jsp(matches.group(1), jsps)
@@ -67,19 +68,16 @@ def load_smap_jsp(jsp_name, virt_jsp, smaps, jsps):
             with smaps[name].open() as smap:
                 files = list()
                 context = 0
-                main_jsp_id = -1
 
                 for line in smap:
                     if "+" in line:
                         chunks = line.split()
-                        import_name = chunks[2]
                         num_lines = 0
-                        with jsps[jsp_name].open() as file:
+                        with jsps[chunks[2]].open() as file:
                             for line in file:
                                 num_lines += 1
-                        files.append((import_name, num_lines))
-                        if import_name == jsp_name:
-                            main_jsp_id = len(files)-1
+                            print("TOTAL: "+str(num_lines))
+                        files.append(num_lines)
                     elif ":" in line:
                         input_start_line = None
                         line_file_id = None
@@ -110,16 +108,16 @@ def load_smap_jsp(jsp_name, virt_jsp, smaps, jsps):
                         if output_line_increment is None:
                             output_line_increment = 1
 
-                        #print("{}#{},{}:{},{}".format(input_start_line, line_file_id, repeat_count, output_start_line, output_line_increment))
-                        for n in range(0, repeat_count):
-                            offset = 0
-                            for x in range(0, context):
-                                offset += files[x][1]
+                        offset = 0
+                        for x in range(0, context+1):
+                            offset += files[x]
+                            print("offset: "+str(files[x]))
 
-                            index = input_start_line + n + offset
-                            out = output_start_line + (n*output_line_increment)
+                        index = input_start_line + offset - 1
+                        out = output_start_line + output_line_increment - 1
+                        print("{}#{},{}:{},{} --> {},{}".format(input_start_line, line_file_id, repeat_count, output_start_line, output_line_increment, index, out))
 
-                            virt_jsp[index] = (out, virt_jsp[index][1])
+                        virt_jsp[index] = (out, virt_jsp[index][1])
 
             break
     return virt_jsp
@@ -146,7 +144,7 @@ def main():
 
     # Now have two dicts, one of JSP names and paths and another
     # of smap names and paths
-    for jsp_name in jsps:
+    for jsp_name in ["wall.jsp"]:
         print(SEP)
         print("File: {}".format(jsp_name))
         print(SEP)
