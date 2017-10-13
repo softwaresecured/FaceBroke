@@ -33,13 +33,13 @@ def load_jsp(filename, jsps):
     with jsps[filename].open() as file:
         for line in file:
             if ".jsp" in line and "include" in line:
-                result.append((-1,""))
+                result.append((list(), ""))
                 matches = re.search(r"[\'\"](.*.jsp)", line)
                 if matches:
                     chunk = load_jsp(matches.group(1), jsps)
                     result = result + chunk
             else:
-                result.append((-1, line.strip()))
+                result.append((list(), line.strip()))
     return result
 
 
@@ -47,10 +47,7 @@ def printVirtFile(file):
     print(" JAVA |  JSP | Line")
     print(SEP)
     for (index, line) in enumerate(file):
-        if line[0] != -1:
-            print(" {:4d} : {:4d} : {}".format(line[0], index+1, line[1]))
-        else:
-            print("      : {:4d} : {}".format(index+1, line[1]))
+        print(" {} : {:4d} : {}".format(line[0], index+1, line[1]))
 
 
 def load_smap_jsp(jsp_name, virt_jsp, smaps, jsps):
@@ -109,15 +106,18 @@ def load_smap_jsp(jsp_name, virt_jsp, smaps, jsps):
                             output_line_increment = 1
 
                         offset = 0
-                        for x in range(0, context+1):
+                        for x in range(0, context):
                             offset += files[x]
-                            print("offset: "+str(files[x]))
 
                         index = input_start_line + offset - 1
-                        out = output_start_line + output_line_increment - 1
-                        print("{}#{},{}:{},{} --> {},{}".format(input_start_line, line_file_id, repeat_count, output_start_line, output_line_increment, index, out))
-
-                        virt_jsp[index] = (out, virt_jsp[index][1])
+                        out = output_start_line
+                        print("{}#{},{}:{},{} --> {},{},{}".format(input_start_line, line_file_id, repeat_count, output_start_line, output_line_increment, offset, index, out))
+                        #print("-->"+str(index))
+                        if index >= len(virt_jsp):
+                            print("Invalid index: "+str(index))
+                            continue
+                        virt_jsp[index][0].append(index)
+                        #print(index)
 
             break
     return virt_jsp
