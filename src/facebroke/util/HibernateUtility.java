@@ -13,9 +13,18 @@ import org.slf4j.LoggerFactory;
 import facebroke.Loader;
 import facebroke.model.User;
 
+
+/**
+ * FaceBroke uses Hibernate as it's ORM. To simplify things, every FaceBroke method must
+ * get a Hibernate Session 
+ * 
+ * 
+ * 
+ * @author matt @ Software Secured
+ */
 public class HibernateUtility {
 
-	private static SessionFactory factory;
+	private static SessionFactory factory = null;
 	private static String urlParam = "hibernate.connection.url";
 	private final static Logger log = LoggerFactory.getLogger(HibernateUtility.class);
 
