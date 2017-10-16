@@ -43,11 +43,16 @@ def load_jsp(filename, jsps):
     return result
 
 
-def printVirtFile(file):
+def printVirtFile(virtFile):
+    lineCount = 0
+    for (index, line) in enumerate(virtFile):
+        if len(line[0]) > lineCount:
+            lineCount = len(line[0])
+    print(lineCount)
     print(" JAVA |  JSP | Line")
     print(SEP)
-    for (index, line) in enumerate(file):
-        print(" {} : {:4d} : {}".format(line[0], index+1, line[1]))
+    for (index, line) in enumerate(virtFile):
+        print((" {:>"+str(4*lineCount)+"s} : {:4d} : {}").format(",".join(line[0]), index+1, line[1]))
 
 
 def load_smap_jsp(jsp_name, virt_jsp, smaps, jsps):
@@ -73,7 +78,6 @@ def load_smap_jsp(jsp_name, virt_jsp, smaps, jsps):
                         with jsps[chunks[2]].open() as file:
                             for line in file:
                                 num_lines += 1
-                            print("TOTAL: "+str(num_lines))
                         files.append(num_lines)
                     elif ":" in line:
                         input_start_line = None
@@ -111,13 +115,12 @@ def load_smap_jsp(jsp_name, virt_jsp, smaps, jsps):
 
                         index = input_start_line + offset - 1
                         out = output_start_line
-                        print("{}#{},{}:{},{} --> {},{},{}".format(input_start_line, line_file_id, repeat_count, output_start_line, output_line_increment, offset, index, out))
-                        #print("-->"+str(index))
+                        #print("{}#{},{}:{},{} --> {},{},{}".format(input_start_line, line_file_id, repeat_count, output_start_line, output_line_increment, offset, index, out))
+
                         if index >= len(virt_jsp):
                             print("Invalid index: "+str(index))
                             continue
-                        virt_jsp[index][0].append(index)
-                        #print(index)
+                        virt_jsp[index][0].append(str(index))
 
             break
     return virt_jsp
