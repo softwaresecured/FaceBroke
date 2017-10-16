@@ -81,16 +81,7 @@ public class Loader {
 		loadRandomPosts(MAX_RANDOM_POSTS, SEED);
 		loadRandomComments(MAX_RANDOM_COMMENTS, SEED);
 		loadVersionInfo(version);
-		
-		FullTextSession fts = Search.getFullTextSession(HibernateUtility.getSessionFactory().openSession());
-		try {
-			log.info("Starting Index");
-			fts.createIndexer().startAndWait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	}	
 
 	
 	/**
