@@ -15,6 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Store;
+
 import facebroke.util.AuthHelper;
 
 /**
@@ -44,10 +49,15 @@ public class User {
 	
 	private Calendar dob;
 
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String fname, lname;
 	
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@Column(unique=true)
-	private String username, email;
+	private String username;
+	
+	@Column(unique=true)
+	private String email;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

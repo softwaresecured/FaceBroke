@@ -2,6 +2,9 @@ package facebroke.util;
 
 import java.util.List;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -25,6 +28,7 @@ import facebroke.model.User;
 public class HibernateUtility {
 
 	private static SessionFactory factory = null;
+	private static EntityManagerFactory emf = null;
 	private static String urlParam = "hibernate.connection.url";
 	private final static Logger log = LoggerFactory.getLogger(HibernateUtility.class);
 
@@ -92,5 +96,15 @@ public class HibernateUtility {
 		}
 		
 		factory = null;
+	}
+	
+	
+	public static synchronized EntityManagerFactory getEntityManagerFactory() {
+		
+		if(emf == null) {
+			emf = Persistence.createEntityManagerFactory("EMF");
+		}
+		
+		return emf;
 	}
 }
