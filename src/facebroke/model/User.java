@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Store;
 
 import facebroke.util.AuthHelper;
@@ -28,6 +29,7 @@ import facebroke.util.AuthHelper;
  * @author matt @ Software Secured
  */
 @Entity
+@Indexed
 @Table(name = "Users")
 public class User {
 

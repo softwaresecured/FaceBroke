@@ -1,6 +1,7 @@
 package facebroke;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
@@ -10,7 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.lucene.search.Query;
+import org.hibernate.search.FullTextQuery;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.query.dsl.QueryBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
@@ -25,14 +32,15 @@ import facebroke.util.HibernateUtility;
  * @author matt @ Software Secured
  */
 @WebServlet("/search")
-public class Search extends HttpServlet {
+public class SearchManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final static Logger log = LoggerFactory.getLogger(SearchManager.class);
 
 	
 	/**
 	 * Call parent servlet
 	 */
-    public Search() {
+    public SearchManager() {
         super();
     }
 
@@ -55,20 +63,26 @@ public class Search extends HttpServlet {
 	
 	private void handleSearch(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
-		EntityManager em = HibernateUtility.getEntityManagerFactory().createEntityManager();
+		FullTextSession fts = Search.getFullTextSession(HibernateUtility.getSessionFactory().openSession());
 		
-		FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
+		fts.beginTransaction();
 		
-		em.getTransaction().begin();
+		QueryBuilder qb = fts.getSearchFactory()
+							 .buildQueryBuilder()
+							 .forEntity(User.class)
+							 .get();
 		
-		org.hibernate.search.query.dsl.QueryBuilder qb = fullTextEntityManager.getSearchFactory()
-												.buildQueryBuilder()
-												.forEntity(User.class)
-												.get();
+		Query query = qb.keyword()
+						.onField("fname")
+						.matching("matt")
+						.createQuery();
 		
-		Query luceneQuery = qb.keyword().onField("fname").matching("matt").createQuery();
+		//Hibernate Query wrapper
+		FullTextQuery hibQuery = fts.createFullTextQuery(query, User.class);
 		
-		javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, User.class);
+		@SuppressWarnings("unchecked")
+		List<User> result = (List<User>)hibQuery.getResultList();
 		
+		log.info("Got {} results for \'matt\'",result.size());
 	}
 }
