@@ -91,7 +91,6 @@ public class SearchManager extends HttpServlet {
 							 .get();
 		
 		Query query = qb.keyword()
-						.fuzzy()
 						.onFields("fname","lname","username")
 						.matching(queryString)
 						.createQuery();
