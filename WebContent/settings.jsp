@@ -80,7 +80,7 @@
 <div class="row">
 	<div class="col-md-4 col-md-push-4">
 		<form action="image" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="creator_id" value="${target_user_id}">
+			<input type="hidden" name="creator_id" value="${e:forHtml(sessionScope.user_id)}">
 			<input type="hidden" name="owner_id" value="${target_user_id}">
 			<input type="hidden" name="label" value="Profile Picture">
 			<input type="hidden" name="context" value="profile">

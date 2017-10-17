@@ -1,9 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="e"%>
 
 <div class="row">
 	<div class="col-md-3 text-center">
 		<c:if test="${onWall == 1}">
 			<img src="image?id=${wall_owner.profilePicture.id}" alt="User profile picture" class="img-rounded profile-img">
+			<br>
+			<c:if test="${e:forHtml(sessionScope.user_role) == 'ADMIN'}">
+				<a class="btn" href="settings?id=${wall_owner.id}"><span class="glyphicon glyphicon-cog"></span> Settings</a>
+			</c:if>
 		</c:if>
 	</div>
 

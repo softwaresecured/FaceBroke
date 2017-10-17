@@ -139,6 +139,13 @@ public class Login extends HttpServlet {
 			req.getSession().setAttribute("user_fname", candidate.getFname());
 			req.getSession().setAttribute("user_lname", candidate.getLname());
 			req.getSession().setAttribute("user_wall_id", candidate.getWall().getId());
+			
+			if(candidate.getRole().equals(User.UserRole.ADMIN)) {
+				req.getSession().setAttribute("user_role", "ADMIN");
+			}else {
+				req.getSession().setAttribute("user_role", "USER");
+			}
+			
 			if(candidate.getProfilePicture() != null) {
 				req.getSession().setAttribute("user_pic_id", candidate.getProfilePicture().getId());
 			}else {

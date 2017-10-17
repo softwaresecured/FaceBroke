@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
 
 import facebroke.model.Image;
 import facebroke.model.User;
+import facebroke.model.User.UserRole;
+import facebroke.util.FacebrokeException;
 import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
 
@@ -128,6 +130,8 @@ public class ImageManager extends HttpServlet {
 		String label = "";
 		String mimetype = "";
 		
+		Session sess = HibernateUtility.getSessionFactory().openSession();
+		
 		// Using Apache Commons File Upload handler
 		try {
 			List<FileItem> items = new ServletFileUpload(factory).parseRequest(req);
@@ -175,8 +179,6 @@ public class ImageManager extends HttpServlet {
 				// HANDLE BAD REQUEST
 			}
 			
-			Session sess = HibernateUtility.getSessionFactory().openSession();
-			
 			User owner, creator;
 			
 			owner = (User)sess.createQuery("From User u WHERE u.id=:user_id")
@@ -193,7 +195,25 @@ public class ImageManager extends HttpServlet {
 			Image img = new Image(owner, creator, Image.Viewable.All, data, size, label, mimetype);
 			sess.save(img);
 			
+			// Updating own profile picture
 			if(context.equals("profile") && creator.equals(owner)) {
+				Image current = owner.getProfilePicture();
+				owner.setProfilePicture(img);
+				sess.save(owner);
+				req.getSession().setAttribute("user_pic_id", img.getId());
+				if (current != null) {
+					// Delete the User's previous picture
+					log.info("Trying to delete image {}",current.getId());
+					sess.delete(current);
+				}
+			}
+			// Trying to update another user
+			else if(context.equals("profile")) {
+				if(creator.getRole() != UserRole.ADMIN) {
+					// Not an admin, not allowed
+					throw new FacebrokeException("Don't have permission to modify other's settings");
+				}
+				
 				Image current = owner.getProfilePicture();
 				owner.setProfilePicture(img);
 				sess.save(owner);
@@ -206,18 +226,26 @@ public class ImageManager extends HttpServlet {
 			
 			sess.getTransaction().commit();
 			log.info("Created new img: {}",ValidationSnipets.sanitizeCRLF(img.toString()));
-			req.getSession().setAttribute("user_pic_id", img.getId());
 			log.info("Mimetype: "+mimetype);
 			
-			if(context.equals("profile") && creator.equals(owner)) {
+			if(context.equals("profile")) {
 				res.sendRedirect("settings?id="+owner.getId());
 			}
 			
 		}catch(FileUploadException e) {
 			log.error("{}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
+			sess.close();
 		}catch(NumberFormatException e) {
 			log.error("{}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
+			sess.close();
+		}catch(FacebrokeException e) {
+			req.setAttribute("serverMessage", e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.close();
+			return;
 		}
+		
+		sess.close();
 	}
 
 	
