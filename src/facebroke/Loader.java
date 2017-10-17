@@ -192,7 +192,7 @@ public class Loader {
 
 
 		@SuppressWarnings("unchecked")
-		List<Wall> walls = (List<Wall>)sess.createQuery("FROM Wall w").list();
+		List<Wall> walls = sess.createQuery("FROM Wall w").list();
 		
 		sess.beginTransaction();
 		
@@ -235,7 +235,7 @@ public class Loader {
 		LoremGenerator lg = new LoremGenerator(seed*4);
 		
 		@SuppressWarnings("unchecked")
-		List<Post> posts = (List<Post>)sess.createQuery("FROM Post").list();
+		List<Post> posts = sess.createQuery("FROM Post").list();
 		
 		sess.beginTransaction();
 		int totalComments = 0;

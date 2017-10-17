@@ -40,6 +40,7 @@ public class Feed extends HttpServlet {
     /**
      * Handle GET requests to the index. Render the wall JSP to the user if they have a valid session
      */
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// If not valid session, send user to registration page
 		if(!ValidationSnipets.isValidSession(req.getSession())){

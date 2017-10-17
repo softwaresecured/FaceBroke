@@ -83,8 +83,8 @@ public class Login extends HttpServlet {
 		// Setup a dispatcher to return to login page on error
 		RequestDispatcher reqDis = req.getRequestDispatcher("register.jsp");
 
-		String user_cred = (String) req.getParameter("user_cred");
-		String pass = (String) req.getParameter("password");
+		String user_cred = req.getParameter("user_cred");
+		String pass = req.getParameter("password");
 
 		if (user_cred == null || pass == null) {
 			req.setAttribute("authMessage", INVALID_LOGIN_CREDS);
@@ -111,9 +111,9 @@ public class Login extends HttpServlet {
 		log.info("Trying to validate login");
 
 		if (ValidationSnipets.isValidEmail(user_cred)) {
-			query = (Query<User>)sess.createQuery("FROM User U WHERE U.email = :user_cred");
+			query = sess.createQuery("FROM User U WHERE U.email = :user_cred");
 		} else {
-			query = (Query<User>)sess.createQuery("FROM User U WHERE U.username = :user_cred");
+			query = sess.createQuery("FROM User U WHERE U.username = :user_cred");
 		}
 
 		results = query.setParameter("user_cred", user_cred).list();

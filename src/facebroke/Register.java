@@ -45,6 +45,7 @@ public class Register extends HttpServlet {
 	 * Handle GET requests for the /register page.
 	 * Simply should return the registration/login page if user is not logged in.
 	 */
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
 		// If suer is already logged in, send to homepage
@@ -61,6 +62,7 @@ public class Register extends HttpServlet {
 	/**
 	 * Handle a new registration via POST request. Simple pass control to the handleRegistration method
 	 */
+	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		handleRegistration(req,res);
 	}

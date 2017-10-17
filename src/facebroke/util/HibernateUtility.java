@@ -44,7 +44,7 @@ public class HibernateUtility {
 			try {
 				Session sess = factory.openSession();
 				@SuppressWarnings("unchecked")
-				List<User> results = (List<User>)sess.createQuery("From DummyDataInfo").list();
+				List<User> results = sess.createQuery("From DummyDataInfo").list();
 				sess.close();
 				if(results.size() < 1) {
 					throw new Exception("Empty DB");

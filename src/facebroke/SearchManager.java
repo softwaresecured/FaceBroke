@@ -48,6 +48,7 @@ public class SearchManager extends HttpServlet {
     /**
      * Simple shim to pass GET requests to handleSearch
      */
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		handleSearch(req, res);
 	}
@@ -56,6 +57,7 @@ public class SearchManager extends HttpServlet {
 	/**
      * Simple shim to pass POST requests to handleSearch
      */
+	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		handleSearch(req, res);
 	}
@@ -98,7 +100,7 @@ public class SearchManager extends HttpServlet {
 		FullTextQuery hibQuery = fts.createFullTextQuery(query, User.class);
 		
 		@SuppressWarnings("unchecked")
-		List<User> result = (List<User>)hibQuery.getResultList();
+		List<User> result = hibQuery.getResultList();
 		
 		log.info("Got {} results for \'{}\'",result.size(),ValidationSnipets.sanitizeCRLF(queryString));
 		

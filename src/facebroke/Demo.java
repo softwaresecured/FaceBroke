@@ -92,6 +92,7 @@ public class Demo extends HttpServlet {
 	/**
 	 * Handle GET. Doesn't take parameters, just passes control to the Demo JSP
 	 */
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		log.info("Received GET request");
 		if(!ValidationSnipets.isValidSession(req.getSession())){

@@ -48,6 +48,7 @@ public class CommentManager extends HttpServlet {
      *   creator_id -> the numerical id of the creating user
      *   post_id ->  
      */
+	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		if(!ValidationSnipets.isValidSession(req.getSession())){
 			res.sendRedirect("index");
@@ -76,7 +77,7 @@ public class CommentManager extends HttpServlet {
 			// Validate user
 			long creator_id = Long.parseLong(creator_id_string);
 			@SuppressWarnings("unchecked")
-			List<User> users = (List<User>) sess.createQuery("FROM User u WHERE u.id = :creator_id")
+			List<User> users = sess.createQuery("FROM User u WHERE u.id = :creator_id")
 													.setParameter("creator_id", creator_id)
 													.list();
 			
@@ -91,7 +92,7 @@ public class CommentManager extends HttpServlet {
 			// Validate Post ID
 			long post_id = Long.parseLong(post_id_string);
 			@SuppressWarnings("unchecked")
-			List<Post> posts = (List<Post>) sess.createQuery("FROM Post p WHERE p.id = :post_id")
+			List<Post> posts = sess.createQuery("FROM Post p WHERE p.id = :post_id")
 													.setParameter("post_id", post_id)
 													.list();
 			

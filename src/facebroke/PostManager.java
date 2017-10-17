@@ -54,6 +54,7 @@ public class PostManager extends HttpServlet {
 	 *   user_id -> the user_id corresponding to the wall being requested. -1 implies get the general newsfeed (all posts)
 	 *   start -> the id of the first post to be on the requested page
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
@@ -99,7 +100,7 @@ public class PostManager extends HttpServlet {
 		
 		// We want to get the main newsfeed
 		if(user_id == -1) {
-			posts = (List<Post>)sess.createQuery(
+			posts = sess.createQuery(
 					"FROM Post p ORDER BY p.created desc")
 					.setFirstResult(pageStart)
 					.setMaxResults(postsPerPage)
@@ -119,7 +120,7 @@ public class PostManager extends HttpServlet {
 			User wallOwner = results.get(0);
 			req.setAttribute("wall_owner", wallOwner);
 
-			posts = (List<Post>)sess.createQuery(
+			posts = sess.createQuery(
 						"FROM Post p where p.wall.id = :wall_id ORDER BY p.created desc")
 						.setParameter("wall_id", wallOwner.getId())
 						.setFirstResult(pageStart)
@@ -145,6 +146,7 @@ public class PostManager extends HttpServlet {
 	 *   content -> the content string
 	 *   on_wall -> if not null or empty, then we're sending the request on a wall
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		if(!ValidationSnipets.isValidSession(req.getSession())){
@@ -175,7 +177,7 @@ public class PostManager extends HttpServlet {
 			// Validate Wall ID
 			long wall_id = Long.parseLong(wall_id_string);
 			
-			List<Wall> walls = (List<Wall>)sess.createQuery("FROM Wall w WHERE w.id = :wall_id")
+			List<Wall> walls = sess.createQuery("FROM Wall w WHERE w.id = :wall_id")
 							 .setParameter("wall_id", wall_id)
 							 .list();
 			
@@ -190,7 +192,7 @@ public class PostManager extends HttpServlet {
 			// Validate User ID
 			long user_id = Long.parseLong(creator_id_string);
 			
-			List<User> users = (List<User>)sess.createQuery("FROM User u WHERE u.id = :user_id")
+			List<User> users = sess.createQuery("FROM User u WHERE u.id = :user_id")
 					 						.setParameter("user_id", user_id)
 					 						.list();
 			

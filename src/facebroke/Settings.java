@@ -50,6 +50,7 @@ public class Settings extends HttpServlet {
      *    id -> the user_id of the User who's settings we will view/modify
      *    
      */
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		log.info("Got "+req.getParameterMap().size()+" paramters to GET");
 		
@@ -69,11 +70,11 @@ public class Settings extends HttpServlet {
 			Session sess = HibernateUtility.getSessionFactory().openSession();
 			long target_id = Long.parseLong(target_id_string);
 			@SuppressWarnings("unchecked")
-			List<User> target_list = (List<User>) sess.createQuery("FROM User u where u.id = :user_id")
+			List<User> target_list = sess.createQuery("FROM User u where u.id = :user_id")
 									.setParameter("user_id", target_id)
 									.list();
 			@SuppressWarnings("unchecked")
-			List<User> current_user_list = (List<User>) sess.createQuery("FROM User u where u.id = :user_id")
+			List<User> current_user_list = sess.createQuery("FROM User u where u.id = :user_id")
 											.setParameter("user_id", req.getSession().getAttribute("user_id"))
 											.list();
 			
@@ -129,6 +130,7 @@ public class Settings extends HttpServlet {
 	 *   regPasswordConfirm -> new password confirmation
 	 *   
 	 */
+	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		log.info("Got "+req.getParameterMap().size()+" paramters to POST");
 		if (!ValidationSnipets.isValidSession(req.getSession())) {
@@ -150,7 +152,7 @@ public class Settings extends HttpServlet {
 		long target_id = Long.parseLong(target_user_id_string);
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		@SuppressWarnings("unchecked")
-		List<User> target_list = (List<User>) sess.createQuery("FROM User u where u.id = :user_id")
+		List<User> target_list = sess.createQuery("FROM User u where u.id = :user_id")
 								.setParameter("user_id", target_id)
 								.list();
 		
