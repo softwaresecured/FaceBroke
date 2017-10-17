@@ -74,14 +74,13 @@ public class SearchManager extends HttpServlet {
 		
 		queryString = req.getParameter("q");
 		
-		if(queryString == null || queryString.length() < 1) {
+		if(queryString == null || queryString.length() < 3) {
 			// Pass a results object to JSTL to handle
 			req.setAttribute("rows", new ArrayList<User>());
 			
 			// Forward to JSP to handle
 			req.getRequestDispatcher("search_results.jsp").forward(req, res);
 		}
-
 		FullTextSession fts = Search.getFullTextSession(HibernateUtility.getSessionFactory().openSession());
 		
 		fts.beginTransaction();
@@ -92,6 +91,7 @@ public class SearchManager extends HttpServlet {
 							 .get();
 		
 		Query query = qb.keyword()
+						.fuzzy()
 						.onFields("fname","lname","username")
 						.matching(queryString)
 						.createQuery();
