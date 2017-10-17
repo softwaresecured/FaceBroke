@@ -96,6 +96,8 @@ public class SearchManager extends HttpServlet {
 		
 		Query query = qb.keyword()
 						.onField("fname")
+						.andField("lname")
+						.andField("username")
 						.matching(queryString)
 						.createQuery();
 		
@@ -105,7 +107,7 @@ public class SearchManager extends HttpServlet {
 		@SuppressWarnings("unchecked")
 		List<User> result = (List<User>)hibQuery.getResultList();
 		
-		log.info("Got {} results for \'mary\'",result.size());
+		log.info("Got {} results for \'{}\'",result.size(),ValidationSnipets.sanitizeCRLF(queryString));
 		
 		
 		// Pass a results object to JSTL to handle
