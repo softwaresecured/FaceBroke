@@ -55,8 +55,14 @@
 					</form>
 				</c:when>
 				<c:otherwise>
+					
 					<ul class="nav navbar-nav navbar-right">
-
+						<li>
+							<form class="navbar-form" action="search" method="get">
+								<!--<input type="text" name="search" placeholder="Search" class="form-control">-->
+								<input type="search" name="q" required="true" placeholder="Search" >
+							</form>
+						</li>
 						<li class=" dropdown"><a href="#"
 							class="dropdown-toggle user-dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -69,8 +75,6 @@
 										class="glyphicon glyphicon-user"></span> Wall</a></li>
 								<li><a href="demo"><span
 										class="glyphicon glyphicon-tag"></span> Demo</a></li>
-								<li><a href="search"><span
-										class="glyphicon glyphicon-search"></span> Search</a></li>
 								<li><a href="settings?id=${e:forHtml(sessionScope.user_id)}"><span
 										class="glyphicon glyphicon-cog"></span> Settings</a></li>
 								<li><a href="logout"><span

@@ -1,6 +1,7 @@
 package facebroke;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -18,11 +19,13 @@ import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import facebroke.model.User;
 import facebroke.util.HibernateUtility;
+import facebroke.util.ValidationSnipets;
 
 
 /**
@@ -64,7 +67,24 @@ public class SearchManager extends HttpServlet {
 
 	
 	private void handleSearch(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		// If not valid session, send user to registration page
+		if(!ValidationSnipets.isValidSession(req.getSession())){
+			res.sendRedirect("register");
+			return;
+		}
 		
+		String queryString;
+		
+		queryString = req.getParameter("q");
+		
+		if(queryString == null || queryString.length() < 1) {
+			// Pass a results object to JSTL to handle
+			req.setAttribute("rows", new ArrayList<User>());
+			
+			// Forward to JSP to handle
+			req.getRequestDispatcher("search_results.jsp").forward(req, res);
+		}
+
 		FullTextSession fts = Search.getFullTextSession(HibernateUtility.getSessionFactory().openSession());
 		
 		fts.beginTransaction();
@@ -76,7 +96,7 @@ public class SearchManager extends HttpServlet {
 		
 		Query query = qb.keyword()
 						.onField("fname")
-						.matching("mary")
+						.matching(queryString)
 						.createQuery();
 		
 		//Hibernate Query wrapper
@@ -87,20 +107,13 @@ public class SearchManager extends HttpServlet {
 		
 		log.info("Got {} results for \'mary\'",result.size());
 		
-		if(result.size() > 0) {
-			
-			/*Collections.sort(result, new Comparator<User>() {
-				public int compare(final User a, final User b) {
-					return a.getFname().compareTo(b.getFname());
-				}
-			});*/
-			
-	
-			for(User u : result) {
-				log.info("First Name: {}",u.getFname());
-				log.info("Last Name: {}",u.getLname());
-				log.info("Username: {}",u.getUsername());
-			}
-		}
+		
+		// Pass a results object to JSTL to handle
+		req.setAttribute("rows", result);
+		
+		// Forward to JSP to handle
+		req.getRequestDispatcher("search_results.jsp").forward(req, res);
+		
+		fts.close();
 	}
 }
