@@ -69,6 +69,8 @@
 										class="glyphicon glyphicon-user"></span> Wall</a></li>
 								<li><a href="demo"><span
 										class="glyphicon glyphicon-tag"></span> Demo</a></li>
+								<li><a href="search"><span
+										class="glyphicon glyphicon-search"></span> Search</a></li>
 								<li><a href="settings?id=${e:forHtml(sessionScope.user_id)}"><span
 										class="glyphicon glyphicon-cog"></span> Settings</a></li>
 								<li><a href="logout"><span

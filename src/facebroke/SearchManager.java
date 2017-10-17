@@ -1,6 +1,8 @@
 package facebroke;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -74,7 +76,7 @@ public class SearchManager extends HttpServlet {
 		
 		Query query = qb.keyword()
 						.onField("fname")
-						.matching("matt")
+						.matching("mary")
 						.createQuery();
 		
 		//Hibernate Query wrapper
@@ -83,6 +85,22 @@ public class SearchManager extends HttpServlet {
 		@SuppressWarnings("unchecked")
 		List<User> result = (List<User>)hibQuery.getResultList();
 		
-		log.info("Got {} results for \'matt\'",result.size());
+		log.info("Got {} results for \'mary\'",result.size());
+		
+		if(result.size() > 0) {
+			
+			/*Collections.sort(result, new Comparator<User>() {
+				public int compare(final User a, final User b) {
+					return a.getFname().compareTo(b.getFname());
+				}
+			});*/
+			
+	
+			for(User u : result) {
+				log.info("First Name: {}",u.getFname());
+				log.info("Last Name: {}",u.getLname());
+				log.info("Username: {}",u.getUsername());
+			}
+		}
 	}
 }
