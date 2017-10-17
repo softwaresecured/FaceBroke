@@ -5,7 +5,7 @@
 <div class="table-responsive">
 	<table class="table">
 
-		<c:forEach items="${rows}" var="u">
+		<c:forEach items="${user_rows}" var="u">
 			<tr>
 				<td>${u.fname}</td>
 				<td>${u.lname}</td>

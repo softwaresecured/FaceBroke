@@ -95,9 +95,7 @@ public class SearchManager extends HttpServlet {
 							 .get();
 		
 		Query query = qb.keyword()
-						.onField("fname")
-						.andField("lname")
-						.andField("username")
+						.onFields("fname","lname","username")
 						.matching(queryString)
 						.createQuery();
 		
@@ -111,11 +109,12 @@ public class SearchManager extends HttpServlet {
 		
 		
 		// Pass a results object to JSTL to handle
-		req.setAttribute("rows", result);
+		req.setAttribute("user_rows", result);
 		
 		// Forward to JSP to handle
 		req.getRequestDispatcher("search_results.jsp").forward(req, res);
 		
+		fts.getTransaction().commit();
 		fts.close();
 	}
 }
