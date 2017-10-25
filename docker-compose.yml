@@ -24,6 +24,7 @@ services:
     build: .
     ports:
       - "8081:8080"
+      - "8443:8443"
     environment:
       HIBERNATE_FB_URL: jdbc:postgresql://db/pgdb
     depends_on:
