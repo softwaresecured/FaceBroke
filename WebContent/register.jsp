@@ -9,26 +9,26 @@
 			<div class="form-group">
 				<label for="regUsername">Username</label> <input type="text"
 					class="form-control" id="regUsername" name="regUsername"
-					placeholder="Username">
+					placeholder="Username" value="${regUsername}">
 			</div>
 			<div class="form-group">
 				<label for="regEmail">Email address</label> <input type="email"
 					class="form-control" id="regEmail" name="regEmail"
-					placeholder="Email">
+					placeholder="Email" value="${regEmail}">
 			</div>
 			<div class="form-group">
 				<label for="regFirstName">First Name</label> <input type="text"
 					class="form-control" id="regFirstName" name="regFirstName"
-					placeholder="First Name">
+					placeholder="First Name" value="${regFirstName}">
 			</div>
 			<div class="form-group">
 				<label for="regLastName">Last Name</label> <input type="text"
 					class="form-control" id="regLastName" name="regLastName"
-					placeholder="Last Name">
+					placeholder="Last Name" value="${regLastName}">
 			</div>
 			<div class="form-group">
 				<label for="regDOB">Date of Birth</label> <input type="date"
-					class="form-control" id="regDOB" name="regDOB">
+					class="form-control" id="regDOB" name="regDOB" value="${regDOB}">
 			</div>
 			<div class="form-group">
 				<label for="regPassword">Password</label> <input type="password"

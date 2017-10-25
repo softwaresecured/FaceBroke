@@ -103,6 +103,11 @@ public class Register extends HttpServlet {
 		String pass2 = Encode.forHtml(req.getParameter("regPasswordConfirm"));
 		Calendar dob;
 		
+		req.setAttribute("regUsername", username);
+		req.setAttribute("regEmail", email);
+		req.setAttribute("regFirstName", fname);
+		req.setAttribute("regLastName", lname);
+		req.setAttribute("regDOB", dob_raw);
 		
 		
 		// Validate the user name
@@ -204,6 +209,11 @@ public class Register extends HttpServlet {
 		
 		// Finally
 		req.setAttribute("authMessage", "Registration Successful, go ahead and login!");
+		req.setAttribute("regUsername", null);
+		req.setAttribute("regEmail", null);
+		req.setAttribute("regFirstName", null);
+		req.setAttribute("regLastName", null);
+		req.setAttribute("regDOB", null);
 		reqDis.forward(req, res);
 		sess.close();
 	}
