@@ -212,7 +212,7 @@ public class ImageManager extends HttpServlet {
 			}
 			// Trying to update another user
 			else if(context.equals("profile")) {
-				if(creator.getRole() != UserRole.ADMIN) {
+				if(!creator.getRole().equals(UserRole.ADMIN)) {
 					// Not an admin, not allowed
 					throw new FacebrokeException("Don't have permission to modify other's settings");
 				}

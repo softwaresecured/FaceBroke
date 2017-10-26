@@ -76,6 +76,11 @@ public class CommentManager extends HttpServlet {
 		try {
 			// Validate user
 			long creator_id = Long.parseLong(creator_id_string);
+			
+			if(creator_id != (long)req.getSession().getAttribute("user_id")) {
+				throw new FacebrokeException("Can't comment as unauthenticated");
+			}
+			
 			@SuppressWarnings("unchecked")
 			List<User> users = sess.createQuery("FROM User u WHERE u.id = :creator_id")
 													.setParameter("creator_id", creator_id)
@@ -87,6 +92,7 @@ public class CommentManager extends HttpServlet {
 			
 			creator = users.get(0);
 			log.info("Loaded creator: {}",creator.getUsername());
+
 			
 			
 			// Validate Post ID
