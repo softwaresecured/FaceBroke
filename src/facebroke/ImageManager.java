@@ -248,6 +248,8 @@ public class ImageManager extends HttpServlet {
 			return;
 		}
 		
+		
+		log.info("Received a file of type: "+mimetype);
 		sess.close();
 	}
 
