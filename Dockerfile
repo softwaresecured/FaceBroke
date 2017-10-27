@@ -1,4 +1,4 @@
-FROM tomcat:8.5.23-jre8-alpine
+FROM tomcat:8.5-alpine
 
 
 RUN apk add --no-cache openjdk8 maven
