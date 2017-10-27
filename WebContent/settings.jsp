@@ -5,10 +5,8 @@
 
 		<c:if test="${settingsErrors != ''}">
 			<c:forEach items="${settingsErrors}" var="e">
-				<div class="alert alert-warning alert-dismissible fade in"
-					role="alert">
-					<button type="button" class="close" data-dismiss="alert"
-						aria-label="Close">
+				<div class="alert alert-warning alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">x</span>
 					</button>
 					${e}
@@ -19,10 +17,8 @@
 
 		<c:if test="${settingsUpdated != ''}">
 			<c:forEach items="${settingsUpdated}" var="u">
-				<div class="alert alert-warning alert-dismissible fade in"
-					role="alert">
-					<button type="button" class="close" data-dismiss="alert"
-						aria-label="Close">
+				<div class="alert alert-warning alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">x</span>
 					</button>
 					${u}
@@ -37,39 +33,31 @@
 		<form action="settings?id=${target_user_id}" method="post">
 			<input type="hidden" name="target_id" value="${target_user_id}">
 			<div class="form-group">
-				<label for="regUsername">Username</label> <input type="text"
-					class="form-control" id="regUsername" name="regUsername"
-					value="${target.username}">
+				<label for="regUsername">Username</label>
+				<input type="text" class="form-control" id="regUsername" name="regUsername" value="${target.username}">
 			</div>
 			<div class="form-group">
-				<label for="regEmail">Email address</label> <input type="email"
-					class="form-control" id="regEmail" name="regEmail"
-					value="${target.email}">
+				<label for="regEmail">Email address</label>
+				<input type="email" class="form-control" id="regEmail" name="regEmail" value="${target.email}">
 			</div>
 			<div class="form-group">
-				<label for="regFirstName">First Name</label> <input type="text"
-					class="form-control" id="regFirstName" name="regFirstName"
-					value="${target.fname}">
+				<label for="regFirstName">First Name</label>
+				<input type="text" class="form-control" id="regFirstName" name="regFirstName" value="${target.fname}">
 			</div>
 			<div class="form-group">
-				<label for="regLastName">Last Name</label> <input type="text"
-					class="form-control" id="regLastName" name="regLastName"
-					value="${target.lname}">
+				<label for="regLastName">Last Name</label>
+				<input type="text" class="form-control" id="regLastName" name="regLastName" value="${target.lname}">
 			</div>
 			<div class="form-group">
-				<label for="regDOB">Date of Birth</label> <input type="date"
-					class="form-control" id="regDOB" name="regDOB" disabled="true"
-					value="${target.getDOBString()}">
+				<label for="regDOB">Date of Birth</label>
+				<input type="date" class="form-control" id="regDOB" name="regDOB" disabled="true" value="${target.getDOBString()}">
 			</div>
 			<div class="form-group">
-				<label for="regPassword">Password</label> <input type="password"
-					class="form-control" id="regPassword" name="regPassword"
-					placeholder="Password"> <input type="password"
-					class="form-control" id="regPasswordConfirm"
-					name="regPasswordConfirm" placeholder="Confirm Password">
+				<label for="regPassword">Password</label>
+				<input type="password" class="form-control" id="regPassword" name="regPassword" placeholder="Password" autocomplete="off">
+				<input type="password" class="form-control" id="regPasswordConfirm" name="regPasswordConfirm" placeholder="Confirm Password" autocomplete="off">
 			</div>
-			<button type="submit" class="btn btn-default btn-primary">Save
-				Changes</button>
+			<button type="submit" class="btn btn-default btn-primary">Save Changes</button>
 		</form>
 	</div>
 </div>
@@ -85,8 +73,8 @@
 			<input type="hidden" name="label" value="Profile Picture">
 			<input type="hidden" name="context" value="profile">
 			<div class="form-group">
-				<label for="file">Profile Picture</label> <input type="file"
-					id="file" name="file">
+				<label for="file">Profile Picture</label>
+				<input type="file" id="file" name="file">
 			</div>
 			<button type="submit" class="btn btn-default btn-primary">Upload</button>
 		</form>

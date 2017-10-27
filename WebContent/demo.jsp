@@ -9,8 +9,7 @@
 			fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
 			mollis euismod. Donec sed odio dui.</p>
 		<p>
-			<a class="btn btn-default" href="#" role="button">View details
-				&raquo;</a>
+			<a class="btn btn-default" href="#" role="button">View details &raquo;</a>
 		</p>
 	</div>
 	<div class="col-md-4">
@@ -20,8 +19,7 @@
 			fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
 			mollis euismod. Donec sed odio dui.</p>
 		<p>
-			<a class="btn btn-default" href="#" role="button">View details
-				&raquo;</a>
+			<a class="btn btn-default" href="#" role="button">View details &raquo;</a>
 		</p>
 	</div>
 	<div class="col-md-4">
@@ -31,8 +29,7 @@
 			Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
 			nibh, ut fermentum massa justo sit amet risus.</p>
 		<p>
-			<a class="btn btn-default" href="#" role="button">View details
-				&raquo;</a>
+			<a class="btn btn-default" href="#" role="button">View details &raquo;</a>
 		</p>
 	</div>
 </div>
@@ -41,11 +38,14 @@
 	<div class="col-md-12">
 		<h2>SQL Injection Demo</h2>
 		<form action="demo" method="post">
-			User ID: <input type="text" name="userid"></br> </br> <input
-				type="radio" name="injection" value="allow">Allow SQL
-			Injection <input type="radio" name="injection" value="prevent"
-				checked="checked">Prevent SQL Injection</br> </br> <input
-				class="btn btn-default" type="submit" value="submit">
+			User ID: <input type="text" name="userid">
+			</br>
+			</br>
+			<input type="radio" name="injection" value="allow">Allow SQL Injection
+			<input type="radio" name="injection" value="prevent" checked="checked">Prevent SQL Injection
+			</br>
+			</br>
+			<input class="btn btn-default" type="submit" value="submit">
 		</form>
 	</div>
 </div>

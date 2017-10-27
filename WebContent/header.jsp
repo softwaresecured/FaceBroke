@@ -21,8 +21,7 @@
 </head>
 <body>
 
-	<c:set var="cpath" scope="page"
-		value="${pageContext.request.contextPath}" />
+	<c:set var="cpath" scope="page" value="${pageContext.request.contextPath}" />
 	<c:if test="${cpath == ''}">
 		<c:set var="cpath" scope="page" value="/" />
 	</c:if>
@@ -30,12 +29,11 @@
 	<nav class="navbar navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed"
-				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-				aria-controls="navbar">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="${cpath}">FaceBroke</a>
 		</div>
@@ -44,12 +42,10 @@
 				<c:when test="${sessionScope.valid != 'true'}">
 					<form class="navbar-form navbar-right" action="login" method="post">
 						<div class="form-group">
-							<input type="text" name="user_cred"
-								placeholder="Email or Username" class="form-control" autofocus>
+							<input type="text" name="user_cred" placeholder="Email or Username" class="form-control" autofocus>
 						</div>
 						<div class="form-group">
-							<input type="password" name="password" placeholder="Password"
-								class="form-control">
+							<input type="password" name="password" placeholder="Password" class="form-control" autocomplete="off" >
 						</div>
 						<button type="submit" class="btn btn-success">Log in</button>
 					</form>
@@ -63,23 +59,26 @@
 								<input type="search" name="q" required="true" placeholder="Search" >
 							</form>
 						</li>
-						<li class=" dropdown"><a href="#"
-							class="dropdown-toggle user-dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-haspopup="true"
-							aria-expanded="false"><img src="image?id=${e:forHtml(sessionScope.user_pic_id)}"
-								alt="User profile picture"
-								class="img-rounded profile-header-img">${e:forHtml(sessionScope.user_fname)}<span
-								class="caret"></span></a>
+						<li class=" dropdown">
+							<a href="#" class="dropdown-toggle user-dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<img src="image?id=${e:forHtml(sessionScope.user_pic_id)}" alt="User profile picture" class="img-rounded profile-header-img">${e:forHtml(sessionScope.user_fname)}
+								<span class="caret"></span>
+							</a>
 							<ul class="dropdown-menu">
-								<li><a href="wall?user_id=${e:forHtml(sessionScope.user_id)}"><span
-										class="glyphicon glyphicon-user"></span> Wall</a></li>
-								<li><a href="demo"><span
-										class="glyphicon glyphicon-tag"></span> Demo</a></li>
-								<li><a href="settings?id=${e:forHtml(sessionScope.user_id)}"><span
-										class="glyphicon glyphicon-cog"></span> Settings</a></li>
-								<li><a href="logout"><span
-										class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-							</ul></li>
+								<li>
+									<a href="wall?user_id=${e:forHtml(sessionScope.user_id)}"><span class="glyphicon glyphicon-user"></span> Wall</a>
+								</li>
+								<li>
+									<a href="demo"><span class="glyphicon glyphicon-tag"></span> Demo</a>
+								</li>
+								<li>
+									<a href="settings?id=${e:forHtml(sessionScope.user_id)}"><span class="glyphicon glyphicon-cog"></span> Settings</a>
+								</li>
+								<li>
+									<a href="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+								</li>
+							</ul>
+						</li>
 					</ul>
 				</c:otherwise>
 			</c:choose>
