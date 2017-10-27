@@ -91,11 +91,8 @@
 	<div class="container">
 		<c:if test="${authMessage != '' && authMessage != null}">
 			<div class="row">
-				<div
-					class="col-md-4 col-md-offset-4 alert alert-warning alert-dismissible fade in alert-message"
-					role="alert">
-					<button type="button" class="close" data-dismiss="alert"
-						aria-label="Close">
+				<div class="col-md-4 col-md-offset-4 alert alert-warning alert-dismissible fade in alert-message" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">x</span>
 					</button>
 					<c:out value="${e:forHtml(authMessage)}" />

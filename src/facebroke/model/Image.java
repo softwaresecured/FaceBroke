@@ -154,18 +154,22 @@ public class Image {
 	}
 
 
-	public ZonedDateTime getCreated() {
-		return created;
+	public ZonedDateTime getUpdated() {
+		return updated;
 	}
 
 
-	public void setCreated(ZonedDateTime created) {
-		this.created = created;
-		this.updated = ZonedDateTime.now();
+	public void setUpdated(ZonedDateTime updated) {
+		this.updated = updated;
 	}
 
 
 	public long getId() {
 		return id;
+	}
+
+
+	public ZonedDateTime getCreated() {
+		return created;
 	}
 }
