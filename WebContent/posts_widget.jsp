@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="e"%>
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 
 <div class="row">
 	<div class="col-md-3 text-center">
@@ -16,7 +17,7 @@
 	<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<form action="${postContext}" method="post">
+				<csrf:form action="${postContext}" method="post">
 					<div class="form-group">
 						<input type="hidden" name="on_wall" value="${onWall}">
 						<input type="hidden" name="creator_id" value="${sessionScope.user_id}"> <input type="hidden" name="type" value="TEXT"> <label for="content">${new_post_context}</label>
@@ -25,7 +26,7 @@
 					<div class="text-right">
 						<button type="submit" class="btn btn-default btn-primary">Post</button>
 					</div>
-				</form>
+				</csrf:form>
 			</div>
 		</div>
 	</div>
@@ -55,13 +56,13 @@
 							<li><a href="wall?user_id=${comm.creator.id}"><img src='image?id=${comm.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-comment'>${comm.creator.fname}${comm.creator.lname}</a><br>${comm.content}</li>
 						</c:forEach>
 					</ul>
-					<form action="comment" method="post">
+					<csrf:form action="comment" method="post">
 						<input type="hidden" name="on_wall" value="${onWall}">
 						<div class="form-group">
 							<input type="hidden" name="creator_id" value="${sessionScope.user_id}"> <input type="hidden" name="post_id" value="${p.id}">
 							<input type="text" class="form-control" name="content" placeholder="Add a comment..." />
 						</div>
-					</form>
+					</csrf:form>
 				</div>
 			</div>
 		</div>

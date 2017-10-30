@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="e"%>
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -40,7 +41,7 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<c:choose>
 				<c:when test="${sessionScope.valid != 'true'}">
-					<form class="navbar-form navbar-right" action="login" method="post">
+					<csrf:form class="navbar-form navbar-right" action="login" method="post">
 						<div class="form-group">
 							<input type="text" name="user_cred" placeholder="Email or Username" class="form-control" autofocus>
 						</div>
@@ -48,16 +49,16 @@
 							<input type="password" name="password" placeholder="Password" class="form-control" autocomplete="off" >
 						</div>
 						<button type="submit" class="btn btn-success">Log in</button>
-					</form>
+					</csrf:form>
 				</c:when>
 				<c:otherwise>
 					
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							<form class="navbar-form" action="search" method="get">
+							<csrf:form class="navbar-form" action="search" method="get">
 								<!--<input type="text" name="search" placeholder="Search" class="form-control">-->
 								<input type="search" name="q" required="true" placeholder="Search" >
-							</form>
+							</csrf:form>
 						</li>
 						<li class=" dropdown">
 							<a href="#" class="dropdown-toggle user-dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">

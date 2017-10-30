@@ -5,7 +5,7 @@
 		<h2>Login Above or Register</h2>
 	</div>
 	<div class="col-md-4">
-		<form action="register" method="post">
+		<csrf:form action="register" method="post">
 			<div class="form-group">
 				<label for="regUsername">Username</label>
 				<input type="text" class="form-control" id="regUsername" name="regUsername" placeholder="Username" value="${regUsername}">
@@ -32,7 +32,7 @@
 				<input type="password" class="form-control" id="regPasswordConfirm" name="regPasswordConfirm" placeholder="Confirm Password" autocomplete="off">
 			</div>
 			<button type="submit" class="btn btn-default btn-primary">Submit</button>
-		</form>
+		</csrf:form>
 	</div>
 </div>
 

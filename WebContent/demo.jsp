@@ -37,7 +37,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<h2>SQL Injection Demo</h2>
-		<form action="demo" method="post">
+		<csrf:form action="demo" method="post">
 			User ID: <input type="text" name="userid">
 			</br>
 			</br>
@@ -46,7 +46,7 @@
 			</br>
 			</br>
 			<input class="btn btn-default" type="submit" value="submit">
-		</form>
+		</csrf:form>
 	</div>
 </div>
 
