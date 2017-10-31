@@ -194,6 +194,12 @@ public class ImageManager extends HttpServlet {
 					.list()
 					.get(0);
 			
+			
+			// Fix GitHub issue 3 - IDOR
+			if(creator.getId() != (long)req.getSession().getAttribute("user_id")) {
+				throw new FacebrokeException("Can't create a post as another user....");
+			}
+			
 			sess.beginTransaction();
 			Image img = new Image(owner, creator, Image.Viewable.All, data, size, label, mimetype);
 			sess.save(img);
@@ -225,6 +231,8 @@ public class ImageManager extends HttpServlet {
 					log.info("Trying to delete image {}",current.getId());
 					sess.delete(current);
 				}
+			}else {
+				//TODO regular image upload
 			}
 			
 			sess.getTransaction().commit();

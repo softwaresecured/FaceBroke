@@ -77,8 +77,9 @@ public class CommentManager extends HttpServlet {
 			// Validate user
 			long creator_id = Long.parseLong(creator_id_string);
 			
+			// Should fix GitHub issue #1
 			if(creator_id != (long)req.getSession().getAttribute("user_id")) {
-				throw new FacebrokeException("Can't comment as unauthenticated");
+				throw new FacebrokeException("Can't comment as a different user...");
 			}
 			
 			@SuppressWarnings("unchecked")

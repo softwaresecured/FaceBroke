@@ -203,6 +203,12 @@ public class PostManager extends HttpServlet {
 			creator = users.get(0);
 			
 			
+			// Fix GitHub issue 5 - IDOR
+			if(creator.getId() != (long)req.getSession().getAttribute("user_id")) {
+				throw new FacebrokeException("Can't create a post as another user....");
+			}
+			
+			
 			
 			// Validate Content Type
 			if (type_string.equals("TEXT")) {
