@@ -144,7 +144,10 @@ public class ImageManager extends HttpServlet {
 		try {
 			List<FileItem> items = new ServletFileUpload(factory).parseRequest(req);
 			log.info("isMultipart: {}",ServletFileUpload.isMultipartContent(req));
-			log.info("Req CSRF_TOKENVALUE: ",req.getParameter("CRSF_TOKENVALUE"));
+			log.info("Req CSRF_TOKENVALUE: {}",req.getParameter("OWASP-CSRFTOKEN"));
+			log.info("Req CREATOR ID: {}",req.getParameter("creator_id"));
+			log.info("Req OWNER ID: {}",req.getParameter("owner_id"));
+			log.info("Req FILE: {}",req.getParameter("file"));
 			int size = -1;
 			byte[] data = null;
 			
