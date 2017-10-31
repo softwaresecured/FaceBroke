@@ -67,17 +67,15 @@
 
 <div class="row">
 	<div class="col-md-4 col-md-push-4">
-		<csrf:form action="image" method="post" enctype="multipart/form-data">
+		<form action="image" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="creator_id" value="${e:forHtml(sessionScope.user_id)}">
 			<input type="hidden" name="owner_id" value="${target_user_id}">
 			<input type="hidden" name="label" value="Profile Picture">
 			<input type="hidden" name="context" value="profile">
-			<div class="form-group">
-				<label for="file">Profile Picture</label>
-				<input type="file" id="file" name="file">
-			</div>
+			<label for="file">Profile Picture th</label>
+			<input type="file" id="file" name="file">
 			<button type="submit" class="btn btn-default btn-primary">Upload</button>
-		</csrf:form>
+		</form>
 	</div>
 </div>
 

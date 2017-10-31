@@ -3,6 +3,7 @@ package facebroke;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,6 +17,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.Imaging;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,6 +130,8 @@ public class ImageManager extends HttpServlet {
 			buildImageFactory();
 		}
 		
+		Map<String, String[]> map = req.getParameterMap();
+		
 		String owner_id_string = "";
 		String creator_id_string = "";
 		String context = "";
@@ -138,11 +143,14 @@ public class ImageManager extends HttpServlet {
 		// Using Apache Commons File Upload handler
 		try {
 			List<FileItem> items = new ServletFileUpload(factory).parseRequest(req);
+			log.info("isMultipart: {}",ServletFileUpload.isMultipartContent(req));
+			log.info("Req CSRF_TOKENVALUE: ",req.getParameter("CRSF_TOKENVALUE"));
 			int size = -1;
 			byte[] data = null;
 			
 			// Parse the request parameters and handle retrieving the file
 			for(FileItem i : items) {
+				log.info("HERE");
 				String name = i.getFieldName();
 				String val = i.getString();
 				
@@ -171,10 +179,13 @@ public class ImageManager extends HttpServlet {
 					log.info("Field: {}    Val: {}",ValidationSnipets.sanitizeCRLF(name),ValidationSnipets.sanitizeCRLF(val));
 				}else {
 					log.info("Size: {}",i.getSize());
+					log.info("Field Name: {}",i.getFieldName());
+					log.info("File Name: ",i.getName());
 					data = i.get();
 					size = (int) i.getSize();
 					mimetype = i.getContentType();
 					log.info("Content type: {}",mimetype);
+					log.info("Guess format: {}",Imaging.guessFormat(data));
 				}
 			}
 			
@@ -244,16 +255,19 @@ public class ImageManager extends HttpServlet {
 			}
 			
 		}catch(FileUploadException e) {
-			log.error("{}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
+			log.error("Upload error: {}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
 			sess.close();
 		}catch(NumberFormatException e) {
-			log.error("{}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
+			log.error("Parsing: {}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
 			sess.close();
 		}catch(FacebrokeException e) {
 			req.setAttribute("serverMessage", e.getMessage());
 			req.getRequestDispatcher("error.jsp").forward(req, res);
 			sess.close();
 			return;
+		} catch (ImageReadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		sess.close();
