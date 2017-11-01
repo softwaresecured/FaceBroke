@@ -70,8 +70,11 @@
                                 <input type="hidden" name="owner_id" value="${target_user_id}">
                                   <input type="hidden" name="label" value="Profile Picture">
                                     <input type="hidden" name="context" value="profile">
-                                      <label for="file">Profile Picture th</label>
+                                    <div class="form-group">
+                                      <label for="file">Profile Picture</label>
+                                      <small class="text-muted">PNG or JPG up to 2MB in size</small>
                                       <input type="file" id="file" name="file">
+                                      </div>
                                         <button type="submit" class="btn btn-default btn-primary">Upload</button>
                                       </form>
                                     </div>
