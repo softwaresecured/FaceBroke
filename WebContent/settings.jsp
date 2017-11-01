@@ -1,4 +1,7 @@
 <%@ include file="header.jsp"%>
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
+
+
 
 <div class="row">
 	<div class="col-md-4 col-md-push-8">
@@ -65,9 +68,12 @@
 <br>
 <br>
 
+<c:set var="csrf_tokenname"><csrf:tokenname/></c:set>
+<c:set var="csrf_tokenvalue"><csrf:tokenvalue uri="image"/></c:set>
+
 <div class="row">
 	<div class="col-md-4 col-md-push-4">
-		<csrf:form action="image" method="post" enctype="multipart/form-data">
+		<form action="image?${csrf_tokenname}=${csrf_tokenvalue}" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="creator_id" value="${e:forHtml(sessionScope.user_id)}">
 			<input type="hidden" name="owner_id" value="${target_user_id}">
 			<input type="hidden" name="label" value="Profile Picture">
@@ -75,7 +81,7 @@
 			<label for="file">Profile Picture th</label>
 			<input type="file" id="file" name="file">
 			<button type="submit" class="btn btn-default btn-primary">Upload</button>
-		</csrf:form>
+		</form>
 	</div>
 </div>
 

@@ -1,4 +1,5 @@
 <%@ include file="header.jsp"%>
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 
 <!-- Example row of columns -->
 <div class="row">

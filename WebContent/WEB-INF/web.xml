@@ -32,6 +32,7 @@
     <dispatcher>REQUEST</dispatcher>
   </filter-mapping>
   
+  
   <listener>
   	<listener-class>org.owasp.csrfguard.CsrfGuardServletContextListener</listener-class>
   </listener>
@@ -56,5 +57,4 @@
   	<filter-name>CSRFGuard</filter-name> 
 	<url-pattern>/*</url-pattern>
   </filter-mapping>
-  
 </web-app>

@@ -40,7 +40,6 @@ import facebroke.util.ValidationSnipets;
  *
  */
 @WebServlet("/image")
-@MultipartConfig
 public class ImageManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(ImageManager.class);
@@ -148,6 +147,7 @@ public class ImageManager extends HttpServlet {
 			log.info("Req CREATOR ID: {}",req.getParameter("creator_id"));
 			log.info("Req OWNER ID: {}",req.getParameter("owner_id"));
 			log.info("Req FILE: {}",req.getParameter("file"));
+
 			int size = -1;
 			byte[] data = null;
 			
