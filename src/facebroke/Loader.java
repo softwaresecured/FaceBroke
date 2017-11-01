@@ -89,7 +89,6 @@ public class Loader {
 		try {
 			fts.createIndexer().startAndWait();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

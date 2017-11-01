@@ -1,7 +1,7 @@
 <%@ include file="header.jsp"%>
 
-<h2>Error</h2>
+  <h2>Error</h2>
 
-<c:out value="${serverMessage}" />
+  <c:out value="${serverMessage}"/>
 
-<%@ include file="footer.jsp"%>
+  <%@ include file="footer.jsp"%>
