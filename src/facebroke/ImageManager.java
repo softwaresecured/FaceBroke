@@ -40,6 +40,7 @@ import facebroke.util.ValidationSnipets;
 @WebServlet("/image")
 public class ImageManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final long MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2; // 2MB
 	private static Logger log = LoggerFactory.getLogger(ImageManager.class);
 	private DiskFileItemFactory factory;
        
@@ -137,7 +138,12 @@ public class ImageManager extends HttpServlet {
 		
 		// Using Apache Commons File Upload handler
 		try {
-			List<FileItem> items = new ServletFileUpload(factory).parseRequest(req);
+			//List<FileItem> items = new ServletFileUpload(factory).parseRequest(req);
+			
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			upload.setFileSizeMax(MAX_IMAGE_SIZE_BYTES);
+			List<FileItem> items = upload.parseRequest(req);
+			
 			log.info("isMultipart: {}",ServletFileUpload.isMultipartContent(req));
 			log.info("Req CSRF_TOKENVALUE: {}",req.getParameter("OWASP-CSRFTOKEN"));
 			log.info("Req CREATOR ID: {}",req.getParameter("creator_id"));
@@ -254,8 +260,10 @@ public class ImageManager extends HttpServlet {
 			}
 			
 		}catch(FileUploadException e) {
-			log.error("Upload error: {}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
+			req.setAttribute("serverMessage", e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
 			sess.close();
+			return;
 		}catch(NumberFormatException e) {
 			log.error("Parsing: {}",ValidationSnipets.sanitizeCRLF(e.getMessage()));
 			sess.close();
