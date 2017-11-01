@@ -53,7 +53,7 @@
 			</div>
 			<div class="form-group">
 				<label for="regDOB">Date of Birth</label>
-				<input type="date" class="form-control" id="regDOB" name="regDOB" disabled="true" value="${target.getDOBString()}">
+				<input type="date" class="form-control" id="regDOB" name="regDOB" value="${target.getDOBString()}" disabled>
 			</div>
 			<div class="form-group">
 				<label for="regPassword">Password</label>

@@ -3,11 +3,9 @@ package facebroke;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -128,8 +126,6 @@ public class ImageManager extends HttpServlet {
 		if(factory==null) {
 			buildImageFactory();
 		}
-		
-		Map<String, String[]> map = req.getParameterMap();
 		
 		String owner_id_string = "";
 		String creator_id_string = "";
