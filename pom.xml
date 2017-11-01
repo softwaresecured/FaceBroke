@@ -194,5 +194,10 @@
 	  <artifactId>hibernate-c3p0</artifactId>
 	  <version>5.2.12.Final</version>
 	</dependency>
+	<dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-catalina</artifactId>
+    <version>8.5.23</version>
+</dependency>
   </dependencies>
 </project>
