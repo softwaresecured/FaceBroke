@@ -2,6 +2,7 @@ package facebroke;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -15,6 +16,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.imaging.ImageInfo;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.Imaging;
 import org.hibernate.Session;
@@ -37,10 +39,12 @@ import facebroke.util.ValidationSnipets;
  * @author matt @ Software Secured
  *
  */
+
 @WebServlet("/image")
 public class ImageManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final long MAX_IMAGE_SIZE_BYTES = 1024 * 1024 * 2; // 2MB
+	private static final List<String> ACCEPTED_TYPES = Arrays.asList("image/jpeg","image/jpg","image/png");
 	private static Logger log = LoggerFactory.getLogger(ImageManager.class);
 	private DiskFileItemFactory factory;
        
@@ -123,6 +127,9 @@ public class ImageManager extends HttpServlet {
 		}
 		
 		log.info("Received POST request");
+		log.info("isMultipart: {}",ServletFileUpload.isMultipartContent(req));
+		
+		
 		
 		if(factory==null) {
 			buildImageFactory();
@@ -141,7 +148,7 @@ public class ImageManager extends HttpServlet {
 			//List<FileItem> items = new ServletFileUpload(factory).parseRequest(req);
 			
 			ServletFileUpload upload = new ServletFileUpload(factory);
-			upload.setFileSizeMax(MAX_IMAGE_SIZE_BYTES);
+			//upload.setFileSizeMax(MAX_IMAGE_SIZE_BYTES);
 			List<FileItem> items = upload.parseRequest(req);
 			
 			log.info("isMultipart: {}",ServletFileUpload.isMultipartContent(req));
@@ -186,11 +193,26 @@ public class ImageManager extends HttpServlet {
 					log.info("Size: {}",i.getSize());
 					log.info("Field Name: {}",i.getFieldName());
 					log.info("File Name: ",i.getName());
+					
+					if(i.getSize() < 1) {
+						throw new FacebrokeException("No image");
+					}
+					if(i.getSize() > MAX_IMAGE_SIZE_BYTES) {
+						throw new FacebrokeException("Image is too large. Must be less than 2MB");
+					}
+					
+					// Retrieve uploaded content as byte[]
 					data = i.get();
 					size = (int) i.getSize();
-					mimetype = i.getContentType();
-					log.info("Content type: {}",mimetype);
-					log.info("Guess format: {}",Imaging.guessFormat(data));
+					
+					// Try to validate as an image
+					ImageInfo info = Imaging.getImageInfo(data);
+					mimetype = info.getMimeType();
+					
+					if(!ACCEPTED_TYPES.contains(mimetype)) {
+						throw new FacebrokeException("Image must be of type png or jpeg/jpg");
+					}
+					
 				}
 			}
 			
@@ -273,14 +295,17 @@ public class ImageManager extends HttpServlet {
 			sess.close();
 			return;
 		} catch (ImageReadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			req.setAttribute("serverMessage", e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.close();
+			return;
 		}
 		
 		sess.close();
 	}
 
-	
+
+
 	/**
 	 * Create a temp-file factory for Apache Commons File Upload to use
 	 */

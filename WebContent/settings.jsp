@@ -73,7 +73,7 @@
                                     <div class="form-group">
                                       <label for="file">Profile Picture</label>
                                       <small class="text-muted">PNG or JPG up to 2MB in size</small>
-                                      <input type="file" id="file" name="file">
+                                      <input type="file" id="file" name="file" accept="image/png,image/jpg,image/jpeg" required>
                                       </div>
                                         <button type="submit" class="btn btn-default btn-primary">Upload</button>
                                       </form>
