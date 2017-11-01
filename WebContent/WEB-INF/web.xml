@@ -10,6 +10,22 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <!--
+  <servlet>
+  	<servlet-name>ImageServlet</servlet-name>
+  	<servlet-class>facebroke.ImageManager</servlet-class>
+  	<multipart-config>
+  		<max-file-size>2097152</max-file-size>
+  	</multipart-config>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ImageServlet</servlet-name>
+  	<url-pattern>/image</url-pattern>
+  </servlet-mapping>
+    -->
+  
+  
+  
   <filter>
     <filter-name>ExpiresFilter</filter-name>
     <filter-class>org.apache.catalina.filters.ExpiresFilter</filter-class>

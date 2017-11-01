@@ -58,7 +58,7 @@
                                 <c:forEach items="${p.comments}" var="comm">
                                   <li>
                                     <a href="wall?user_id=${comm.creator.id}">
-                                      <img src='image?id=${comm.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-comment'>${comm.creator.fname}${comm.creator.lname}</a>
+                                      <img src='image?id=${comm.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-comment'>${comm.creator.fname} ${comm.creator.lname}</a>
                                       <br>${comm.content}</li>
                                     </c:forEach>
                                   </ul>
