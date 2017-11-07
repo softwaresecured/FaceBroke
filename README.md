@@ -23,13 +23,11 @@ This will launch the FaceBroke project. You can view the web interface at http:/
 
 ### Rebuilding
 
-1. While still in the project directory, run:
-        docker-compose up --build -d
+1. While still in the project directory, run: `docker-compose up --build -d`
 
 ### Stopping
 
-1. While still in the project directory, run:
-        docker-compose down
+1. While still in the project directory, run: `docker-compose down`
 
 
 
