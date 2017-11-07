@@ -13,12 +13,11 @@ If you're running Linux, you'll also need to manually install [docker-compose](h
 
 ### Running
 
-1. Clone this repo with:
-        git clone https://github.com/softwaresecured/FaceBroke.git
-2. Go to the cloned directory: 
-        cd FaceBroke/
-3. run
-        docker-compose up --build -d
+1. Clone this repo with: `git clone https://github.com/softwaresecured/FaceBroke.git`
+
+2. Go to the cloned directory: `cd FaceBroke/`
+
+3. run: `docker-compose up --build -d`
 
 This will launch the FaceBroke project. You can view the web interface at http://127.0.0.1:8081 and the Postgresql server is exposed on port 5432 to the host environment.
 
