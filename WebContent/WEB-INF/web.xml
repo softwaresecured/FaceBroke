@@ -10,20 +10,15 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <!--
-  <servlet>
-  	<servlet-name>ImageServlet</servlet-name>
-  	<servlet-class>facebroke.ImageManager</servlet-class>
-  	<multipart-config>
-  		<max-file-size>2097152</max-file-size>
-  	</multipart-config>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>ImageServlet</servlet-name>
-  	<url-pattern>/image</url-pattern>
-  </servlet-mapping>
-    -->
   
+  <error-page>
+  	<location>/error.jsp</location>
+  </error-page>
+  
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/404.jsp</location>
+  </error-page>
   
   
   <filter>
