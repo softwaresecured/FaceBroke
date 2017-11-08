@@ -1,5 +1,12 @@
 
-# Created by https://www.gitignore.io/api/java,maven,eclipse
+# Created by https://www.gitignore.io/api/java,code,maven,eclipse
+
+### Code ###
+# Visual Studio Code - https://code.visualstudio.com/
+.settings/
+.vscode/
+tsconfig.json
+jsconfig.json
 
 ### Eclipse ###
 
@@ -11,7 +18,6 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
 .loadpath
 .recommenders
 
@@ -98,4 +104,4 @@ buildNumber.properties
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
 
-# End of https://www.gitignore.io/api/java,maven,eclipse
+# End of https://www.gitignore.io/api/java,code,maven,eclipse
