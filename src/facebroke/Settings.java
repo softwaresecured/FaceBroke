@@ -261,6 +261,10 @@ public class Settings extends HttpServlet {
 			// All done, just go back to the settings page
 			sess.close();
 			res.sendRedirect(forwardPath);
+			
+			req.getSession().setAttribute("user_username", target.getUsername());
+			req.getSession().setAttribute("user_fname", target.getFname());
+			req.getSession().setAttribute("user_lname", target.getLname());
 
 		}catch(FacebrokeException e) {
 			req.setAttribute("serverMessage", e.getMessage());

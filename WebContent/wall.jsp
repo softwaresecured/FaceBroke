@@ -2,7 +2,7 @@
 
   <div class="row">
     <div class="col-md-3 text-center">
-      <h3>${wall_owner.fname} ${wall_owner.lname}: ${wall_owner.id}</h3>
+      <h3>${wall_owner.fname} ${wall_owner.lname}</h3>
     </div>
   </div>
 
