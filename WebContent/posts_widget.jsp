@@ -67,6 +67,7 @@
                                   <csrf:form action="comment" method="post">
                                     <input type="hidden" name="on_wall" value="${onWall}">
                                       <div class="form-group">
+                                      	<input type="hidden" name="start" value="${start}">
                                         <input type="hidden" name="creator_id" value="${sessionScope.user_id}">
                                           <input type="hidden" name="post_id" value="${p.id}">
                                             <input type="text" class="form-control" name="content" placeholder="Add a comment..."/>

@@ -138,6 +138,7 @@ public class PostManager extends HttpServlet {
 		}
 
 		req.setAttribute("posts", posts);
+		req.setAttribute("start", pageStart);
 		
 		sess.close();
 		reqDis.forward(req, res);
