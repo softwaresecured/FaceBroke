@@ -61,7 +61,9 @@
                                   <li>
                                     <a href="wall?user_id=${comm.creator.id}">
                                       <img src='image?id=${comm.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-comment'>${comm.creator.fname} ${comm.creator.lname}</a>
+                                      <a href="comment?on_wall=${onWall}&delete=delete&comment_id=${comm.id}&wall_id=${wall_owner.id}&start=${start}" class="pull-right" ><span aria-hidden="true">x</span></a>
                                       <br>${comm.content}</li>
+                                      
                                     </c:forEach>
                                   </ul>
                                   <csrf:form action="comment" method="post">
