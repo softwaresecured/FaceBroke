@@ -262,9 +262,12 @@ public class Settings extends HttpServlet {
 			sess.close();
 			res.sendRedirect(forwardPath);
 			
-			req.getSession().setAttribute("user_username", target.getUsername());
-			req.getSession().setAttribute("user_fname", target.getFname());
-			req.getSession().setAttribute("user_lname", target.getLname());
+			// Updating our own settings
+			if ((long)req.getSession().getAttribute("user_id") == target_user_id) {
+				req.getSession().setAttribute("user_username", target.getUsername());
+				req.getSession().setAttribute("user_fname", target.getFname());
+				req.getSession().setAttribute("user_lname", target.getLname());
+			}
 
 		}catch(FacebrokeException e) {
 			req.setAttribute("serverMessage", e.getMessage());
