@@ -49,7 +49,9 @@
                             </c:if>
                             <h4>
                               <a href="wall?user_id=${p.creator.id}">
-                                <img src='image?id=${p.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-post'>${p.creator.fname} ${p.creator.lname}</a>${header_content}</h4>
+                                <img src='image?id=${p.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-post'>${p.creator.fname} ${p.creator.lname}</a>${header_content}
+                              <a href="wall?on_wall=${onWall}&delete=delete&post_id=${p.id}&wall_id=${wall_owner.id}" class="pull-right" ><span aria-hidden="true">x</span></a>
+                            </h4>
                             </div>
                             <div class="panel-body">${p.content}</div>
 
