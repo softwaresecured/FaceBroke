@@ -15,6 +15,7 @@ import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import facebroke.model.Comment;
 import facebroke.model.Post;
 import facebroke.model.Post.PostType;
 import facebroke.model.User;
@@ -314,6 +315,11 @@ public class PostManager extends HttpServlet {
 			Post p  = posts.get(0);
 			
 			if(p.getCreator().equals(u) || u.getRole().equals(User.UserRole.ADMIN) || p.getWall().getUser().equals(u)) {
+
+				for(Comment c: p.getComments()) {
+					sess.delete(c);
+					log.info("Deleted Comment with ID: {}",c.getId());
+				}
 				
 				sess.delete(p);
 				log.info("Deleted Post with ID: {}",p.getId());
