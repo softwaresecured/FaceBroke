@@ -50,7 +50,9 @@
                             <h4>
                               <a href="wall?user_id=${p.creator.id}">
                                 <img src='image?id=${p.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-post'>${p.creator.fname} ${p.creator.lname}</a>${header_content}
-                              <a href="wall?on_wall=${onWall}&delete=delete&post_id=${p.id}&wall_id=${wall_owner.id}" class="pull-right" ><span aria-hidden="true">x</span></a>
+                              <c:if test="${user_role.equals('ADMIN') || p.creator.id.equals(sessionScope.user_id) || p.wall.user.id.equals(sessionScope.user_id)}">
+                              	<a href="wall?on_wall=${onWall}&delete=delete&post_id=${p.id}&wall_id=${wall_owner.id}" class="pull-right" ><span aria-hidden="true">x</span></a>
+                              </c:if>
                             </h4>
                             </div>
                             <div class="panel-body">${p.content}</div>
@@ -61,7 +63,9 @@
                                   <li>
                                     <a href="wall?user_id=${comm.creator.id}">
                                       <img src='image?id=${comm.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-comment'>${comm.creator.fname} ${comm.creator.lname}</a>
-                                      <a href="comment?on_wall=${onWall}&delete=delete&comment_id=${comm.id}&wall_id=${wall_owner.id}&start=${start}" class="pull-right" ><span aria-hidden="true">x</span></a>
+                                      <c:if test="${user_role.equals('ADMIN') || comm.creator.id.equals(sessionScope.user_id) || comm.parent.wall.user.id.equals(sessionScope.user_id)}">
+                                      	<a href="comment?on_wall=${onWall}&delete=delete&comment_id=${comm.id}&wall_id=${wall_owner.id}&start=${start}" class="pull-right" ><span aria-hidden="true">x</span></a>
+                                      </c:if>
                                       <br>${comm.content}</li>
                                       
                                     </c:forEach>

@@ -227,7 +227,7 @@ public class CommentManager extends HttpServlet {
 			
 			if(c.getCreator().equals(u) || u.getRole().equals(User.UserRole.ADMIN) || c.getParent().getWall().getUser().equals(u)) {
 				
-				// Need to delete by removing it from the parent collection
+				// Need to delete and remove it from the parent collection
 				
 				List<Post> posts = sess.createQuery("FROM Post p WHERE p.id = :post_id")
 						.setParameter("post_id", c.getParent().getId())
@@ -239,6 +239,8 @@ public class CommentManager extends HttpServlet {
 				sess.delete(c);
 				
 				log.info("Deleted Comment with ID: {}",c.getId());
+			}else {
+				throw new FacebrokeException("You don't have permissions to delete this comment");
 			}
 			
 			

@@ -317,6 +317,8 @@ public class PostManager extends HttpServlet {
 				
 				sess.delete(p);
 				log.info("Deleted Post with ID: {}",p.getId());
+			}else {
+				throw new FacebrokeException("You don't have permissions to delete this post");
 			}
 			
 			
