@@ -2,6 +2,7 @@ package facebroke.model;
 
 import java.time.ZonedDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,7 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.DETACH)
 	private Post parent;
 
 	// Constructor for Hibernate
@@ -55,6 +56,10 @@ public class Comment {
 		this.parent = parent;
 		this.content = content;
 		this.created = this.updated = ZonedDateTime.now();
+	}
+	
+	public long getId() {
+		return this.id;
 	}
 
 	public String getContent() {
@@ -91,5 +96,4 @@ public class Comment {
 		this.creator = creator;
 		this.updated = ZonedDateTime.now();
 	}
-
 }

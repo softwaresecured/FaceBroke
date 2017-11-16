@@ -47,37 +47,6 @@
           </execution>
         </executions>
       </plugin>
-      <!-- FindBugs Static Analysis -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.5</version>
-        <configuration>
-          <effort>Max</effort>
-          <threshold>Low</threshold>
-          <failOnError>true</failOnError>
-          <plugins>
-            <plugin>
-              <groupId>com.h3xstream.findsecbugs</groupId>
-              <artifactId>findsecbugs-plugin</artifactId>
-              <version>LATEST</version>
-              <!-- Auto-update to the latest stable -->
-            </plugin>
-          </plugins>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.owasp</groupId>
-        <artifactId>dependency-check-maven</artifactId>
-        <version>3.0.0</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
   <repositories>
@@ -168,16 +137,6 @@
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-jspc-maven-plugin</artifactId>
       <version>9.4.7.v20170914</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-plugin</artifactId>
-      <version>2.20.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.owasp</groupId>
-      <artifactId>dependency-check-maven</artifactId>
-      <version>3.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.owasp</groupId>

@@ -15,6 +15,7 @@ import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import facebroke.model.Comment;
 import facebroke.model.Post;
 import facebroke.model.Post.PostType;
 import facebroke.model.User;
@@ -60,6 +61,14 @@ public class PostManager extends HttpServlet {
 		
 		if(!ValidationSnipets.isValidSession(req.getSession())){
 			res.sendRedirect("index");
+			return;
+		}
+		
+		String delete = req.getParameter("delete");
+		
+		if(delete != null && delete.equals("delete")) {
+			log.info("Passing to DELETE");
+			doDelete(req, res);
 			return;
 		}
 		
@@ -130,6 +139,7 @@ public class PostManager extends HttpServlet {
 		}
 
 		req.setAttribute("posts", posts);
+		req.setAttribute("start", pageStart);
 		
 		sess.close();
 		reqDis.forward(req, res);
@@ -153,6 +163,7 @@ public class PostManager extends HttpServlet {
 			res.sendRedirect("index");
 			return;
 		}
+		
 		
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		
@@ -261,6 +272,85 @@ public class PostManager extends HttpServlet {
 			// Must be on a User's wall so return there
 			res.sendRedirect("wall?user_id="+target.getId());
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		if(!ValidationSnipets.isValidSession(req.getSession())){
+			res.sendRedirect("index");
+			return;
+		}
 		
+		Session sess = HibernateUtility.getSessionFactory().openSession();
+		sess.beginTransaction();
+		
+		String on_wall = req.getParameter("on_wall");
+		String wall_id = req.getParameter("wall_id");
+		
+		try {
+			
+			long post_id = Long.parseLong(req.getParameter("post_id"));
+			long user_id = (long)req.getSession().getAttribute("user_id");
+			
+			// Get the current User
+			List<User> users = sess.createQuery("FROM User u WHERE u.id = :user_id")
+						.setParameter("user_id", user_id)
+						.list();
+
+			if (users.isEmpty()) {
+				throw new FacebrokeException("Invalid User id");
+			}
+			
+			User u  = users.get(0);
+			
+			// Get the target Post
+			List<Post> posts = sess.createQuery("FROM Post p WHERE p.id = :post_id")
+					.setParameter("post_id", post_id)
+					.list();
+
+			if (posts.isEmpty()) {
+				throw new FacebrokeException("Invalid Post id");
+			}
+		
+			Post p  = posts.get(0);
+			
+			if(p.getCreator().equals(u) || u.getRole().equals(User.UserRole.ADMIN) || p.getWall().getUser().equals(u)) {
+
+				for(Comment c: p.getComments()) {
+					sess.delete(c);
+					log.info("Deleted Comment with ID: {}",c.getId());
+				}
+				
+				sess.delete(p);
+				log.info("Deleted Post with ID: {}",p.getId());
+			}else {
+				throw new FacebrokeException("You don't have permissions to delete this post");
+			}
+			
+			
+		} catch (FacebrokeException e) {
+			req.setAttribute("serverMessage", e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.getTransaction().commit();
+			sess.close();
+			return;
+		} catch (NumberFormatException e) {
+			req.setAttribute("serverMessage", "Could not parse ID: "+e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.getTransaction().commit();
+			sess.close();
+			return;
+		}
+		
+		
+		if(on_wall == null || on_wall.equals("")) {
+			res.sendRedirect("index");
+		}else {
+			res.sendRedirect("wall?user_id="+wall_id);
+		}
+		
+		sess.getTransaction().commit();
+		sess.close();
+		return;
 	}
 }

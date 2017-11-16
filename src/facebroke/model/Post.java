@@ -155,4 +155,8 @@ public class Post {
 	public long getId() {
 		return id;
 	}
+	
+	public void deleteComment(Comment c) {
+		this.comments.remove(c);
+	}
 }

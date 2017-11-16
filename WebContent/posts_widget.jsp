@@ -49,7 +49,11 @@
                             </c:if>
                             <h4>
                               <a href="wall?user_id=${p.creator.id}">
-                                <img src='image?id=${p.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-post'>${p.creator.fname} ${p.creator.lname}</a>${header_content}</h4>
+                                <img src='image?id=${p.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-post'>${p.creator.fname} ${p.creator.lname}</a>${header_content}
+                              <c:if test="${user_role.equals('ADMIN') || p.creator.id.equals(sessionScope.user_id) || p.wall.user.id.equals(sessionScope.user_id)}">
+                              	<a href="wall?on_wall=${onWall}&delete=delete&post_id=${p.id}&wall_id=${wall_owner.id}" class="pull-right" ><span aria-hidden="true">x</span></a>
+                              </c:if>
+                            </h4>
                             </div>
                             <div class="panel-body">${p.content}</div>
 
@@ -59,12 +63,17 @@
                                   <li>
                                     <a href="wall?user_id=${comm.creator.id}">
                                       <img src='image?id=${comm.creator.profilePicture.id}' alt='User profile picture' class='img-rounded profile-img-comment'>${comm.creator.fname} ${comm.creator.lname}</a>
+                                      <c:if test="${user_role.equals('ADMIN') || comm.creator.id.equals(sessionScope.user_id) || comm.parent.wall.user.id.equals(sessionScope.user_id)}">
+                                      	<a href="comment?on_wall=${onWall}&delete=delete&comment_id=${comm.id}&wall_id=${wall_owner.id}&start=${start}" class="pull-right" ><span aria-hidden="true">x</span></a>
+                                      </c:if>
                                       <br>${comm.content}</li>
+                                      
                                     </c:forEach>
                                   </ul>
                                   <csrf:form action="comment" method="post">
                                     <input type="hidden" name="on_wall" value="${onWall}">
                                       <div class="form-group">
+                                      	<input type="hidden" name="start" value="${start}">
                                         <input type="hidden" name="creator_id" value="${sessionScope.user_id}">
                                           <input type="hidden" name="post_id" value="${p.id}">
                                             <input type="text" class="form-control" name="content" placeholder="Add a comment..."/>

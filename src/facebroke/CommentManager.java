@@ -41,6 +41,27 @@ public class CommentManager extends HttpServlet {
     public CommentManager() {
         super();
     }
+    
+    /**
+     * A stub method to look for "delete" in the arguments and pass to delete fucntion for a comemnt
+     */
+    @Override
+	@SuppressWarnings("unchecked")
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		
+		if(!ValidationSnipets.isValidSession(req.getSession())){
+			res.sendRedirect("index");
+			return;
+		}
+		
+		String delete = req.getParameter("delete");
+		
+		if(delete != null && delete.equals("delete")) {
+			log.info("Passing to DELETE");
+			doDelete(req, res);
+			return;
+		}
+    }
 
 
     /**
@@ -71,11 +92,18 @@ public class CommentManager extends HttpServlet {
 		
 		User creator;
 		Post target;
+		long start = 0;
 		
 		
 		try {
 			// Validate user
 			long creator_id = Long.parseLong(creator_id_string);
+			
+			// validate start
+			start = Long.parseLong(req.getParameter("start"));
+			if(start < 0) {
+				start = 0;
+			}
 			
 			// Should fix GitHub issue #1
 			if(creator_id != (long)req.getSession().getAttribute("user_id")) {
@@ -140,9 +168,105 @@ public class CommentManager extends HttpServlet {
 		log.info("Created a new comment");
 		
 		if(on_wall == null || on_wall.equals("")) {
-			res.sendRedirect("index#"+c.getParent().getId());
+			res.sendRedirect("index?start="+start+"#"+c.getParent().getId());
 		}else {
-			res.sendRedirect("wall?user_id="+target.getWall().getId()+"#"+c.getParent().getId());
+			res.sendRedirect("wall?user_id="+target.getWall().getId()+"&start="+start+"#"+c.getParent().getId());
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		if(!ValidationSnipets.isValidSession(req.getSession())){
+			res.sendRedirect("index");
+			return;
+		}
+		
+		Session sess = HibernateUtility.getSessionFactory().openSession();
+		sess.beginTransaction();
+		
+		log.info("{}",req.getParameter("start"));
+		
+		String on_wall = req.getParameter("on_wall");
+		String wall_id = req.getParameter("wall_id");
+		Comment c;
+		
+		long start = 0;
+		
+		try {
+			
+			long comment_id = Long.parseLong(req.getParameter("comment_id"));
+			long user_id = (long) req.getSession().getAttribute("user_id");
+			
+			// validate start
+			start = Long.parseLong(req.getParameter("start"));
+			if(start < 0) {
+				start = 0;
+			}
+			
+			// Get the current User
+			List<User> users = sess.createQuery("FROM User u WHERE u.id = :user_id")
+						.setParameter("user_id", user_id)
+						.list();
+
+			if (users.isEmpty()) {
+				throw new FacebrokeException("Invalid User id");
+			}
+			
+			User u  = users.get(0);
+			
+			// Get the target Comment
+			List<Comment> comments = sess.createQuery("FROM Comment c WHERE c.id = :comment_id")
+					.setParameter("comment_id", comment_id)
+					.list();
+
+			if (comments.isEmpty()) {
+				throw new FacebrokeException("Invalid Comment id");
+			}
+		
+			c  = comments.get(0);
+			
+			if(c.getCreator().equals(u) || u.getRole().equals(User.UserRole.ADMIN) || c.getParent().getWall().getUser().equals(u)) {
+				
+				// Need to delete and remove it from the parent collection
+				
+				List<Post> posts = sess.createQuery("FROM Post p WHERE p.id = :post_id")
+						.setParameter("post_id", c.getParent().getId())
+						.list();
+				
+				Post p = posts.get(0);
+				p.deleteComment(c);
+				sess.save(p);
+				sess.delete(c);
+				
+				log.info("Deleted Comment with ID: {}",c.getId());
+			}else {
+				throw new FacebrokeException("You don't have permissions to delete this comment");
+			}
+			
+			
+		} catch (FacebrokeException e) {
+			req.setAttribute("serverMessage", e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.getTransaction().commit();
+			sess.close();
+			return;
+		} catch (NumberFormatException e) {
+			req.setAttribute("serverMessage", "Could not parse ID: "+e.getMessage());
+			req.getRequestDispatcher("error.jsp").forward(req, res);
+			sess.getTransaction().commit();
+			sess.close();
+			return;
+		}
+		
+		
+		if(on_wall == null || on_wall.equals("")) {
+			res.sendRedirect("index?start="+start+"#"+c.getParent().getId());
+		}else {
+			res.sendRedirect("wall?user_id="+wall_id+"&start="+start+"#"+c.getParent().getId());
+		}
+		
+		sess.getTransaction().commit();
+		sess.close();
+		return;
 	}
 }
