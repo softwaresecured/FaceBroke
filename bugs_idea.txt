@@ -1,0 +1,5 @@
+
+any way like creat our own SQL and communication with database, like detrict to our own page and process SQL conmuncation on it,
+to achieve deletetion or accpet untrust data will be cool.
+Student number 7149329
+Student name Qifan Yang
