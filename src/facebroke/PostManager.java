@@ -31,7 +31,6 @@ import facebroke.util.ValidationSnipets;
  *   GET -> Handles pagination and returning the correct ranges of posts to users for a particular wall
  *   POST -> Allows a user to create a new Post on a given Wall
  * 
- * @author matt @ Software Secured
  */
 @WebServlet("/wall")
 public class PostManager extends HttpServlet {

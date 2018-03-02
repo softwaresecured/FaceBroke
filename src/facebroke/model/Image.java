@@ -14,7 +14,6 @@ import javax.persistence.Table;
 /**
  * JPA-annotated class to hold an Image (png, jpeg, etc.) and it's associated metadata
  * 
- * @author matt @ Software Secured
  */
 @Entity
 @Table(name = "Images")
@@ -25,7 +24,6 @@ public class Image {
 	 *   involved -> only the creator and owner
 	 *   all -> any validated user of the site
 	 *   
-	 * @author matt @ Software Secured
 	 */
 	public enum Viewable {
 		INVOLVED, All

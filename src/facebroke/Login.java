@@ -22,8 +22,6 @@ import facebroke.util.ValidationSnipets;
 
 /**
  * Handle /login endpoint that validates user login and sets required session parameters
- * 
- * @author matt @ Software Secured
  */
 @WebServlet("/login")
 public class Login extends HttpServlet {

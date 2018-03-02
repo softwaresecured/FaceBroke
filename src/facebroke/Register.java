@@ -25,7 +25,6 @@ import facebroke.util.ValidationSnipets;
 /**
  * Handle /register endpoint. Allows a new user to register via POST
  * 
- * @author matt @ Software Secured
  */
 @WebServlet("/register")
 public class Register extends HttpServlet {

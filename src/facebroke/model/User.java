@@ -36,7 +36,6 @@ import facebroke.util.AuthHelper;
 /**
  * JPA-annotated class to hold a User and the associated data
  * 
- * @author matt @ Software Secured
  */
 @Entity
 @Indexed
@@ -60,7 +59,6 @@ public class User {
 	 *   ADMIN -> can change anyone's settings or remove any content
 	 *   USER -> Only change their own settings and creations and Posts
 	 *   
-	 * @author matt @ Software Secured
 	 */
 	public enum UserRole {
 		ADMIN, USER

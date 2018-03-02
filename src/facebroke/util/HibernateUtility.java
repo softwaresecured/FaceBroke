@@ -23,7 +23,6 @@ import facebroke.model.User;
  * 
  * 
  * 
- * @author matt @ Software Secured
  */
 public class HibernateUtility {
 

@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Handle /logout endpoint. Simply clears the session attributes and kills session
  * 
- * @author matt @ Software Secured
  */
 @WebServlet("/logout")
 public class Logout extends HttpServlet {

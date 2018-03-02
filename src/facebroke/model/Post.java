@@ -21,7 +21,6 @@ import javax.persistence.Table;
 /**
  * JPA-annotated class to hold a Post and the assocaited metadata (creator, target, etc)
  * 
- * @author matt @ Software Secured
  */
 @Entity
 @Table(name = "Posts")
@@ -34,7 +33,6 @@ public class Post {
 	 *   LINK -> simple string containing a link in 'content'
 	 *   TEXT -> standard text post, all content should be HTML escaped
 	 * 
-	 * @author matt @ Software Secured
 	 */
 	public enum PostType {
 		IMAGE, LINK, TEXT

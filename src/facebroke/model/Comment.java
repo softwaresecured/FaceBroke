@@ -16,7 +16,6 @@ import javax.persistence.Table;
  * A JPA-annotated Model that represents a Comment in FaceBroke.
  * Also stores metadata as needed and refers to associated Post and the creating User
  * 
- * @author matt @ Software Secured
  */
 @Entity
 @Table(name = "Comments")

@@ -13,7 +13,6 @@ import java.util.Base64;
  * No need to ever instantiate.
  * 
  * 
- * @author matt @ Software Secured
  */
 public class AuthHelper {
 

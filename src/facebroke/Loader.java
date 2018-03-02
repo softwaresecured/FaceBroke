@@ -32,8 +32,6 @@ import facebroke.util.ValidationSnipets;
  * A helper class to Load the DB with sample data.
  * A number of parameters can be tweaked in this file to affect the generated data (average number of posts per user etc.)(lines 63-69)
  * This generation also uses a constant seed value to insure repeatable results with the same parameters
- * 
- * @author matt @ Software Secured
  *
  */
 public class Loader {
@@ -174,12 +172,12 @@ public class Loader {
 		sess.beginTransaction();
 		
 		/* DELETE once DB changes are full done  in dev cycle*/
-		User matt = new User("Matt","Yaraskavitch","jarusk","myaraskavitch@dummy.ca", new GregorianCalendar(1992,3,14));
-		matt.updatePassword("password");
-		matt.setRole(UserRole.ADMIN);
-		Wall w = new Wall(matt);
-		matt.setWall(w);
-		sess.save(matt);
+		User admin = new User("admin","admin","admin","admin@dummy.ca", new GregorianCalendar(1992,3,14));
+		admin.updatePassword("password");
+		admin.setRole(UserRole.ADMIN);
+		Wall w = new Wall(admin);
+		admin.setWall(w);
+		sess.save(admin);
 		sess.save(w);
 		sess.getTransaction().commit();
 

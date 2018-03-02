@@ -26,8 +26,6 @@ import facebroke.util.ValidationSnipets;
 /**
  * This class represents the /comment endpoint.
  * Only supports the POST operation, which is used to create a new Comment on an existing Post
- * 
- * @author matt @ Software Secured
  *
  */
 @WebServlet("/comment")

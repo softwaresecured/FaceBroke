@@ -35,8 +35,6 @@ import facebroke.util.ValidationSnipets;
  * Servlet to handle the /image endpoint
  * 
  * This servlet handles the upload and fetch of images stored int he DB as byte arrays 
- * 
- * @author matt @ Software Secured
  *
  */
 

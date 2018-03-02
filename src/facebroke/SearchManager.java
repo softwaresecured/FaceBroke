@@ -29,7 +29,6 @@ import facebroke.util.ValidationSnipets;
  * Basically, this will handle search requests and render a results
  * page out to the requesting user
  * 
- * @author matt @ Software Secured
  */
 @WebServlet("/search")
 public class SearchManager extends HttpServlet {

@@ -14,7 +14,6 @@ import javax.persistence.Id;
  *   - Since its the last object entered into the DB on dummy generation, its presence implies a successful DB load
  *   - If an instance of this object is not found in the DB, then the DB must not be in a loaded state, so run the Loader.java
  * 
- * @author matt @ Software Secured
  */
 @Entity
 public class DummyDataInfo {

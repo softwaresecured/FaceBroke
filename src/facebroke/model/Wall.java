@@ -20,7 +20,6 @@ import javax.persistence.Table;
  * app with the ability to create new Wall objects (i.e. create a public group)
  * so this is simply a proactive table
  * 
- * @author matt @ Software Secured
  */
 @Entity
 @Table(name = "Walls")

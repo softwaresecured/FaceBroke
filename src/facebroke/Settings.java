@@ -26,7 +26,6 @@ import facebroke.util.ValidationSnipets;
  *   GET -> render a settings JSP to user with the current settings of the target user (must validate first)
  *   POST -> change settings of a target User (must validate first)
  * 
- * @author matt @ Software Secured
  */
 @WebServlet("/settings")
 public class Settings extends HttpServlet {
