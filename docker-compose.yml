@@ -7,7 +7,7 @@ volumes:
 
 services:
   db:
-    image: postgres:10.0-alpine
+    image: postgres:10.2-alpine
     ports:
       - "5432:5432"
     expose:
