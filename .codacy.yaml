@@ -1,0 +1,6 @@
+---
+engines:
+    find-sec-bugs:
+        enabled: true
+    eslint:
+        enabled: true
