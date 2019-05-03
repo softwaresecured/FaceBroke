@@ -39,6 +39,7 @@ public class PostManager extends HttpServlet {
 	private static final String INVALID_WALL_ID = "The given Wall does not exist";
 	private static final int POSTS_PER_PAGE = 20;
 
+
 	
 	/**
 	 * Call parent Servlet constructor
