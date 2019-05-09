@@ -284,7 +284,9 @@ public class PostManager extends HttpServlet {
 		sess.beginTransaction();
 		
 		String on_wall = req.getParameter("on_wall");
-		String wall_id = req.getParameter("wall_id");
+		String wall_id = req.getParameter("wall_id"); // testing PR workflow with this line
+		String wall_testing_pr = req.getParameter("wall_id");
+		String wall_bingo = req.getParameter("wall_bingo");
 		
 		try {
 			
