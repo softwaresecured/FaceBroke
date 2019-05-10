@@ -39,7 +39,11 @@ public class PostManager extends HttpServlet {
 	private static final String INVALID_WALL_ID = "The given Wall does not exist";
 	private static final int POSTS_PER_PAGE = 20;
 
-	
+	interface FuncInterface 
+        { 
+            void abstractFun(int x);
+        }
+
 	/**
 	 * Call parent Servlet constructor
 	 */
@@ -57,7 +61,9 @@ public class PostManager extends HttpServlet {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
+		FuncInterface fobj = (int x)->System.out.println(2*x); 
+		fobj.abstractFun(5);
+
 		if(!ValidationSnipets.isValidSession(req.getSession())){
 			res.sendRedirect("index");
 			return;
