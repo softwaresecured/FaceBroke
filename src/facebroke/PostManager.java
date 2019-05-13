@@ -168,6 +168,7 @@ public class PostManager extends HttpServlet {
 		
 		
 		String wall_id_string = req.getParameter("user_id");
+                String wall_id_string1 = req.getParameter("user_id");
 		String creator_id_string = req.getParameter("creator_id");
 		String type_string = req.getParameter("type");
 		String content = Encode.forHtml(req.getParameter("content"));
