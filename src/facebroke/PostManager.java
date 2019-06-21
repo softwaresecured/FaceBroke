@@ -184,8 +184,7 @@ public class PostManager extends HttpServlet {
 			// Validate Wall ID
 			long wall_id = Long.parseLong(wall_id_string);
 			
-			List<Wall> walls = sess.createQuery("FROM Wall w WHERE w.id = :wall_id")
-							 .setParameter("wall_id", wall_id)
+			List<Wall> walls = sess.createQuery("FROM Wall w WHERE w.id = " + wall_id_string) // Why convert it to an int and then a string again.
 							 .list();
 			
 			if(walls.isEmpty()) {
@@ -199,8 +198,7 @@ public class PostManager extends HttpServlet {
 			// Validate User ID
 			long user_id = Long.parseLong(creator_id_string);
 			
-			List<User> users = sess.createQuery("FROM User u WHERE u.id = :user_id")
-					 						.setParameter("user_id", user_id)
+			List<User> users = sess.createQuery("FROM User u WHERE u.id = " + creator_id_string)
 					 						.list();
 			
 			if (users.isEmpty()) {
