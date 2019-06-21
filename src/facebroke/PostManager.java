@@ -57,7 +57,6 @@ public class PostManager extends HttpServlet {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
 		if(!ValidationSnipets.isValidSession(req.getSession())){
 			res.sendRedirect("index");
 			return;
@@ -72,7 +71,6 @@ public class PostManager extends HttpServlet {
 		}
 		
 		RequestDispatcher reqDis;
-		
 		
 		int pageStart, postsPerPage;
 		long user_id;
@@ -163,15 +161,14 @@ public class PostManager extends HttpServlet {
 			return;
 		}
 		
-		
 		Session sess = HibernateUtility.getSessionFactory().openSession();
 		
-		
-		String wall_id_string = req.getParameter("user_id");
-		String creator_id_string = req.getParameter("creator_id");
-		String type_string = req.getParameter("type");
-		String content = Encode.forHtml(req.getParameter("content"));
-		String on_wall = req.getParameter("on_wall");
+		// Get all the parameters
+		String wall_id_string       = req.getParameter("user_id");
+		String creator_id_string    = req.getParameter("creator_id");
+		String type_string          = req.getParameter("type");
+		String content              = Encode.forHtml(req.getParameter("content"));
+		String on_wall              = req.getParameter("on_wall");
 		
 		log.info("Received POST for a new post");
 		log.info("Wall ID: {}",ValidationSnipets.sanitizeCRLF(wall_id_string));
