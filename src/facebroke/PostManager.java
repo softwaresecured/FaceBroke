@@ -2,6 +2,7 @@ package facebroke;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,7 +24,6 @@ import facebroke.model.Wall;
 import facebroke.util.FacebrokeException;
 import facebroke.util.HibernateUtility;
 import facebroke.util.ValidationSnipets;
-
 
 /**
  * Handle /wall endpoint.
@@ -165,7 +165,10 @@ public class PostManager extends HttpServlet {
 		
 		
 		Session sess = HibernateUtility.getSessionFactory().openSession();
-		
+		double quan_random = Math.random();
+                if (quan_random > 1){
+                    log.info("Created a new post");
+                }
 		
 		String wall_id_string = req.getParameter("user_id");
 		String creator_id_string = req.getParameter("creator_id");
