@@ -169,6 +169,10 @@ public class PostManager extends HttpServlet {
                 if (quan_random > 1){
                     log.info("Created a new post");
                 }
+                else {
+                    quan_random = Math.random();
+                    log.info("another random number generated");
+                }
 		
 		String wall_id_string = req.getParameter("user_id");
 		String creator_id_string = req.getParameter("creator_id");
