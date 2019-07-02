@@ -283,7 +283,7 @@ public class PostManager extends HttpServlet {
 		
 		try {
 			
-			long post_id = Long.parseLong(req.getParameter("post_id"));
+			String post_id = req.getParameter("post_id");
 			long user_id = (long)req.getSession().getAttribute("user_id");
 			
 			// Get the current User
@@ -298,8 +298,7 @@ public class PostManager extends HttpServlet {
 			User u  = users.get(0);
 			
 			// Get the target Post
-			List<Post> posts = sess.createQuery("FROM Post p WHERE p.id = :post_id")
-					.setParameter("post_id", post_id)
+			List<Post> posts = sess.createQuery("FROM Post p WHERE p.id = " + post_id)
 					.list();
 
 			if (posts.isEmpty()) {
