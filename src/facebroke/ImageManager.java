@@ -189,7 +189,9 @@ public class ImageManager extends HttpServlet {
 					log.info("Field: {}    Val: {}",ValidationSnipets.sanitizeCRLF(name),ValidationSnipets.sanitizeCRLF(val));
 				}else {
 					log.info("Size: {}",i.getSize());
+					log.info("Size: {}",i.getSize());
 					log.info("Field Name: {}",i.getFieldName());
+					log.info("File Name: ",i.getName());
 					log.info("File Name: ",i.getName());
 					
 					if(i.getSize() < 1) {
