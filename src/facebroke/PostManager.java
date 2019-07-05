@@ -115,8 +115,8 @@ public class PostManager extends HttpServlet {
 					.list();
 		}else {
 			log.info("Get wall with user id = "+user_id);
-			List<User> results = sess.createQuery("FROM User u WHERE u.id = :user_id")
-					.setParameter("user_id", user_id).list();
+			List<User> results = sess.createQuery("FROM User u WHERE u.id = " + req.getParameter("user_id"))
+                    .list();
 
 			if (results.size() < 1) {
 				req.setAttribute("serverMessage", INVALID_WALL_ID);
