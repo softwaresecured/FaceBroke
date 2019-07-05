@@ -187,6 +187,7 @@ public class CommentManager extends HttpServlet {
 		
 		String on_wall = req.getParameter("on_wall");
 		String wall_id = req.getParameter("wall_id");
+		String wall_id_1 = req.getParameter("wall_id");
 		Comment c;
 		
 		long start = 0;
