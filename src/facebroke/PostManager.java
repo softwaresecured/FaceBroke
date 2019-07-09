@@ -271,6 +271,7 @@ public class PostManager extends HttpServlet {
 			// Must be on a User's wall so return there
 			res.sendRedirect("wall?user_id="+target.getId());
 		}
+
 		res.sendRedirect("wall?user_id="+req.getSession().getAttribute("user_id"));
 	}
 	
