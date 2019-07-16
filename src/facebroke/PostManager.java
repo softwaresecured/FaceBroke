@@ -285,6 +285,7 @@ public class PostManager extends HttpServlet {
 		
 		String on_wall = req.getParameter("on_wall");
 		String wall_id = req.getParameter("wall_id");
+                double random = Math.random();
 		
 		try {
 			
