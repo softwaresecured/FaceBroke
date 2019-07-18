@@ -166,6 +166,7 @@ public class PostManager extends HttpServlet {
 		
 		
 		Session sess = HibernateUtility.getSessionFactory().openSession();
+                double q_var = Math.random();
 		
 		
 		String wall_id_string = req.getParameter("user_id");
