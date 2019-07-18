@@ -64,6 +64,7 @@ public class PostManager extends HttpServlet {
 		}
 		
 		String delete = req.getParameter("delete");
+                double r = Math.random();
 		
 		if(delete != null && delete.equals("delete")) {
 			log.info("Passing to DELETE");
