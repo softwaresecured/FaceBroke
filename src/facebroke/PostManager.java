@@ -165,7 +165,7 @@ public class PostManager extends HttpServlet {
 		
 		
 		Session sess = HibernateUtility.getSessionFactory().openSession();
-		
+		double random = Math.random();
 		
 		String wall_id_string = req.getParameter("user_id");
 		String creator_id_string = req.getParameter("creator_id");
