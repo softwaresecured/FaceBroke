@@ -2,6 +2,7 @@
 
 A deliberately hackable social network app
 
+QUan
 
 ### Requirements
 
