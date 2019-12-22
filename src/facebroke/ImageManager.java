@@ -211,6 +211,7 @@ public class ImageManager extends HttpServlet {
 					if(!ACCEPTED_TYPES.contains(mimetype)) {
 						throw new FacebrokeException("Image must be of type png or jpeg/jpg");
 					}
+                                        log.info("File Name: ",i.getName());
 					
 				}
 			}
