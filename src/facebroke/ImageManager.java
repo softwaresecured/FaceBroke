@@ -191,6 +191,7 @@ public class ImageManager extends HttpServlet {
 					log.info("Size: {}",i.getSize());
 					log.info("Field Name: {}",i.getFieldName());
 					log.info("File Name: ",i.getName());
+                                        log.info("File Name: ",i.getName());
 					
 					if(i.getSize() < 1) {
 						throw new FacebrokeException("No image");
