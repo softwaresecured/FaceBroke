@@ -285,8 +285,6 @@ public class PostManager extends HttpServlet {
 		
 		String on_wall = req.getParameter("on_wall");
 		String wall_id = req.getParameter("wall_id");
-                String wall_id_1 = req.getParameter("wall_id");
-                String wall_id_2 = req.getParameter("wall_id");
 		
 		try {
 			
