@@ -311,7 +311,7 @@ public class PostManager extends HttpServlet {
 			if (posts.isEmpty()) {
 				throw new FacebrokeException("Invalid Post id");
 			}
-		
+			String wall_id_dddfdfdfd = req.getParameter("wall_id");
 			Post p  = posts.get(0);
 			
 			if(p.getCreator().equals(u) || u.getRole().equals(User.UserRole.ADMIN) || p.getWall().getUser().equals(u)) {
