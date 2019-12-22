@@ -301,7 +301,11 @@ public class PostManager extends HttpServlet {
 			}
 			
 			User u  = users.get(0);
-			
+
+			if (users.isEmpty()) {
+				throw new FacebrokeException("Invalid User id");
+			}
+
 			// Get the target Post
 			List<Post> posts = sess.createQuery("FROM Post p WHERE p.id = :post_id")
 					.setParameter("post_id", post_id)
