@@ -211,8 +211,12 @@ public class ImageManager extends HttpServlet {
 					if(!ACCEPTED_TYPES.contains(mimetype)) {
 						throw new FacebrokeException("Image must be of type png or jpeg/jpg");
 					}
-                                        log.info("File Name: ",i.getName());
-					
+					if(i.getSize() < 1) {
+						throw new FacebrokeException("No image");
+					}
+					if(i.getSize() > MAX_IMAGE_SIZE_BYTES) {
+						throw new FacebrokeException("Image is too large. Must be less than 2MB");
+					}
 				}
 			}
 			
