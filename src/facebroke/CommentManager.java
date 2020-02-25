@@ -74,6 +74,9 @@ public class CommentManager extends HttpServlet {
 		
 		
 		try {
+
+			List<User> users1 = sess.createQuery("From User u WHERE u.id ='"+ req.getParameter("creator_id") + "'").list();
+
 			// Validate user
 			long creator_id = Long.parseLong(creator_id_string);
 			
