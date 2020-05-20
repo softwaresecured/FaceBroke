@@ -44,3 +44,4 @@ Two branches of code exist here:
 In order to accurately track these 'bugs', we need a naming convention. Current idea is:
 
 `{filename}-{previous commit hash}-{starting line of bug}`
+
