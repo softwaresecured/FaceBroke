@@ -284,6 +284,7 @@ public class PostManager extends HttpServlet {
 		sess.beginTransaction();
 		
 		String on_wall = req.getParameter("on_wall");
+		// '"><img src=%00 onerror=prompt(9)>
 		String wall_id = req.getParameter("wall_id");
 		
 		try {
