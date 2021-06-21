@@ -74,4 +74,22 @@ public class AuthHelper {
 
 		return result;
 	}
+
+	public static String generalHash(String pass, byte[] salt) {
+		String result = null;
+
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+
+			md.update(salt);
+			md.update(pass.getBytes(StandardCharsets.UTF_8));
+
+			result = Base64.getEncoder().encodeToString(md.digest());
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 }
