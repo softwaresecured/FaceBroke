@@ -61,7 +61,7 @@ public class AuthHelper {
 		String result = null;
 
 		try {
-			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			MessageDigest md = MessageDigest.getInstance("MD5");
 
 			md.update(salt);
 			md.update(pass.getBytes(StandardCharsets.UTF_8));
